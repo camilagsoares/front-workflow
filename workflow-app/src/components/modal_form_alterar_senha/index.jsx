@@ -75,7 +75,7 @@ const ModalFormAlterarSenha = (props) => {
       return;
     }
     axiosApi
-      .put(`/auth/usuarios/${session.id}`, { senha })
+      .put(`/auth/usuario-senha/${session.id}`, { senha })
       .then(() => {
          toast('Senha alterada com sucesso', {
          type: 'success',
@@ -83,7 +83,7 @@ const ModalFormAlterarSenha = (props) => {
         console.log("campos digitados", data)
         reset();
         // handleFecharModalForm();
-      })
+      }) 
       .catch((error) => {
          toast(error.message, {
            type: 'error',

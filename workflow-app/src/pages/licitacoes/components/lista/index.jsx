@@ -59,13 +59,13 @@ const Lista = (props) => {
     ));
   };
 
-  const { data, error, loading } = useApiRequestGet(`/processos-licitatorios`); 
+  const { data, error, loading } = useApiRequestGet(`/processos-licitatorios`);
   // console.log("data",data)
 
   const { searchTerm } = props;
   const { filterByAta } = props;
   const { filterByDepartamento } = props;
-  const {filterByConcluido} = props;
+  const { filterByConcluido } = props;
 
   const [pageNumber, setPageNumber] = useState(0);
   const projectsPerPage = 6;
@@ -82,6 +82,7 @@ const Lista = (props) => {
   const dataIsValid = Array.isArray(data) && !isNaN(projectsPerPage);
   const [filteredData, setFilteredData] = useState(data);
   const { token, session } = useContext(AuthContext);
+  // console.log("TESTE",data[0].situacao)
 
   useEffect(() => {
     if (Array.isArray(data)) {
@@ -89,7 +90,7 @@ const Lista = (props) => {
         const departamentoNome = row?.etapa[0]?.departamento?.nome || '';
         const lowerSearchTerm = searchTerm.toLowerCase();
         const situacao = row.situacao;
-  
+
         return (
           row.numeroCompras.toString().includes(searchTerm) ||
           row.idSonner.toString().includes(searchTerm) ||
@@ -98,16 +99,16 @@ const Lista = (props) => {
           row.etapa[0]?.departamento?.nome.toLowerCase().includes(lowerSearchTerm) ||
           row.titulo.toLowerCase().includes(lowerSearchTerm)
         ) &&
-        (filterByDepartamento === 'all' || departamentoNome === filterByDepartamento) &&
-        (filterByConcluido === 'all' || (filterByConcluido === 'concluded' && situacao === 'INATIVO'));
+          (filterByDepartamento === 'all' || departamentoNome === filterByDepartamento) &&
+          (filterByConcluido === 'all' || (filterByConcluido === 'concluded' && situacao === 'INATIVO'));
       });
       setFilteredData(filtered);
     }
   }, [data, searchTerm, filterByDepartamento, filterByConcluido]);
-  
-  
-  
-  
+
+
+
+
 
   function getBordaClasse(projeto) {
     if (projeto.situacao === 'INATIVO') {
@@ -141,15 +142,8 @@ const Lista = (props) => {
                   Departamento
                 </StyledTableCell>
                 <StyledTableCell align='center' width={196}>
-                  Detalhes
+                <MenuOpen />
                 </StyledTableCell>
-                {filteredData && (filteredData[0] && filteredData[0].usuarioId === session?.id || session?.permissao.id === 1 ||  session?.id === 50) &&
-                  (
-                    <StyledTableCell align='center' width={96}>
-                      Alterar
-                    </StyledTableCell>
-                  )}
-
               </StyledTableRow>
             </TableHead>
             <TableBody>
@@ -163,10 +157,10 @@ const Lista = (props) => {
                     </StyledTableCell>
                   </StyledTableRow>
                 ) : (
-                  filteredData?.slice(pagesVisited, pagesVisited + projectsPerPage).map((row) => (
+                  filteredData?.slice(pagesVisited, pagesVisited + projectsPerPage).map((row, index) => (
                     <StyledTableRow key={row?.id}>
                       <StyledTableCell component='th' scope='row' className={getBordaClasse(row)}>
-                      {row.numeroCompras}
+                        {row.numeroCompras}
 
                       </StyledTableCell>
                       <StyledTableCell component='th' scope='row' >
@@ -175,7 +169,7 @@ const Lista = (props) => {
                       <StyledTableCell align='left'>{row.titulo}</StyledTableCell>
                       <StyledTableCell align='left'>{row.etapa[0]?.departamento?.secretaria.sigla} - {row.etapa[0]?.departamento?.nome}</StyledTableCell>
 
-                      <StyledTableCell align='center'>
+                      {/* <StyledTableCell align='center'>
                         <Tooltip title='Detalhes' arrow>
                           <IconButton
                             edge='start'
@@ -189,21 +183,7 @@ const Lista = (props) => {
                           </IconButton>
                         </Tooltip>
                       </StyledTableCell>
-                      {/* <StyledTableCell align='center'>
-                          <Tooltip title='Alterar' arrow> 
-                            <IconButton
-                              edge='start'
-                              color='inherit'
-                              aria-label='open modal details'
-                              onClick={() => {
-                                props.handleAbrirEditarProjeto(row?.id); // e esse abre o modal de editar o processo licitatorio,olha
-                              }}
-                            >
-                              <EditOutlined color='action' /> 
-                            </IconButton>
-                          </Tooltip>
-                        </StyledTableCell> */}
-                      {filteredData && (filteredData[0] && filteredData[0].usuarioId === session?.id || session?.permissao.id === 1 ||  session?.id === 50) && 
+                      {filteredData && row.situacao !== 'INATIVO' && (filteredData[0] && filteredData[0].usuarioId === session?.id || session?.permissao.id === 1 || session?.id === 50) &&
                         (
                           <StyledTableCell align='center'>
                             <Tooltip title='Alterar' arrow>
@@ -219,7 +199,37 @@ const Lista = (props) => {
                               </IconButton>
                             </Tooltip>
                           </StyledTableCell>
-                        )}
+                        )} */}
+                      <StyledTableCell align="center">
+                        <Tooltip title='Detalhes' arrow>
+                          <IconButton
+                            edge='start'
+                            color='inherit'
+                            aria-label='open modal details'
+                            onClick={() => {
+                              props.handleAbrirDrawerView(row?.id);
+                            }}
+                            style={{ margin: '6px' }}
+                          >
+                            <Visibility fontSize="small" color='action' />
+                          </IconButton>
+                        </Tooltip>
+                        {filteredData && row.situacao !== 'INATIVO' && (filteredData[0] && filteredData[0].usuarioId === session?.id || session?.permissao.id === 1 || session?.id === 50) &&
+                          (
+                            <Tooltip title='Alterar' arrow>
+                              <IconButton
+                                edge='start'
+                                color='inherit'
+                                aria-label='open modal details'
+                                onClick={() => {
+                                  props.handleAbrirEditarProjeto(row?.id);
+                                }}
+                                style={{ marginRight: '-22px' }}
+                              >
+                                <EditOutlined fontSize="small" color='action' />
+                              </IconButton>
+                            </Tooltip>)}
+                      </StyledTableCell>
                     </StyledTableRow>
                   ))
                 )

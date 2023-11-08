@@ -115,6 +115,19 @@ const DrawerView = (props) => {
     const diferencaEmDias = Math.floor((dataAtual - dataCriacao) / (1000 * 60 * 60 * 24));
     return diferencaEmDias;
   });
+
+  /** TESTE NOVA ETAPA SIMULTANEO */
+  const {etapasProjeto} = props;
+  console.log(props.etapasProjeto)
+
+  
+  const combinedEtapas = [...props.etapasProjeto, ...listaTiposProjeto];
+
+  // Ordene o array combinado com base na data de criação (assumindo que a data de criação está em uma propriedade 'criadoEm')
+  combinedEtapas.sort((a, b) => {
+    return new Date(b.criadoEm) - new Date(a.criadoEm);
+  });
+
   return (
     <Drawer anchor='right' open={true} onClose={props.handleFecharDrawerView}>
       <Box width='70vw'>
@@ -266,39 +279,24 @@ const DrawerView = (props) => {
                 </StyledTableRow>
               </TableHead>
               <TableBody>
-                {listaTiposProjeto?.slice(pagesVisited, pagesVisited + projectsPerPage).map((row,index) => (
-                  <StyledTableRow key={row.id}>
-                    <StyledTableCell component='th' scope='row'>
-                      {`${row.criadoEm.slice(8, 10)}/${row.criadoEm.slice(5, 7)}/${row.criadoEm.slice(0, 4)}`}
-                    </StyledTableCell>
-                    {/* <StyledTableCell align='left'>{row.criadoEm}</StyledTableCell> */}
-                    <StyledTableCell align='left'>
-                      {/* {diferencaDeDias.map((diferenca, index) => (
-                        <li key={index}>Diferença de dias: {diferenca}</li>
-                      ))} */}
+       {combinedEtapas.slice(pagesVisited, pagesVisited + projectsPerPage).map((row, index) => (
+  <StyledTableRow key={row.id}>
+    <StyledTableCell component='th' scope='row'>
+      {row.criadoEm ? `${row.criadoEm.slice(8, 10)}/${row.criadoEm.slice(5, 7)}/${row.criadoEm.slice(0, 4)}` : ''}
+    </StyledTableCell>
+    <StyledTableCell align='left'>
+      <span className='textred'>{diferencaDeDias[index]} </span> dias
+    </StyledTableCell>
+    <StyledTableCell align='left'>{row.status && row.status.nome ? row.status.nome : ''}</StyledTableCell>
+    <StyledTableCell align='left'>{row.departamento && row.departamento.nome ? row.departamento.nome : ''}</StyledTableCell>
+    <StyledTableCell align='left'>{row.observacao || ''}</StyledTableCell>
+    <StyledTableCell align='left'>{row.usuario && (row.usuario.nome === 'Master' ? 'Administrador' : row.usuario.nome) || ''}</StyledTableCell>
+    <StyledTableCell align='center'></StyledTableCell>
+  </StyledTableRow>
+))}
 
-<span className='textred'> {diferencaDeDias[index]} </span> dias
 
-                    </StyledTableCell>
-                    <StyledTableCell align='left'>{row.status.nome}</StyledTableCell>
-                    <StyledTableCell align='left'>{row.departamento.nome}</StyledTableCell>
-                    <StyledTableCell align='left'>{row.observacao}</StyledTableCell>
-                    <StyledTableCell align='left'>  {row.usuario.nome === 'Master' ? 'Administrador' : row.usuario.nome}</StyledTableCell>
-                    <StyledTableCell align='center'></StyledTableCell>
-                  </StyledTableRow>
-                ))}
-
-                {/* {diferencaDeDias.map((diferenca, index) => (
-                  <li key={index}>{`Item ${index + 1}: ${diferenca} dias`}</li>
-                ))} */}
-
-                {/* MAP CONCLUIDO EM */}
-                {/* {data?.map((row) => (
-                  <StyledTableRow key={row.id}>
-            {`${row.concluidoEm.slice(8, 10)}-${row.concluidoEm.slice(5, 7)}-${row.concluidoEm.slice(0, 4)}`}
-                  </StyledTableRow>
-                ))} */}
-              </TableBody>
+        </TableBody>
             </Table>
           </TableContainer>
         </Box>

@@ -187,8 +187,6 @@ const Lista = (props) => {
     }
   }
 
-
-
   return (
     <React.Fragment>
       <Box marginY={1} paddingY={2}>

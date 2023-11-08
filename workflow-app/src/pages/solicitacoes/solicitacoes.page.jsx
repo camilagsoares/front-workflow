@@ -251,11 +251,19 @@ const SolicitacoesPage = () => {
     textAlign: 'center',
     color: theme.palette.text.secondary,
   }));
+
+
+  /* TESTE NOVA ETAPA SIMULTÂNEA */
+  const [etapasProjeto, setEtapasProjeto] = useState([]);
+  const [etapas, setEtapas] = useState([]);
+  const atualizarEtapas = (novasEtapas) => {
+    setEtapas([...etapas, ...novasEtapas]);
+  };
+
+
   return (
     <Box>
-      <NavLink to='/teste'>
-        <Button variant='contained' color='error'>Página Teste</Button>
-      </NavLink>
+      
       <Typography component='h2' variant='h5' fontWeight={700} color='text.primary'>
         Solicitações
       </Typography>
@@ -551,12 +559,10 @@ const SolicitacoesPage = () => {
           handleFecharModalForm={handleFecharModalForm}
           handleFecharModalAtualizarEtapaProjeto={handleFecharModalAtualizarEtapaProjeto}
           projetosSelecionadoVisualizar={projetosSelecionadoVisualizar}
-        // handleAbrirEditarProjeto={handleAbrirEditarProjeto}
-        // handleAbrirModalAtualizarEtapaProjeto={handleAbrirModalAtualizarEtapaProjeto}
-
-        //Teste ocultar
-        // setSelectedStatus={setSelectedStatus}
-
+        //teste
+        etapasProjeto={etapasProjeto} 
+        setEtapasProjeto={setEtapasProjeto}
+        atualizarEtapas={atualizarEtapas} 
         />
       )}
 
@@ -581,6 +587,10 @@ const SolicitacoesPage = () => {
 
           //
           setConclusionDate={setConclusionDate}
+                    //teste
+
+            etapasProjeto={etapasProjeto} 
+            etapas={etapas}
         />
       )}
 

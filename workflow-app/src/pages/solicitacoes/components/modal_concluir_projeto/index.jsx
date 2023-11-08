@@ -57,6 +57,7 @@ const ModalConcluirProjeto = (props) => {
   const { token, session } = useContext(AuthContext);
 
   const { errors } = formState;
+  const {  setEtapasProjeto } = props;
 
   // const [situacao, setSituacao] = useState('ATIVO'); 
 
@@ -85,6 +86,7 @@ const ModalConcluirProjeto = (props) => {
             type: 'success',
           });
           window.location.reload();
+          // props.atualizarEtapas([...etapas, novaEtapa]);
           reset();
           handleFecharModalConcluirProjeto();
         })

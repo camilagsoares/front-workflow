@@ -52,6 +52,7 @@ const ModalForm = (props) => {
       observacao: '',
     },
   });
+  const {   etapasProjeto } = props;
 
   const { errors } = formState;
   const {
@@ -81,7 +82,9 @@ const ModalForm = (props) => {
         toast('Nova etapa criado com sucesso', {
           type: 'success',
         });
+        
         reset();
+
         // window.location.reload();
 
         handleFecharModalForm();

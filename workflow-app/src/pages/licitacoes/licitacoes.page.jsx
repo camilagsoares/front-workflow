@@ -96,7 +96,7 @@ const LicitacoesPage = () => {
     const newValue = event.target.value;
     setFilterByConcluido(newValue);
   };
-  
+
 
   return (
     <Box>
@@ -124,21 +124,21 @@ const LicitacoesPage = () => {
               </Select>
             </FormControl>
           </Grid> */}
- <FormControl size="small" variant="outlined" color="primary" sx={{ maxWidth: 160 }}>
-  <InputLabel htmlFor="filter-concluido">Filtrar por Concluído</InputLabel>
-  <Select
-    native
-    value={filterByConcluido}
-    onChange={handleFilterByConcluidoChange}
-    label="Filtrar por Concluído"
-    inputProps={{
-      id: "filter-concluido"
-    }}
-  >
-    <option value="all">Todos</option>
-    <option value="concluded">Concluído</option>
-  </Select>
-</FormControl>
+          <FormControl size="small" variant="outlined" color="primary" sx={{ maxWidth: 160 }}>
+            <InputLabel htmlFor="filter-concluido">Filtrar por Concluído</InputLabel>
+            <Select
+              native
+              value={filterByConcluido}
+              onChange={handleFilterByConcluidoChange}
+              label="Filtrar por Concluído"
+              inputProps={{
+                id: "filter-concluido"
+              }}
+            >
+              <option value="all">Todos</option>
+              <option value="concluded">Concluído</option>
+            </Select>
+          </FormControl>
           <Grid item>
             <Autocomplete
               fullWidth

@@ -32,12 +32,13 @@ import { toast } from 'react-toastify';
 const ModalEditarProjeto = (props) => {
   const [loading, setLoading] = useState(false);
 
-  // const [numeroCompras, setNumeroCompras] = useState('');
-  // const [titulo, setTitulo] = useState('');
+  const [numeroCompras, setNumeroCompras] = useState('');
+  const [titulo, setTitulo] = useState('');
   const [idSonner, setIdSonner] = useState('');
-  // const [descricao, setDescricao] = useState('');
+  const [descricao, setDescricao] = useState('');
 
   const { projetosSelecionadoVisualizar } = props;
+  console.log("projetosSelecionadoVisualizar",projetosSelecionadoVisualizar)
 
   const { handleFecharAdcPLic } = props;
   const { handleFecharEditarProjeto } = props;
@@ -49,16 +50,17 @@ const ModalEditarProjeto = (props) => {
     error: errorProcessosLicitatorios,
     loading: loadingProjetoSelecionado,
   } = useApiRequestGet(`/processos-licitatorios/${projetosSelecionadoVisualizar}`);
-  console.log("data!", processosLicitatorios)
 
+  const { data } = useApiRequestGet(`/processos-licitatorios`);
+// console.log("datas",processosLicitatorios?.usuarioId)
 
 
   useEffect(() => {
     if (!loadingProjetoSelecionado && processosLicitatorios) {
-      // setTitulo(processosLicitatorios.titulo);
+      setTitulo(processosLicitatorios.titulo);
       setIdSonner(processosLicitatorios.idSonner);
-      // setDescricao(processosLicitatorios.descricao);
-      // setNumeroCompras(processosLicitatorios.numeroCompras);
+      setDescricao(processosLicitatorios.descricao);
+      setNumeroCompras(processosLicitatorios.numeroCompras);
 
     }
   }, [loadingProjetoSelecionado, processosLicitatorios]);
@@ -67,10 +69,10 @@ const ModalEditarProjeto = (props) => {
     e.preventDefault();
     setLoading(true);
     const data = {
-      // titulo: titulo,
-      // descricao: descricao,
+      titulo: titulo,
+      descricao: descricao,
       idSonner: parseInt(idSonner, 10),
-      // numeroCompras: parseInt(numeroCompras, 10),
+      numeroCompras: parseInt(numeroCompras, 10),
     };
 
     axiosApi
@@ -109,16 +111,7 @@ const ModalEditarProjeto = (props) => {
       <form onSubmit={handleSubmit}>
         <DialogContent dividers sx={{ paddingTop: 1 }}>
           <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
-            {/* <Grid item xs={12} sm={12} md={12}>
-              <TextField
-                value={titulo}
-                onChange={(e) => setTitulo(e.target.value)}
-                fullWidth
-                required
-                label='Título'
-                type='text'
-              />
-            </Grid> */}
+
             <Grid item xs={12} sm={12} md={12}>
               <TextField
                 value={idSonner}
@@ -130,28 +123,40 @@ const ModalEditarProjeto = (props) => {
                 type='number'
               />
             </Grid>
-
-
-            {/* <Grid item xs={12} sm={12} md={12}>
-              <TextField
-                value={descricao}
-                onChange={(e) => setDescricao(e.target.value)}
-                fullWidth
-                required
-                label='Descrição'
-                type='text'
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={12}>
-              <TextField
-                value={numeroCompras}
-                onChange={(e) => setNumeroCompras(e.target.value)}
-                fullWidth
-                required
-                label='Número Compras'
-                type='text'
-              />
-            </Grid> */}
+            {session && (session.id === 39) && (
+              <>
+                <Grid item xs={12} sm={12} md={12}>
+                  <TextField
+                    value={titulo}
+                    onChange={(e) => setTitulo(e.target.value)}
+                    fullWidth
+                    required
+                    label='Título'
+                    type='text'
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} md={12}>
+                  <TextField
+                    value={descricao}
+                    onChange={(e) => setDescricao(e.target.value)}
+                    fullWidth
+                    required
+                    label='Descrição'
+                    type='text'
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} md={12}>
+                  <TextField
+                    value={numeroCompras}
+                    onChange={(e) => setNumeroCompras(e.target.value)}
+                    fullWidth
+                    required
+                    label='Número Compras'
+                    type='text'
+                  />
+                </Grid>
+              </>
+            )}
           </Grid>
         </DialogContent>
         <DialogActions>
