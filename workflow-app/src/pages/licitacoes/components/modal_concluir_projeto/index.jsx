@@ -69,10 +69,16 @@ const ModalConcluirProjeto = (props) => {
   // } = useApiRequestGet('/tipos-projeto');
   // console.log("lista tipo projeto", listaTipoProjeto)
 
+  const {
+    data: processosLicitatorios,
+    error: errorProcessosLicitatorios,
+    loading: loadingProcessosLicitatorios,
+  } = useApiRequestGet(`/processos-licitatorios/${projetosSelecionadoVisualizar}`);
+
 
   const handleCriarSecretaria = (data) => {
   
-    // if (session?.id === projetoSelecionado?.usuarioId) {
+    if (session?.id === processosLicitatorios?.usuarioId) {
       setLoading(true);
       data.situacao = 'INATIVO';
   
@@ -94,13 +100,13 @@ const ModalConcluirProjeto = (props) => {
         .finally(() => {
           setLoading(false);
         });
-    // }
-    //  else {
-    //   // Display an error message or prevent the conclusion of the project
-    //   toast('Você não tem permissão para concluir este projeto. Somente o usuário que criou.', {
-    //     type: 'error',
-    //   });
-    // }
+    }
+     else {
+      // Display an error message or prevent the conclusion of the project
+      toast('Você não tem permissão para concluir este processo licitatório. Somente o usuário que criou.', {
+        type: 'error',
+      });
+    }
   };
   // const { token, session } = useContext(AuthContext);
   // console.log(session?.id);

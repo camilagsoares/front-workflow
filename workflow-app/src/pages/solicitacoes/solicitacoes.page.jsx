@@ -33,6 +33,7 @@ import "./styles.css"
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { NavLink, } from 'react-router-dom';
+import Grow from '@mui/material/Grow';
 
 const requiredField = 'Campo obrigatorio';
 
@@ -198,6 +199,16 @@ const SolicitacoesPage = () => {
     setFilterBySecretaria(newValue);
   };
 
+  const resultAtivo = data.?filter((resposta) => resposta.situacao === 'ATIVO' )
+
+  const resultInativo =  data?.filter((resposta) => resposta.situacao === 'INATIVO' )
+
+  console.log(`Resultado dos projetos ATIVOS`, resultAtivo);
+
+  console.log(`Resultado dos projetos INATIVOS`, resultInativo);
+
+  // console.log(data);
+
   useEffect(() => {
     if (data) {
       const secretariaCounts = {};
@@ -260,6 +271,28 @@ const SolicitacoesPage = () => {
     setEtapas([...etapas, ...novasEtapas]);
   };
 
+  const icon = (
+    <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
+      <svg>
+        <Box
+          component="polygon"
+          points="0,100 50,00, 100,100"
+          sx={{
+            fill: (theme) => theme.palette.common.white,
+            stroke: (theme) => theme.palette.divider,
+            strokeWidth: 1,
+          }}
+        />
+      </svg>
+    </Paper>
+  );
+
+  
+  const [checked, setChecked] = useState(false);
+
+  const handleChange = () => {
+    setChecked((prev) => !prev);
+  };
 
   return (
     <Box>
@@ -267,7 +300,7 @@ const SolicitacoesPage = () => {
       <Typography component='h2' variant='h5' fontWeight={700} color='text.primary'>
         Solicitações
       </Typography>
-
+    
       <Divider />
       {/* <Box display='flex' flexDirection='row' gap={2} paddingY={2}>
         <Button startIcon={<AddCircle />} variant='outlined' color='primary' onClick={handleAbrirModalForm} sx={{ width: '290px', height: '50px' }}>
@@ -351,7 +384,9 @@ const SolicitacoesPage = () => {
         </Box>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           {expanded && (
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 1 }} sx={{ width: expanded ? '50%' : 0, marginBottom: '-41px' }}>
+            // <Grow in={expanded} >
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 1 }} sx={{ width: expanded ? '50%' : 0, marginBottom: '-41px' }}
+            >
               <Grid item xs={6} sx={{ width: '100px', height: '50px' }}>
                 <FormControl size="small" variant="outlined" color="primary" sx={{ width: '100%', height: '100%' }}>
                   <InputLabel htmlFor="filter-ata">Filtro status</InputLabel>
