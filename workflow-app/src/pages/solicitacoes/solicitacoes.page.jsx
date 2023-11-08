@@ -199,7 +199,7 @@ const SolicitacoesPage = () => {
     setFilterBySecretaria(newValue);
   };
 
-  const resultAtivo = data.?filter((resposta) => resposta.situacao === 'ATIVO' )
+  const resultAtivo = data?.filter((resposta) => resposta.situacao === 'ATIVO' )
 
   const resultInativo =  data?.filter((resposta) => resposta.situacao === 'INATIVO' )
 
@@ -623,7 +623,6 @@ const SolicitacoesPage = () => {
           //
           setConclusionDate={setConclusionDate}
                     //teste
-
             etapasProjeto={etapasProjeto} 
             etapas={etapas}
         />

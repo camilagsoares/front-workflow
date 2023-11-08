@@ -270,7 +270,7 @@ const DrawerView = (props) => {
                   <StyledTableCell align='left' width={300}>
                     Observação
                   </StyledTableCell>
-                  <StyledTableCell align='left' width={100}>
+                  <StyledTableCell align='left' width={256}>
                     Usuario
                   </StyledTableCell>
                   <StyledTableCell align='center' width={96}>
