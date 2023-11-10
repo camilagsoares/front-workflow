@@ -152,7 +152,7 @@ const Lista = (props) => {
               ) : (
                 filteredData?.length === 0 ? (
                   <StyledTableRow>
-                    <StyledTableCell colSpan={4}>
+                    <StyledTableCell colSpan={5}>
                       Nenhuma licitação encontrada.
                     </StyledTableCell>
                   </StyledTableRow>
