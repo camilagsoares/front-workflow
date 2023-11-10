@@ -38,7 +38,7 @@ const ModalEditarProjeto = (props) => {
   const [descricao, setDescricao] = useState('');
 
   const { projetosSelecionadoVisualizar } = props;
-  console.log("projetosSelecionadoVisualizar",projetosSelecionadoVisualizar)
+  // console.log("projetosSelecionadoVisualizar",projetosSelecionadoVisualizar)
 
   const { handleFecharAdcPLic } = props;
   const { handleFecharEditarProjeto } = props;
@@ -52,7 +52,7 @@ const ModalEditarProjeto = (props) => {
   } = useApiRequestGet(`/processos-licitatorios/${projetosSelecionadoVisualizar}`);
 
   const { data } = useApiRequestGet(`/processos-licitatorios`);
-// console.log("datas",processosLicitatorios?.usuarioId)
+console.log("datas",processosLicitatorios?.usuarioId)
 
 
   useEffect(() => {
@@ -67,6 +67,8 @@ const ModalEditarProjeto = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (session?.id === processosLicitatorios?.usuarioId || session?.id === 50) {
+
     setLoading(true);
     const data = {
       titulo: titulo,
@@ -89,7 +91,12 @@ const ModalEditarProjeto = (props) => {
         });
         setLoading(false);
       });
-    console.log("oq to mandando", data)
+      }
+     else {
+      toast('Você não tem permissão para concluir este projeto. Somente o usuário que criou.', {
+        type: 'error',
+      });
+    }
   };
 
 
