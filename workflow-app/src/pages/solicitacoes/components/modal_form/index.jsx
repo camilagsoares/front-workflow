@@ -100,18 +100,13 @@ const ModalForm = (props) => {
   };
 
   
-  const handleValorChange = (value) => {
-    if (/[\.,]\d*$/.test(value)) {
-      // Verifica se há vírgula ou ponto seguidos de dígitos
-      setIsButtonDisabled(true);
-      setValorError(true); // Define o erro no campo de valor
-      toast('Não coloque ponto ou vírgula no campo de valor', {
-        type: 'error',
-      });
-    } else {
-      setIsButtonDisabled(false);
-      setValorError(false); // Remove o erro do campo de valor
-    }
+  const normalizeDecimalSeparator = (value) => {
+    const normalizedValue = value.replace(',', '.');
+    return normalizedValue;
+  };
+
+  const handleValorChange = (e) => {
+    e.target.value = normalizeDecimalSeparator(e.target.value);
   };
  
   return (
@@ -218,16 +213,16 @@ const ModalForm = (props) => {
               />
             </Grid>
             <Grid item xs={12} sm={12} md={12}>
-              <TextField
-                {...register('valor')}
-                fullWidth
-                required
-                label='Valor estimado'
-                type='number'
-                error={!!errors.valor}
-                // helperText={valorError ? 'Não coloque ponto ou vírgula no campo de valor,se precisar arredonde' : errors.valor?.message}
-                // onChange={(e) => handleValorChange(e.target.value)}
-              />
+            <TextField
+            {...register('valor')}
+            fullWidth
+            required
+            label='Valor estimado'
+            type='text' // Alterado para tipo de texto
+            error={!!errors.valor}
+            helperText={errors.valor?.message}
+            onChange={(e) => handleValorChange(e)}
+          />
             </Grid>
             <Grid item xs={12} sm={12} md={12}>
               <Controller
