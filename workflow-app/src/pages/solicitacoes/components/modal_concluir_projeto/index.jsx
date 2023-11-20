@@ -29,6 +29,7 @@ import { toast } from 'react-toastify';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+// import "./style.css"
 
 
 
@@ -57,7 +58,6 @@ const ModalConcluirProjeto = (props) => {
   const { token, session } = useContext(AuthContext);
 
   const { errors } = formState;
-  const {  setEtapasProjeto } = props;
 
   // const [situacao, setSituacao] = useState('ATIVO'); 
 
@@ -80,24 +80,32 @@ const ModalConcluirProjeto = (props) => {
       data.situacao = 'INATIVO';
   
       axiosApi
-        .put(`/projetos/${projetosSelecionadoVisualizar}`, data)
-        .then(() => {
-          toast('Projeto concluído com sucesso!', {
-            type: 'success',
-          });
-          window.location.reload();
-          // props.atualizarEtapas([...etapas, novaEtapa]);
-          reset();
-          handleFecharModalConcluirProjeto();
-        })
-        .catch((error) => {
-          toast(error.message, {
-            type: 'error',
-          });
-        })
-        .finally(() => {
-          setLoading(false);
+      .put(`/projetos/${projetosSelecionadoVisualizar}`, data)
+      .then(() => {
+        // toast('Projeto concluído com sucesso!', {
+        //   type: 'success',
+        // });
+        // window.location.reload();
+        // // props.atualizarEtapas([...etapas, novaEtapa]);
+        // reset();
+        // handleFecharModalConcluirProjeto();
+        
+    toast('Projeto concluído com sucesso!', {
+      type: 'success',
+      autoClose: 1500,
+    });
+     setTimeout(() => {
+        setLoading(false);
+        handleFecharModalConcluirProjeto();
+        window.location.reload();
+      }, 1500); 
+
+      })
+      .catch((error) => {
+        toast(error.message, {
+          type: 'error',
         });
+      })
     // }
     //  else {
     //   // Display an error message or prevent the conclusion of the project
@@ -115,7 +123,7 @@ const ModalConcluirProjeto = (props) => {
     <Dialog disableEscapeKeyDown fullWidth open={true} onClose={handleFecharModalConcluirProjeto} maxWidth='sm'>
       <DialogTitle>
         <Stack direction='row' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography component='h5'>Deseja concluir o projeto?</Typography>
+          <Typography component='h5'>Deseja finalizar a solicitação?</Typography>
           <IconButton
             edge='start'
             color='inherit'
@@ -126,98 +134,13 @@ const ModalConcluirProjeto = (props) => {
           </IconButton>
         </Stack>
       </DialogTitle>
+
       <Box component='form' noValidate onSubmit={handleSubmit(handleCriarSecretaria)}>
         <DialogContent dividers>
-          <Grid container columnSpacing={2} rowSpacing={2}>
-            {/* <Grid item xs={12} sm={10} md={10}>
-              <TextField
-                {...register('idSonner')}
-                required
-                fullWidth
-                autoFocus
-                label='Nº Sonner'
-                type='number'
-                error={!!errors.idSonner}
-                helperText={errors.idSonner?.message}
-              />
-            </Grid> */}
-            {/* <Grid item xs={2} sm={1} md={2}>
+        <p>
+          <span className='textRed'>Atenção:</span> Ao escolher finalizar a solicitação,você está concluindo por definitivo.</p>
 
-                <FormControlLabel
-                control={
-                  <Controller
-                    name='ata'
-                    control={control}
-                    render={({ field }) => (
-                      <Checkbox
-                        {...field}
-                        color='primary'
-                      />
-                    )}
-                  />
-                }
-                label='Ata'
-              />
-            </Grid> */}
-            {/* <Grid item xs={12} sm={12} md={12}>
-              <TextField
-                {...register('titulo')}
-                fullWidth
-                required
-                label='Titulo'
-                // name='titulo'
-                type='text'
-                error={!!errors.titulo}
-                helperText={errors.titulo?.message}
-              />
-            </Grid> */}
-
-
-            {/* <Grid item xs={12} sm={12} md={12}>
-              <TextField
-                {...register('descricao')}
-                fullWidth
-                required
-                label='Descrição Resumida'
-                // name='descricao'
-                type='text'
-                error={!!errors.descricao}
-                helperText={errors.descricao?.message}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={12}>
-              <TextField
-                {...register('observacao')}
-                fullWidth
-                required
-                label='Observação'
-                type='text'
-                error={!!errors.observacao}
-                helperText={errors.observacao?.message}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={12}>
-              <TextField
-                {...register('valor')}
-                fullWidth
-                required
-                label='Valor estimado'
-                type='number'
-                error={!!errors.valor}
-                helperText={errors.valor?.message}
-              />
-            </Grid> */}
-
-          </Grid>
-
-          {/* {showSuccessMessage && (
-            <Box mt={2} display='flex' justifyContent='center' alignItems='center'>
-              <Alert severity='success'>
-                <AlertTitle>Successo</AlertTitle>
-                Atualização realizada com sucesso!
-              </Alert>
-            </Box>
-          )} */}
+       
         </DialogContent>
         <DialogActions>
           <Button
@@ -239,7 +162,7 @@ const ModalConcluirProjeto = (props) => {
             sx={{ minWidth: 156, height: '100%' }}
 
           >
-            {!loading ? 'Concluir' : <CircularProgress color='success' size={23} />}
+            {!loading ? 'Finalizar' : <CircularProgress color='success' size={23} />}
           </Button>
         </DialogActions>
       </Box>
