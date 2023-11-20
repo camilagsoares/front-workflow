@@ -69,11 +69,20 @@ const ModalPrioridadeProjeto = (props) => {
           axiosApi
             .put(`/projetos/${projetosSelecionadoVisualizar}`, data)
             .then(() => {
+              // toast('Prioridade do projeto revertida!', {
+              //   type: 'success',
+              // });
+              // reset();
+              // window.location.reload();
               toast('Prioridade do projeto revertida!', {
                 type: 'success',
+                autoClose: 1500,
               });
-              reset();
-              window.location.reload();
+               setTimeout(() => {
+                  setLoading(false);
+                  window.location.reload();
+                }, 1500); 
+        
 
             })
             .catch((error) => {
@@ -81,20 +90,28 @@ const ModalPrioridadeProjeto = (props) => {
                 type: 'error',
               });
             })
-            .finally(() => {
-              setLoading(false);
-            });
+            // .finally(() => {
+            //   setLoading(false);
+            // });
         } else {
           // Se a prioridade não estiver definida, definir para true
           data.prioridadeProjeto = true;
           axiosApi
             .put(`/projetos/${projetosSelecionadoVisualizar}`, data)
             .then(() => {
+              // toast('Projeto definido como prioridade!', {
+              //   type: 'success',
+              // });
+              // reset();
+              // window.location.reload();
               toast('Projeto definido como prioridade!', {
                 type: 'success',
+                autoClose: 1500,
               });
-              reset();
-              window.location.reload();
+               setTimeout(() => {
+                  setLoading(false);
+                  window.location.reload();
+                }, 1500); 
 
             })
             .catch((error) => {
@@ -102,9 +119,9 @@ const ModalPrioridadeProjeto = (props) => {
                 type: 'error',
               });
             })
-            .finally(() => {
-              setLoading(false);
-            });
+            // .finally(() => {
+            //   setLoading(false);
+            // });
         }
       };
 
