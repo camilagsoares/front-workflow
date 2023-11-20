@@ -26,14 +26,14 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 
 const requiredField = 'Campo obrigatorio';
-
+// coloque apenas numero e virgula
 const schema = yup
   .object({
     idSonner: yup.number().required(),
     titulo: yup.string().max(45, 'Máximo de 45 caracteres').required(requiredField),
     descricao: yup.string().max(5000, 'Máximo de 5000 caracteres').required(requiredField),
     observacao: yup.string().max(128, 'Máximo de 128 caracteres').required(requiredField),
-    valor: yup.number().required(requiredField),
+    valor: yup.string().required(requiredField),
 
     tipoProjetoId: yup.number().required(requiredField),
     ata: yup.boolean()
@@ -54,7 +54,7 @@ const ModalForm = (props) => {
       titulo: '',
       descricao: '',
       observacao: '',
-      valor: 0,
+      valor: '0',
       tipoProjetoId: '',
       ata: false
     },
@@ -66,80 +66,41 @@ const ModalForm = (props) => {
   const { data: listaTiposProjeto, loading: loadingTiposProjeto } = useApiRequestGet('/tipos-projeto');
   
   console.log(listaTiposProjeto)
-  // const handleCriarSecretaria = (data) => {
+  const handleCriarSecretaria = (data) => {
 
 
-  //   if ((data.ata === true && data.tipoProjetoId !== 3) || (data.ata === false && data.tipoProjetoId === 3)) {
-  //     toast("Projeto não pode ser ATA com o tipo de projeto diferente de Situação ATA.", {
-  //       type: "error",
-  //     });
-  //     return;
-  //   }
+    if ((data.ata === true && data.tipoProjetoId !== 3) || (data.ata === false && data.tipoProjetoId === 3)) {
+      toast("Projeto não pode ser ATA com o tipo de projeto diferente de Situação ATA.", {
+        type: "error",
+      });
+      return;
+    }
   
   
-  //   setLoading(true);
-  //   axiosApi
-  //     .post('/projetos', data)
-  //     .then(() => {
-  //       toast('Solicitação criada com sucesso', {
-  //         type: 'success',
-  //         autoClose: 3000, 
-  //       });
-  
-  //       setTimeout(() => {
-  //         setLoading(false);
-  //         handleFecharModalForm();
-  //         window.location.reload();
-  //       }, 1000); 
-     
-  //     })
-  //     .catch((error) => {
-  //       toast(error.message, {
-  //         type: 'error',
-  //       });
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // };
-  const handleCriarSecretaria = async (data) => {
-    try {
-      setLoading(true);
-
-      if ((data.ata === true && data.tipoProjetoId !== 3) || (data.ata === false && data.tipoProjetoId === 3)) {
-        toast("Projeto não pode ser ATA com o tipo de projeto diferente de Situação ATA.", {
-          type: "error",
+    setLoading(true);
+    axiosApi
+      .post('/projetos', data)
+      .then(() => {
+        toast('Projeto criado com sucesso', {
+          type: 'success',
         });
-        return;
-      }
-
-      await axiosApi.post('/projetos', data);
-
-
-      toast('Solicitação criada com sucesso', {
-        type: 'success',
-        autoClose: 1500,
+        console.log("data",handleCriarSecretaria)
+        reset();
+        window.location.reload();
+        handleFecharModalForm();
+      })
+      .catch((error) => {
+        toast(error.message, {
+          type: 'error',
+        });
+      })
+      .finally(() => {
+        setLoading(false);
       });
-       setTimeout(() => {
-          setLoading(false);
-          window.location.reload();
-        }, 1500); 
-
-    } catch (error) {
-      toast(error.message, {
-        type: 'error',
-      });
-    } 
   };
+
   
-  const normalizeDecimalSeparator = (value) => {
-    const normalizedValue = value.replace(',', '.');
-    return normalizedValue;
-  };
 
-  const handleValorChange = (e) => {
-    e.target.value = normalizeDecimalSeparator(e.target.value);
-  };
  
   return (
     <Dialog disableEscapeKeyDown fullWidth open={true} onClose={handleFecharModalForm} maxWidth='sm'>
@@ -245,16 +206,15 @@ const ModalForm = (props) => {
               />
             </Grid>
             <Grid item xs={12} sm={12} md={12}>
-            <TextField
-            {...register('valor')}
-            fullWidth
-            required
-            label='Valor estimado'
-            type='text' // Alterado para tipo de texto
-            error={!!errors.valor}
-            helperText={errors.valor?.message}
-            onChange={(e) => handleValorChange(e)}
-          />
+              <TextField
+                {...register('valor')}
+                fullWidth
+                required
+                label='Valor estimado'
+                type='text'
+                error={!!errors.valor}
+                // helperText={valorError ? 'Não coloque ponto ou vírgula no campo de valor,se precisar arredonde' : errors.valor?.message}
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={12}>
               <Controller
