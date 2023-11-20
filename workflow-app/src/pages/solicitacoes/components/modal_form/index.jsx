@@ -66,39 +66,71 @@ const ModalForm = (props) => {
   const { data: listaTiposProjeto, loading: loadingTiposProjeto } = useApiRequestGet('/tipos-projeto');
   
   console.log(listaTiposProjeto)
-  const handleCriarSecretaria = (data) => {
+  // const handleCriarSecretaria = (data) => {
 
 
-    if ((data.ata === true && data.tipoProjetoId !== 3) || (data.ata === false && data.tipoProjetoId === 3)) {
-      toast("Projeto não pode ser ATA com o tipo de projeto diferente de Situação ATA.", {
-        type: "error",
-      });
-      return;
-    }
+  //   if ((data.ata === true && data.tipoProjetoId !== 3) || (data.ata === false && data.tipoProjetoId === 3)) {
+  //     toast("Projeto não pode ser ATA com o tipo de projeto diferente de Situação ATA.", {
+  //       type: "error",
+  //     });
+  //     return;
+  //   }
   
   
-    setLoading(true);
-    axiosApi
-      .post('/projetos', data)
-      .then(() => {
-        toast('Projeto criado com sucesso', {
-          type: 'success',
+  //   setLoading(true);
+  //   axiosApi
+  //     .post('/projetos', data)
+  //     .then(() => {
+  //       toast('Solicitação criada com sucesso', {
+  //         type: 'success',
+  //         autoClose: 3000, 
+  //       });
+  
+  //       setTimeout(() => {
+  //         setLoading(false);
+  //         handleFecharModalForm();
+  //         window.location.reload();
+  //       }, 1000); 
+     
+  //     })
+  //     .catch((error) => {
+  //       toast(error.message, {
+  //         type: 'error',
+  //       });
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // };
+  const handleCriarSecretaria = async (data) => {
+    try {
+      setLoading(true);
+
+      if ((data.ata === true && data.tipoProjetoId !== 3) || (data.ata === false && data.tipoProjetoId === 3)) {
+        toast("Projeto não pode ser ATA com o tipo de projeto diferente de Situação ATA.", {
+          type: "error",
         });
-        console.log("data",handleCriarSecretaria)
-        reset();
-        window.location.reload();
-        handleFecharModalForm();
-      })
-      .catch((error) => {
-        toast(error.message, {
-          type: 'error',
-        });
-      })
-      .finally(() => {
-        setLoading(false);
+        return;
+      }
+
+      await axiosApi.post('/projetos', data);
+
+
+      toast('Solicitação criada com sucesso', {
+        type: 'success',
+        autoClose: 1500,
       });
+       setTimeout(() => {
+          setLoading(false);
+          window.location.reload();
+        }, 1500); 
+
+    } catch (error) {
+      toast(error.message, {
+        type: 'error',
+      });
+    } 
   };
-
   
   const normalizeDecimalSeparator = (value) => {
     const normalizedValue = value.replace(',', '.');
