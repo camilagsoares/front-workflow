@@ -69,10 +69,15 @@ const ModalEditarProjeto = (props) => {
     axiosApi
       .put(`/projetos/${projetosSelecionadoVisualizar}`, data)
       .then(() => {
-        toast('Projeto atualizado com sucesso', {
+        toast('Solicitação atualizada com sucesso', {
           type: 'success',
+          autoClose: 3000, 
         });
-        setLoading(false);
+  
+        setTimeout(() => {
+          setLoading(false);
+          window.location.reload();
+        }, 3000); 
       })
       .catch((error) => {
         toast(error.message, {
