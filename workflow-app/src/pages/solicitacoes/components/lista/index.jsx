@@ -268,9 +268,10 @@ const Lista = (props) => {
                       <StyledTableCell align="left">{formatarValorToMonetario(projeto?.valor)}</StyledTableCell>
 
                       {session && (session.id === 1 && !isUsuarioCompras || session.id === 56 && !isUsuarioCompras) && (
-                        <>
-                          <StyledTableCell align="left">
-                            <Tooltip title="Prioridade" arrow>
+
+                        <StyledTableCell align="left">
+                          <Tooltip title="Prioridade" arrow>
+                            <div>
                               {projeto?.prioridadeProjeto ? (
                                 <ThemeProvider theme={theme}>
                                   <Button
@@ -282,21 +283,23 @@ const Lista = (props) => {
                                   >
                                     Reverter Prioridade
                                   </Button>
-                                  </ThemeProvider>
-                                  ) : (
-                                  <Button
-                                    startIcon={<ImportExportOutlinedIcon />}
-                                    variant='outlined'
-                                    color='primary'
-                                    sx={{ marginRight: 1 }}
-                                    onClick={() => props.handleAbrirModalPrioridadeProjeto(projeto?.id)}
-                                  >
-                                    Definir prioridade
-                                  </Button>
+                                </ThemeProvider>
+                              ) : (
+                                <Button
+                                  startIcon={<ImportExportOutlinedIcon />}
+                                  variant='outlined'
+                                  color='primary'
+                                  sx={{ marginRight: 1 }}
+                                  onClick={() => props.handleAbrirModalPrioridadeProjeto(projeto?.id)}
+                                >
+                                  Definir prioridade
+                                </Button>
                               )}
-                                </Tooltip>
-                          </StyledTableCell>
-                        </>
+                            </div>
+                          </Tooltip>
+                        </StyledTableCell>
+
+
                       )}
                       <StyledTableCell align="center">
                         <Tooltip title="Detalhes" arrow>
