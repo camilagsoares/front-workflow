@@ -57,7 +57,6 @@ const ModalAdicionarProcessoLicitatorio = (props) => {
     },
   });
 
-  // console.log('idSonner clicado', props.selectedProjectIdSonner);
   const { errors } = formState;
   const [loading, setLoading] = useState(false);
 
@@ -94,7 +93,7 @@ const ModalAdicionarProcessoLicitatorio = (props) => {
     // loading
   } = useApiRequestGet('/projetos');
 
-  console.log('IDs dos projetos clicados:', props.clickedProjectIds);
+  // console.log('IDs dos projetos clicados:', props.clickedProjectIds);
 
   return (
     <Dialog disableEscapeKeyDown fullWidth open={true} onClose={handleFecharAdcPLic} maxWidth='sm'>
