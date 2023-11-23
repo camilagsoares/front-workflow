@@ -88,24 +88,28 @@ const Lista = (props) => {
     if (Array.isArray(data)) {
       const filtered = data.filter((row) => {
         const departamentoNome = row?.etapa[0]?.departamento?.nome || '';
-        const lowerSearchTerm = searchTerm.toLowerCase();
-        const situacao = row.situacao;
-
+        const departamentoSigla = row?.etapa[0]?.departamento?.secretaria?.sigla || '';
+        const fullDepartamento = `${departamentoSigla} - ${departamentoNome}`;
+  
+        const lowerSearchTerm = searchTerm.toLowerCase().trim();
+        const isMatch = (value) => value.toLowerCase().includes(lowerSearchTerm);
+  
         return (
-          row.numeroCompras.toString().includes(searchTerm) ||
-          row.idSonner.toString().includes(searchTerm) ||
-          departamentoNome.includes(searchTerm) ||
-          row.descricao.toLowerCase().includes(lowerSearchTerm) ||
-          row.etapa[0]?.departamento?.nome.toLowerCase().includes(lowerSearchTerm) ||
-          row.titulo.toLowerCase().includes(lowerSearchTerm)
+          isMatch(row.numeroCompras.toString()) ||
+          isMatch(row.idSonner.toString()) ||
+          isMatch(departamentoNome) ||
+          isMatch(row.descricao) ||
+          isMatch(row.etapa[0]?.departamento?.nome) ||
+          isMatch(row.titulo) ||
+          isMatch(fullDepartamento)
         ) &&
-          (filterByDepartamento === 'all' || departamentoNome === filterByDepartamento) &&
-          (filterByConcluido === 'all' || (filterByConcluido === 'concluded' && situacao === 'INATIVO'));
+          (filterByDepartamento === 'all' || departamentoNome.trim() === filterByDepartamento) &&
+          (filterByConcluido === 'all' || (filterByConcluido === 'concluded' && row.situacao === 'INATIVO'));
       });
       setFilteredData(filtered);
     }
   }, [data, searchTerm, filterByDepartamento, filterByConcluido]);
-
+  
 
 
 
