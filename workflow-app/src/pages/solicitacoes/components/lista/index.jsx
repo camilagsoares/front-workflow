@@ -187,6 +187,16 @@ const Lista = (props) => {
     }
   }
 
+  function formatarNumero(valor) {
+    if (isNaN(valor)) {
+      return valor;
+    }
+
+    return Number(valor).toLocaleString('pt-BR');
+  }
+
+  
+
   return (
     <React.Fragment>
       <Box marginY={1} paddingY={2}>
@@ -200,9 +210,19 @@ const Lista = (props) => {
                   </StyledTableCell>
                 )}
 
+
                 <StyledTableCell align='left' width={112}>
                   N° Sonner
                 </StyledTableCell>
+                {/* {session && (session.permissao.id === 1
+                ) && (
+                    <>
+                      <StyledTableCell align='left' width={112}>
+                        Departamento que criou
+                      </StyledTableCell>
+                    </>
+                  )} */}
+
                 <StyledTableCell width={192}>Descrição resumida</StyledTableCell>
                 <StyledTableCell align='left' width={180}>
                   Departamento
@@ -257,6 +277,17 @@ const Lista = (props) => {
                       <StyledTableCell align="left" className={isUsuarioCompras ? '' : getBordaClasse(projeto)}>
                         {projeto?.idSonner}
                       </StyledTableCell>
+                      {/* {session && (session.permissao.id === 1
+                      ) && (
+                          <>
+                            <StyledTableCell align="left">
+
+
+                              {projeto.usuario?.departamento?.secretaria?.sigla}  -&nbsp;
+                              {projeto.usuario?.departamento?.nome}
+                            </StyledTableCell>
+                          </>
+                        )} */}
                       <StyledTableCell component="th" scope="row">
                         {projeto?.titulo}
                       </StyledTableCell>
@@ -265,7 +296,7 @@ const Lista = (props) => {
                         {projeto?.etapa[0]?.departamento?.nome}
                       </StyledTableCell>
                       <StyledTableCell align="left">{projeto?.tipoProjeto?.nome}</StyledTableCell>
-                      <StyledTableCell align="left">{formatarValorToMonetario(projeto?.valor)}</StyledTableCell>
+                      <StyledTableCell align="left" style={{ whiteSpace: 'nowrap' }}>R$ {formatarNumero(projeto?.valor)}</StyledTableCell>
 
                       {session && (session.id === 1 && !isUsuarioCompras || session.id === 56 && !isUsuarioCompras) && (
 
