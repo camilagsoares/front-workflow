@@ -133,22 +133,29 @@ const Lista = (props) => {
   // console.log("data", data)
   useEffect(() => {
     if (
-      (searchTerm || filterByAta !== "all" || filterByDepartamento !== "all" || filterBySecretaria !== "" || selectedTipoProjeto) &&
-      data && Array.isArray(data) // Verifique se 'data' não é nulo e é um array
+      (searchTerm.trim() || filterByAta !== "all" || filterByDepartamento !== "all" || filterBySecretaria !== "" || selectedTipoProjeto) &&
+      data && Array.isArray(data) // Check if 'data' is not null and is an array
     ) {
       const filtered = data.filter((projeto) => {
-        const valor = String(projeto.valor);
+        const valor = String(projeto.valor).trim();
+        const formattedValor = formatarNumero(projeto?.valor).trim();
         const isAta = projeto.ata === true;
-        const departamentoNome = projeto?.etapa[0]?.departamento?.nome || "";
-        const secretariaNome = projeto?.etapa[0]?.departamento?.secretaria?.nome || "";
-
+        const departamentoNome = (projeto?.etapa[0]?.departamento?.nome || "").trim();
+        const secretariaNome = (projeto?.etapa[0]?.departamento?.secretaria?.nome || "").trim();
+        const secretariaSigla = (projeto?.etapa[0]?.departamento?.secretaria?.sigla || "").trim();
+  
         if (
-          (projeto.idSonner.toString().includes(searchTerm) ||
-            projeto?.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            departamentoNome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            secretariaNome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            projeto?.tipoProjeto?.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            valor.toLowerCase().includes(searchTerm.toLowerCase())) &&
+          (projeto.idSonner.toString().includes(searchTerm.trim()) ||
+            projeto?.titulo.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+            departamentoNome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+            secretariaNome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+            secretariaSigla.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+            projeto?.tipoProjeto?.nome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+            valor.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+            formattedValor.toLowerCase().includes(searchTerm.trim().toLowerCase()) || // Include formatted value in search
+            departamentoNome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+            secretariaSigla.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+            secretariaNome.toLowerCase().includes(searchTerm.trim().toLowerCase())) &&
           (filterByAta === "all" ||
             (filterByAta === "ata" && isAta) ||
             (filterByAta === "concluded" && projeto.situacao === "INATIVO") ||
@@ -195,7 +202,7 @@ const Lista = (props) => {
     return Number(valor).toLocaleString('pt-BR');
   }
 
-  
+
 
   return (
     <React.Fragment>
