@@ -9,7 +9,6 @@ import CadastroUsuarios from './pages/cadastroUsuarios';
 import TipoProjeto from './pages/tipoProjeto';
 import Permissao from "./pages/permissao/index"
 import Status from './pages/status';
-import Teste from "./pages/Teste/index"
 import { AuthContext } from './contexts/auth.context';
 function App() {
   const [mode, setMode] = useState('light');
@@ -54,7 +53,6 @@ function App() {
               <Route path='/tipo-projeto' element={<TipoProjeto changeTheme={colorMode.alterarTema} />} />
               <Route path='/permissao' element={<Permissao changeTheme={colorMode.alterarTema} />} />
               <Route path='/status' element={<Status changeTheme={colorMode.alterarTema} />} />
-              <Route path='/teste' element={<Teste changeTheme={colorMode.alterarTema} />} />
 
               {/* <Route path='/admin' element={<AdminPage changeTheme={colorMode.alterarTema} />} /> */}
             </Route>
