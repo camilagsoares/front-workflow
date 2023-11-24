@@ -85,24 +85,18 @@ const Lista = (props) => {
   const { filterByAta } = props;
   const { data, loading } = useApiRequestGet('/projetos');
   const { etapas } = useApiRequestGet('/etapas');
-  // console.log("dados projeto", data?.prioridadeProjeto)
-  // console.log('Etapas Aqui', etapas)
-  // console.log('projetos do useApiRequestGet', data);
+
   localStorage.setItem('projetosData', JSON.stringify(data));
   //TESTE!
-  // const tipoProjetoNome = data?.tipoProjeto?.nome;
   const { data: listaDptos, loading: loadingTiposProjeto } = useApiRequestGet('/departamentos');
-  // console.log("listaDptos",listaDptos?.secretaria)
   const { token, session } = useContext(AuthContext);
-  // console.log(session?.permissao.id);
-  // const permissaoId = session?.permissao.id;
+
 
   const isUsuarioCompras = session?.permissao.id === 2;
 
   // statusId === 2
   const { projetosSelecionadoVisualizar } = props;
-  // const { projetosComBordaVerde } = props;
-  // console.log('projeto selecionado', projetosSelecionadoVisualizar);
+
 
   const [pageNumber, setPageNumber] = useState(0);
   const projectsPerPage = 6;
@@ -123,6 +117,7 @@ const Lista = (props) => {
   const { filterBySecretaria } = props;
   const { selectedTipoProjeto } = props;
   const { filterByUrgent } = props;
+  const {selectedSecretaria } = props;
   const [filteredData, setFilteredData] = useState(data);
   // console.log(filteredData)
   const [numProjetosPorSecretaria, setNumProjetosPorSecretaria] = useState({});
@@ -377,11 +372,11 @@ const Lista = (props) => {
           </Table>
         </TableContainer>
       </Box>
-      {!loading && dataIsValid && data.length > 0 && (
+      {!loading && filteredData && filteredData.length > 0 && (
         <Box display="flex" justifyContent="end" mt={2} >
           <Pagination
             color="primary"
-            count={Math.ceil(data?.length / projectsPerPage)}
+            count={Math.ceil(filteredData?.length / projectsPerPage)}
             page={pageNumber + 1}
             onChange={(event, page) => {
               changePage({ selected: page - 1 });
