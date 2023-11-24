@@ -199,13 +199,13 @@ const SolicitacoesPage = () => {
     setFilterBySecretaria(newValue);
   };
 
-  const resultAtivo = data?.filter((resposta) => resposta.situacao === 'ATIVO' )
+  const resultAtivo = data?.filter((resposta) => resposta.situacao === 'ATIVO')
 
-  const resultInativo =  data?.filter((resposta) => resposta.situacao === 'INATIVO' )
+  const resultInativo = data?.filter((resposta) => resposta.situacao === 'INATIVO')
 
-  console.log(`Resultado dos projetos ATIVOS`, resultAtivo);
+  // console.log(`Resultado dos projetos ATIVOS`, resultAtivo);
 
-  console.log(`Resultado dos projetos INATIVOS`, resultInativo);
+  // console.log(`Resultado dos projetos INATIVOS`, resultInativo);
 
   // console.log(data);
 
@@ -287,77 +287,26 @@ const SolicitacoesPage = () => {
     </Paper>
   );
 
-  
+
   const [checked, setChecked] = useState(false);
 
   const handleChange = () => {
     setChecked((prev) => !prev);
   };
 
+
+  const listaTiposProjetoComTodos = [{ id: '', descricao: 'Todos' }, ...(listaTiposProjeto || [])];
+
+
   return (
     <Box>
-      
+
       <Typography component='h2' variant='h5' fontWeight={700} color='text.primary'>
         Solicitações
       </Typography>
-    
+
       <Divider />
-      {/* <Box display='flex' flexDirection='row' gap={2} paddingY={2}>
-        <Button startIcon={<AddCircle />} variant='outlined' color='primary' onClick={handleAbrirModalForm} sx={{ width: '290px', height: '50px' }}>
-          Criar solicitação
-        </Button>
-        {session && (session.permissao.id === 1 || session.permissao.id === 2) && (
-          <Button
-            startIcon={<AddCircle />}
-            variant='outlined'
-            color='primary'
-            onClick={handleAbrirAdcPLic}
-            sx={{ width: '380px', height: '50px' }}
-          >
-            Criar Processo Licitatório
-          </Button>
-        )}
-    
-      
-      <Box container justifyContent="flex-end" alignItems="center" spacing={2}></Box>
-        <Grid item sx={{ marginTop: '4px' }}>
-          <TextField
-            size="small"
-            variant="outlined"
-            color="primary"
-            value={searchTerm}
-            onChange={(e) => handleSearchTermChange(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <FilterAlt color="primary" />
-                </InputAdornment>
-              ),
-            }}
-            placeholder="Filtrar"
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#1976D2',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#1976D2',
-                },
-                '& input': {
-                  color: 'gray',
-                  textTransform: 'none',
-                  fontWeight: '100',
-                },
-                '& input::placeholder': {
-                  color: '#1976D2',
-                  textTransform: 'uppercase',
-                  fontWeight: '400',
-                },
-              },
-            }}
-          />
-        </Grid>
-      </Box> */}
+     
 
       <Box display='flex' flexDirection='row' alignItems='center' justifyContent='space-between' paddingY={2}>
         <Box >
@@ -416,12 +365,17 @@ const SolicitacoesPage = () => {
                       <Autocomplete
                         fullWidth
                         size="small"
-                        options={listaTiposProjeto || []}
+                        options={listaTiposProjetoComTodos}
                         getOptionLabel={(tipoprojeto) => tipoprojeto.descricao}
                         value={
                           listaTiposProjeto &&
                           listaTiposProjeto.find((item) => item.id === value)
                         }
+                        // onChange={(event, newValue) => {
+                        //   const selectedValue = newValue ? newValue.id : '';
+                        //   setSelectedTipoProjeto(selectedValue);
+                        //   onChange(selectedValue);
+                        // }}
                         onChange={(event, newValue) => {
                           const selectedValue = newValue ? newValue.id : '';
                           setSelectedTipoProjeto(selectedValue);
@@ -432,7 +386,7 @@ const SolicitacoesPage = () => {
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label='Tipo projeto'
+                            label='Tipo solicitação'
                             variant='outlined'
                             name={name}
                             error={!!errors.tipoProjetoId}
@@ -594,10 +548,10 @@ const SolicitacoesPage = () => {
           handleFecharModalForm={handleFecharModalForm}
           handleFecharModalAtualizarEtapaProjeto={handleFecharModalAtualizarEtapaProjeto}
           projetosSelecionadoVisualizar={projetosSelecionadoVisualizar}
-        //teste
-        etapasProjeto={etapasProjeto} 
-        setEtapasProjeto={setEtapasProjeto}
-        atualizarEtapas={atualizarEtapas} 
+          //teste
+          etapasProjeto={etapasProjeto}
+          setEtapasProjeto={setEtapasProjeto}
+          atualizarEtapas={atualizarEtapas}
         />
       )}
 
@@ -622,9 +576,9 @@ const SolicitacoesPage = () => {
 
           //
           setConclusionDate={setConclusionDate}
-                    //teste
-            etapasProjeto={etapasProjeto} 
-            etapas={etapas}
+          //teste
+          etapasProjeto={etapasProjeto}
+          etapas={etapas}
         />
       )}
 
