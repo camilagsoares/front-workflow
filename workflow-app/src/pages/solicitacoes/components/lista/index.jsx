@@ -116,7 +116,7 @@ const Lista = (props) => {
   const { filterByDepartamento } = props;
   const { filterBySecretaria } = props;
   const { selectedTipoProjeto } = props;
-  const { filterByUrgent } = props;
+  const { selectedFilter } = props;
   const {selectedSecretaria } = props;
   const [filteredData, setFilteredData] = useState(data);
   // console.log(filteredData)
@@ -128,7 +128,7 @@ const Lista = (props) => {
   // console.log("data", data)
   useEffect(() => {
     if (
-      (searchTerm.trim() || filterByAta !== "all" || filterByDepartamento !== "all" || filterBySecretaria !== "" || selectedTipoProjeto) &&
+      (searchTerm.trim() || filterByAta !== "all" || filterByDepartamento !== "all" || filterBySecretaria !== "" || selectedTipoProjeto || selectedFilter) &&
       data && Array.isArray(data) // Check if 'data' is not null and is an array
     ) {
       const filtered = data.filter((projeto) => {
@@ -139,6 +139,14 @@ const Lista = (props) => {
         const secretariaNome = (projeto?.etapa[0]?.departamento?.secretaria?.nome || "").trim();
         const secretariaSigla = (projeto?.etapa[0]?.departamento?.secretaria?.sigla || "").trim();
   
+        // Check if selectedFilter is not set or matches the current project
+        const isMatchingSelectedFilter =
+          !selectedFilter ||
+          (
+            projeto.usuario?.departamento?.nome.includes(selectedFilter.value.split(" - ")[0]) &&
+            projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedFilter.value.split(" - ")[1])
+          );
+  
         if (
           (projeto.idSonner.toString().includes(searchTerm.trim()) ||
             projeto?.titulo.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
@@ -147,7 +155,7 @@ const Lista = (props) => {
             secretariaSigla.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
             projeto?.tipoProjeto?.nome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
             valor.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
-            formattedValor.toLowerCase().includes(searchTerm.trim().toLowerCase()) || // Include formatted value in search
+            formattedValor.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
             departamentoNome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
             secretariaSigla.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
             secretariaNome.toLowerCase().includes(searchTerm.trim().toLowerCase())) &&
@@ -160,7 +168,8 @@ const Lista = (props) => {
               projeto.situacao !== "INATIVO")) &&
           (filterByDepartamento === "all" || departamentoNome === filterByDepartamento) &&
           (filterBySecretaria === "" || secretariaNome === filterBySecretaria) &&
-          (selectedTipoProjeto === "" || projeto.tipoProjetoId === selectedTipoProjeto)
+          (selectedTipoProjeto === "" || projeto.tipoProjetoId === selectedTipoProjeto) &&
+          isMatchingSelectedFilter
         ) {
           return true;
         }
@@ -170,8 +179,8 @@ const Lista = (props) => {
     } else {
       setFilteredData(data);
     }
-  }, [data, searchTerm, filterByAta, filterByDepartamento, filterBySecretaria, selectedTipoProjeto]);
-
+  }, [data, searchTerm, filterByAta, filterByDepartamento, filterBySecretaria, selectedTipoProjeto, selectedFilter]);
+  
   //teste
   function getBordaClasse(projeto) {
     if (projeto.situacao === 'INATIVO' && projeto.prioridadeProjeto) {
@@ -216,18 +225,18 @@ const Lista = (props) => {
                 <StyledTableCell align='left' width={112}>
                   N° Sonner
                 </StyledTableCell>
-                {/* {session && (session.permissao.id === 1
+                {session && (session.permissao.id === 1
                 ) && (
                     <>
-                      <StyledTableCell align='left' width={112}>
+                      <StyledTableCell align='left' width={112} >
                         Departamento que criou
                       </StyledTableCell>
                     </>
-                  )} */}
+                  )}
 
                 <StyledTableCell width={192}>Descrição resumida</StyledTableCell>
                 <StyledTableCell align='left' width={180}>
-                  Departamento
+                  Parado em
                 </StyledTableCell>
                 <StyledTableCell align='left' width={196}>
                   Tipo Solicitação
@@ -279,7 +288,7 @@ const Lista = (props) => {
                       <StyledTableCell align="left" className={isUsuarioCompras ? '' : getBordaClasse(projeto)}>
                         {projeto?.idSonner}
                       </StyledTableCell>
-                      {/* {session && (session.permissao.id === 1
+                      {session && (session.permissao.id === 1
                       ) && (
                           <>
                             <StyledTableCell align="left">
@@ -289,11 +298,11 @@ const Lista = (props) => {
                               {projeto.usuario?.departamento?.nome}
                             </StyledTableCell>
                           </>
-                        )} */}
-                      <StyledTableCell component="th" scope="row">
+                        )}
+                      <StyledTableCell component="th" scope="row" >
                         {projeto?.titulo}
                       </StyledTableCell>
-                      <StyledTableCell align="left">
+                      <StyledTableCell align="left" >
                         {projeto?.etapa[0]?.departamento?.secretaria?.sigla}  -&nbsp;
                         {projeto?.etapa[0]?.departamento?.nome}
                       </StyledTableCell>
