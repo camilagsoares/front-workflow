@@ -35,6 +35,7 @@ import { styled } from '@mui/material/styles';
 import { NavLink, } from 'react-router-dom';
 import Grow from '@mui/material/Grow';
 
+
 const requiredField = 'Campo obrigatorio';
 
 const schema = yup
@@ -148,6 +149,7 @@ const SolicitacoesPage = () => {
   const [statusId, setStatusId] = useState('');
   //
   const { session, token } = useContext(AuthContext);
+  console.log("Sessao", session)
 
   const [projetosConcluidos, setProjetosConcluidos] = useState([]);
 
@@ -199,15 +201,25 @@ const SolicitacoesPage = () => {
     setFilterBySecretaria(newValue);
   };
 
-  const resultAtivo = data?.filter((resposta) => resposta.situacao === 'ATIVO')
 
-  const resultInativo = data?.filter((resposta) => resposta.situacao === 'INATIVO')
 
-  // console.log(`Resultado dos projetos ATIVOS`, resultAtivo);
+  useEffect(() => {
 
-  // console.log(`Resultado dos projetos INATIVOS`, resultInativo);
+    // const resultAtivo = !loading && data?.filter((resposta) => resposta.situacao === 'ATIVO' && resposta.prioridadeProjeto === true)
 
-  // console.log(data);
+    // const resultInativo = !loading && data?.filter((resposta) => resposta.situacao === 'INATIVO')
+
+    // const resultDepartamento =  data?.filter((resposta) => resposta.usuario[0]?.departamento?.nome);
+
+    // const resultSecretaria =  data?.map((resposta) => resposta.usuario?.departamento?.secretaria?.sigla);
+
+    // console.log('Filtro para departamento', resultDepartamento);
+
+    // console.log('Filtro para secretaria', resultSecretaria);
+
+  })
+
+
 
   useEffect(() => {
     if (data) {
@@ -224,6 +236,9 @@ const SolicitacoesPage = () => {
 
   const { data: listaTiposProjeto, loading: loadingTiposProjeto
   } = useApiRequestGet('/tipos-projeto');
+
+
+
 
   // teste filtro tipo projeto
   const [selectedTipoProjeto, setSelectedTipoProjeto] = useState('');
@@ -264,49 +279,81 @@ const SolicitacoesPage = () => {
   }));
 
 
-  /* TESTE NOVA ETAPA SIMULTÂNEA */
+
+
+
   const [etapasProjeto, setEtapasProjeto] = useState([]);
-  const [etapas, setEtapas] = useState([]);
-  const atualizarEtapas = (novasEtapas) => {
-    setEtapas([...etapas, ...novasEtapas]);
+
+  const atualizarEtapasProjeto = (novaEtapa) => {
+    setEtapasProjeto((etapasAntigas) => [...etapasAntigas, novaEtapa]);
   };
 
-  const icon = (
-    <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
-      <svg>
-        <Box
-          component="polygon"
-          points="0,100 50,00, 100,100"
-          sx={{
-            fill: (theme) => theme.palette.common.white,
-            stroke: (theme) => theme.palette.divider,
-            strokeWidth: 1,
-          }}
-        />
-      </svg>
-    </Paper>
-  );
+  useEffect(() => {
+    atualizarEtapasProjeto()
+  }, [])
 
 
-  const [checked, setChecked] = useState(false);
 
-  const handleChange = () => {
-    setChecked((prev) => !prev);
+  // teste novaEtapa simultaneo
+  const [drawerViewUpdate, setDrawerViewUpdate] = useState(0);
+
+  const handleDrawerViewUpdate = () => {
+    setDrawerViewUpdate((prev) => prev + 1);
   };
+
 
 
   const listaTiposProjetoComTodos = [{ id: '', descricao: 'Todos' }, ...(listaTiposProjeto || [])];
 
 
+  // ---------------------------------FILTRO DPTO - SECRETARIA ----------------------------
+  const [filterOptions, setFilterOptions] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState(null);
+
+  useEffect(() => {
+    if (!loading) {
+      const uniqueOptionsSet = new Set();
+
+      // Filter out duplicates and create unique options
+      data?.forEach((resposta) => {
+        const optionLabel = `${resposta.usuario?.departamento?.nome} - ${resposta.usuario?.departamento?.secretaria?.sigla}`;
+        uniqueOptionsSet.add(optionLabel);
+      });
+
+      // Convert Set back to an array
+      const filteredOptions = Array.from(uniqueOptionsSet).map((label) => ({
+        value: label,
+        label,
+      }));
+
+      setFilterOptions(filteredOptions);
+    }
+  }, [data, loading]);
+
+  const handleFilterChange = (selectedOption) => {
+    setSelectedFilter(selectedOption);
+  };
+
+  const StyledFiltros = () => {
+    let isUsuarioNormal = session.permissao.id !== 1;
+
+    return {
+      marginBottom: isUsuarioNormal ? '-50px' : '-80px'
+    }
+  }
+
+const styles = StyledFiltros();
+
   return (
     <Box>
+
 
       <Typography component='h2' variant='h5' fontWeight={700} color='text.primary'>
         Solicitações
       </Typography>
 
       <Divider />
-     
+
 
       <Box display='flex' flexDirection='row' alignItems='center' justifyContent='space-between' paddingY={2}>
         <Box >
@@ -331,10 +378,10 @@ const SolicitacoesPage = () => {
             </Button>
           )}
         </Box>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }} >
           {expanded && (
             // <Grow in={expanded} >
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 1 }} sx={{ width: expanded ? '50%' : 0, marginBottom: '-41px' }}
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 1 }} sx={{ width: expanded ? '50%' : 0, ...styles }} 
             >
               <Grid item xs={6} sx={{ width: '100px', height: '50px' }}>
                 <FormControl size="small" variant="outlined" color="primary" sx={{ width: '100%', height: '100%' }}>
@@ -368,8 +415,10 @@ const SolicitacoesPage = () => {
                         options={listaTiposProjetoComTodos}
                         getOptionLabel={(tipoprojeto) => tipoprojeto.descricao}
                         value={
-                          listaTiposProjeto &&
-                          listaTiposProjeto.find((item) => item.id === value)
+                          value !== undefined
+                            ? listaTiposProjeto &&
+                            listaTiposProjeto.find((item) => item.id === value)
+                            : null
                         }
                         // onChange={(event, newValue) => {
                         //   const selectedValue = newValue ? newValue.id : '';
@@ -386,7 +435,7 @@ const SolicitacoesPage = () => {
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label='Tipo solicitação'
+                            label='Tipo projeto'
                             variant='outlined'
                             name={name}
                             error={!!errors.tipoProjetoId}
@@ -423,10 +472,13 @@ const SolicitacoesPage = () => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Filtrar por Departamento"
+                      label="Filtrar por Departamento Criado em"
                       variant="outlined"
                       size="small"
                       color="primary"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       InputProps={{
                         ...params.InputProps,
                         id: 'filter-departamento',
@@ -436,6 +488,7 @@ const SolicitacoesPage = () => {
                   )}
                 />
               </Grid>
+
               <Grid item xs={6} sx={{ width: '120px', height: '50px' }}>
                 <Autocomplete
                   fullWidth
@@ -448,7 +501,7 @@ const SolicitacoesPage = () => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Filtrar por Secretaria"
+                      label="Filtrar por Secretaria parado em"
                       variant="outlined"
                       size="small"
                       color="primary"
@@ -461,6 +514,32 @@ const SolicitacoesPage = () => {
                   )}
                 />
               </Grid>
+              {session && (session.permissao.id === 1
+              ) && (
+                  <Grid item xs={6} sx={{ width: '120px', height: '40px' }}>
+                    <Autocomplete
+                      options={filterOptions}
+                      getOptionLabel={(option) => option.label}
+                      style={{ width: '100%', height: '100%' }}
+                      value={selectedFilter}
+                      onChange={(e, selectedOption) => handleFilterChange(selectedOption)}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Criado por Departamento"
+                          variant="outlined"
+                          size="small"  // Adiciona o tamanho "small"
+                          color="primary"  // Adiciona a cor "primary"
+                          InputLabelProps={{
+                            shrink: true,  // Encolhe a label para a parte superior quando o campo está preenchido
+                          }}
+                          sx={{ width: '100%', height: '100%' }}
+                        />
+                      )}
+                    />
+                  </Grid>
+                )}
+
             </Grid>
           )}
           <Button onClick={toggleFilters} variant="contained" color="primary" sx={{ width: '170px', height: '50px', marginLeft: '10px' }}>
@@ -508,7 +587,7 @@ const SolicitacoesPage = () => {
           }}
         />
       </Grid>
-      <Grid container justifyContent="flex-end" alignItems="center" sx={{ marginLeft: '15px', marginTop: '-15px' }}>
+      <Grid container justifyContent="flex-end" alignItems="center" sx={{ marginLeft: '15px', marginTop: '40px' }}>
         <div className="box">
           <div className="item">
             <span className="bolinhaCinza"></span>
@@ -537,6 +616,11 @@ const SolicitacoesPage = () => {
         handleAbrirModalPrioridadeProjeto={handleAbrirModalPrioridadeProjeto}
         filterByUrgent={filterByUrgent}
         selectedTipoProjeto={selectedTipoProjeto}
+
+        // FILTRO DPTO-SECRETARIA
+        selectedFilter={selectedFilter}
+
+
       />
 
       {modalFormAberto && <ModalForm handleFecharModalForm={handleFecharModalForm}
@@ -549,9 +633,11 @@ const SolicitacoesPage = () => {
           handleFecharModalAtualizarEtapaProjeto={handleFecharModalAtualizarEtapaProjeto}
           projetosSelecionadoVisualizar={projetosSelecionadoVisualizar}
           //teste
-          etapasProjeto={etapasProjeto}
-          setEtapasProjeto={setEtapasProjeto}
-          atualizarEtapas={atualizarEtapas}
+          // etapasProjeto={etapasProjeto}
+          // setEtapasProjeto={setEtapasProjeto}
+          // atualizarEtapasProjeto={atualizarEtapasProjeto}
+          onNovaEtapaCriada={atualizarEtapasProjeto}
+          handleDrawerViewUpdate={handleDrawerViewUpdate}
         />
       )}
 
@@ -577,8 +663,11 @@ const SolicitacoesPage = () => {
           //
           setConclusionDate={setConclusionDate}
           //teste
+          // etapas={etapas}
+          // etapasProjeto={etapasProjeto}
           etapasProjeto={etapasProjeto}
-          etapas={etapas}
+          drawerViewUpdate={drawerViewUpdate}
+
         />
       )}
 
