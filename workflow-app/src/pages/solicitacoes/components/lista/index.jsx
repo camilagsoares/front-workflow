@@ -77,6 +77,12 @@ const Lista = (props) => {
         <StyledTableCell>
           <Skeleton animation='wave' variant='text' height={36} />
         </StyledTableCell>
+        <StyledTableCell>
+          <Skeleton animation='wave' variant='text' height={36} />
+        </StyledTableCell>
+        <StyledTableCell>
+          <Skeleton animation='wave' variant='text' height={36} />
+        </StyledTableCell>
       </TableRow>
     ));
   };
@@ -117,7 +123,7 @@ const Lista = (props) => {
   const { filterBySecretaria } = props;
   const { selectedTipoProjeto } = props;
   const { selectedFilter } = props;
-  const {selectedSecretaria } = props;
+  const { selectedSecretaria } = props;
   const [filteredData, setFilteredData] = useState(data);
   // console.log(filteredData)
   const [numProjetosPorSecretaria, setNumProjetosPorSecretaria] = useState({});
@@ -138,7 +144,7 @@ const Lista = (props) => {
         const departamentoNome = (projeto?.etapa[0]?.departamento?.nome || "").trim();
         const secretariaNome = (projeto?.etapa[0]?.departamento?.secretaria?.nome || "").trim();
         const secretariaSigla = (projeto?.etapa[0]?.departamento?.secretaria?.sigla || "").trim();
-  
+
         // Check if selectedFilter is not set or matches the current project
         const isMatchingSelectedFilter =
           !selectedFilter ||
@@ -146,7 +152,7 @@ const Lista = (props) => {
             projeto.usuario?.departamento?.nome.includes(selectedFilter.value.split(" - ")[0]) &&
             projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedFilter.value.split(" - ")[1])
           );
-  
+
         if (
           (projeto.idSonner.toString().includes(searchTerm.trim()) ||
             projeto?.titulo.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
@@ -180,7 +186,7 @@ const Lista = (props) => {
       setFilteredData(data);
     }
   }, [data, searchTerm, filterByAta, filterByDepartamento, filterBySecretaria, selectedTipoProjeto, selectedFilter]);
-  
+
   //teste
   function getBordaClasse(projeto) {
     if (projeto.situacao === 'INATIVO' && projeto.prioridadeProjeto) {
@@ -210,7 +216,7 @@ const Lista = (props) => {
 
   return (
     <React.Fragment>
-      <Box marginY={1} paddingY={2}>
+      <Box marginY={1} paddingY={2} sx={{ marginTop: 7 }}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label='customized table' >
             <TableHead className='borda-azul'>
@@ -228,7 +234,7 @@ const Lista = (props) => {
                 {session && (session.permissao.id === 1
                 ) && (
                     <>
-                      <StyledTableCell align='left' width={112} >
+                      <StyledTableCell align='left' width={112} style={{ whiteSpace: 'nowrap' }}>
                         Departamento que criou
                       </StyledTableCell>
                     </>
