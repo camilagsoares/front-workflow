@@ -210,7 +210,7 @@ const ModalForm = (props) => {
                 {...register('valor')}
                 fullWidth
                 required
-                label='Valor estimado'
+                label='Valor estimado. Exemplo: 31.000,98'
                 type='text'
                 error={!!errors.valor}
                 // helperText={valorError ? 'Não coloque ponto ou vírgula no campo de valor,se precisar arredonde' : errors.valor?.message}
