@@ -34,7 +34,6 @@ const DrawerView = (props) => {
     `/projetos/${projetosSelecionadoVisualizar}`,
   );
 
-  // console.log("projetos",listaEtapasProjeto?.criadoEm)
 
   const formatDateToDDMMYYYY = (date) => {
     if (!date) return '';
@@ -118,15 +117,23 @@ const DrawerView = (props) => {
 
   /** TESTE NOVA ETAPA SIMULTANEO */
   const {etapasProjeto} = props;
-  console.log(props.etapasProjeto)
 
-  
+
   const combinedEtapas = [...props.etapasProjeto, ...listaTiposProjeto];
 
   // Ordene o array combinado com base na data de criação (assumindo que a data de criação está em uma propriedade 'criadoEm')
   combinedEtapas.sort((a, b) => {
     return new Date(b.criadoEm) - new Date(a.criadoEm);
   });
+
+
+  function formatarNumero(valor) {
+    if (isNaN(valor)) {
+      return valor;
+    }
+
+    return Number(valor).toLocaleString('pt-BR');
+  }
 
   return (
     <Drawer anchor='right' open={true} onClose={props.handleFecharDrawerView}>
@@ -203,7 +210,7 @@ const DrawerView = (props) => {
                   <StyledTableCell width={144} variant='head'>
                     Valor
                   </StyledTableCell>
-                  <StyledTableCell>{!loadingProjetoSelecionado && listaEtapasProjeto?.valor}</StyledTableCell>
+                  <StyledTableCell>R$ {!loadingProjetoSelecionado && formatarNumero(listaEtapasProjeto?.valor)}</StyledTableCell>
                 </TableRow>
                 <TableRow>
                   <StyledTableCell width={144} variant='head'>
@@ -273,30 +280,26 @@ const DrawerView = (props) => {
                   <StyledTableCell align='left' width={256}>
                     Usuario
                   </StyledTableCell>
-                  <StyledTableCell align='center' width={96}>
-                    <MenuOpen />
-                  </StyledTableCell>
                 </StyledTableRow>
               </TableHead>
               <TableBody>
-       {combinedEtapas.slice(pagesVisited, pagesVisited + projectsPerPage).map((row, index) => (
-  <StyledTableRow key={row.id}>
-    <StyledTableCell component='th' scope='row'>
-      {row.criadoEm ? `${row.criadoEm.slice(8, 10)}/${row.criadoEm.slice(5, 7)}/${row.criadoEm.slice(0, 4)}` : ''}
-    </StyledTableCell>
-    <StyledTableCell align='left'>
-      <span className='textred'>{diferencaDeDias[index]} </span> dias
-    </StyledTableCell>
-    <StyledTableCell align='left'>{row.status && row.status.nome ? row.status.nome : ''}</StyledTableCell>
-    <StyledTableCell align='left'>{row.departamento && row.departamento.nome ? row.departamento.nome : ''}</StyledTableCell>
-    <StyledTableCell align='left'>{row.observacao || ''}</StyledTableCell>
-    <StyledTableCell align='left'>{row.usuario && (row.usuario.nome === 'Master' ? 'Administrador' : row.usuario.nome) || ''}</StyledTableCell>
-    <StyledTableCell align='center'></StyledTableCell>
-  </StyledTableRow>
-))}
+                {listaTiposProjeto.slice(pagesVisited, pagesVisited + projectsPerPage).map((row, index) => (
+                  <StyledTableRow key={row.id}>
+                    <StyledTableCell component='th' scope='row'>
+                      {row.criadoEm ? `${row.criadoEm.slice(8, 10)}/${row.criadoEm.slice(5, 7)}/${row.criadoEm.slice(0, 4)}` : ''}
+                    </StyledTableCell>
+                    <StyledTableCell align='left'>
+                      <span className='textred'>{diferencaDeDias[index]} </span> dias
+                    </StyledTableCell>
+                    <StyledTableCell align='left'>{row.status && row.status.nome ? row.status.nome : ''}</StyledTableCell>
+                    <StyledTableCell align='left'>{row.departamento && row.departamento.nome ? row.departamento.nome : ''}</StyledTableCell>
+                    <StyledTableCell align='left'>{row.observacao || ''}</StyledTableCell>
+                    <StyledTableCell align='left'>{row.usuario && (row.usuario.nome === 'Master' ? 'Administrador' : row.usuario.nome) || ''}</StyledTableCell>
+                  </StyledTableRow>
+                ))}
 
 
-        </TableBody>
+              </TableBody>
             </Table>
           </TableContainer>
         </Box>
