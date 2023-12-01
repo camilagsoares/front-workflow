@@ -242,11 +242,11 @@ const Lista = (props) => {
           </Table>
         </TableContainer>
       </Box>
-      {!loading && dataIsValid && data.length > 0 && (
+      {!loading && filteredData && filteredData.length > 0 && (
         <Box display="flex" justifyContent="end" mt={2} >
           <Pagination
             color="primary"
-            count={Math.ceil(data?.length / projectsPerPage)}
+            count={Math.ceil(filteredData?.length / projectsPerPage)}
             page={pageNumber + 1}
             onChange={(event, page) => {
               changePage({ selected: page - 1 });
