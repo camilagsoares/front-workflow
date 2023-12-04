@@ -216,7 +216,7 @@ const Lista = (props) => {
 
   return (
     <React.Fragment>
-      <Box marginY={1} paddingY={2} sx={{ marginTop: 7 }}>
+      <Box marginY={1} paddingY={2}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label='customized table' >
             <TableHead className='borda-azul'>
