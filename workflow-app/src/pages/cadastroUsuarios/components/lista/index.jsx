@@ -60,9 +60,8 @@ const Lista = (props) => {
 
 
   const { data, error, loading } = useApiRequestGet('/auth/usuarios');
-  
+
   const { searchTerm } = props;
-  console.log(data)
 
   const handleFecharModalForm = () => abrirFecharModalForm(false);
   const handleAbrirModalForm = () => abrirFecharModalForm(true);
@@ -72,7 +71,7 @@ const Lista = (props) => {
   const pagesVisited = pageNumber * projectsPerPage;
 
   const changePage = ({ selected }) => {
-    setPageNumber(selected); 
+    setPageNumber(selected);
   };
 
   useEffect(() => {
@@ -80,7 +79,6 @@ const Lista = (props) => {
   }, [data]);
 
   const [filteredData, setFilteredData] = useState(data);
-  console.log("data",data)
   useEffect(() => {
     if (searchTerm) {
       const filtered = data.filter((row) => {
@@ -118,7 +116,7 @@ const Lista = (props) => {
                 <StyledTableCell align='left' width={196}>
                   Departamento
                 </StyledTableCell>
-             
+
                 <StyledTableCell align='center' width={196}>
                   Editar
                 </StyledTableCell>
@@ -144,8 +142,8 @@ const Lista = (props) => {
                         <StyledTableCell component='th' scope='row'>
                           {row.nome}
                         </StyledTableCell>
-                        <StyledTableCell align='left'>{row.departamento?.secretaria?.sigla } - {row.departamento?.nome}</StyledTableCell>
-                       
+                        <StyledTableCell align='left'>{row.departamento?.secretaria?.sigla} - {row.departamento?.nome}</StyledTableCell>
+
 
                         <StyledTableCell align='center'>
                           <Tooltip title='Editar' arrow>
@@ -185,7 +183,7 @@ const Lista = (props) => {
           </Table>
         </TableContainer>
       </Box>
-      {!loading && (
+      {!loading && data && data.length > 0 && (
         <Box display="flex" justifyContent="end" mt={2} >
           <Pagination
             color="primary"
@@ -204,7 +202,7 @@ const Lista = (props) => {
 };
 
 Lista.propTypes = {
-  handleAbrirModalAtualizarEtapaProjeto: PropTypes.func.isRequired,
+  // handleAbrirModalAtualizarEtapaProjeto: PropTypes.func.isRequired,
   searchTerm: PropTypes.string,
 };
 
