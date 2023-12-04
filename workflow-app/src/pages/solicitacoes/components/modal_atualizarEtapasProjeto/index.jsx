@@ -38,11 +38,11 @@ const schema = yup
 
 const ModalForm = (props) => {
   const { handleFecharModalAtualizarEtapaProjeto } = props;
-  const {handleFecharModalForm} = props;
+  const { handleFecharModalForm } = props;
   const { projetosSelecionadoVisualizar } = props;
-  console.log('etapa do projeto Selecionado');
+  // console.log('etapa do projeto Selecionado');
   // const { session } = useContext(AuthContext);
-  
+
   const { register, handleSubmit, formState, control, reset } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -52,7 +52,7 @@ const ModalForm = (props) => {
       observacao: '',
     },
   });
-  const {   etapasProjeto } = props;
+  const { etapasProjeto } = props;
 
   const { errors } = formState;
   const {
@@ -82,8 +82,9 @@ const ModalForm = (props) => {
         toast('Nova etapa criado com sucesso', {
           type: 'success',
         });
-        
+
         reset();
+        // props.handleDrawerViewUpdate();
 
         // window.location.reload();
 
@@ -97,7 +98,7 @@ const ModalForm = (props) => {
       .finally(() => {
         setLoading(false);
       });
-    console.log("OQ mandei",data);
+    console.log("OQ mandei", data);
   };
 
 
@@ -135,7 +136,7 @@ const ModalForm = (props) => {
       <Box component='form' noValidate onSubmit={handleSubmit(handleCriarSecretaria)}>
         <DialogContent dividers sx={{ paddingTop: 1 }}>
           <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
-         <Grid item xs={12} sm={12} md={12}>
+            <Grid item xs={12} sm={12} md={12}>
               <Controller
                 name='departamentoId'
                 control={control}
@@ -143,45 +144,89 @@ const ModalForm = (props) => {
                   const { onChange, name, onBlur, value, ref } = field;
                   return (
                     <TextField
-                    required
-                    ref={ref}
-                    disabled={loadingDepartamento}
-                    InputProps={{
-                      endAdornment: loadingDepartamento && (
-                        <InputAdornment position='start'>
-                          <CircularProgress color='info' size={28} sx={{ marginRight: 2 }} />
-                        </InputAdornment>
-                      ),
-                    }}
-                    select
-                    fullWidth
-                    variant='outlined'
-                    onBlur={onBlur}
-                    name={name}
-                    label='Departamento'
-                    value={value}
-                    onChange={onChange}
-                    error={!!errors.departamentoId}
-                    helperText={errors.departamentoId?.message}
-                  >
-                    <MenuItem disabled value=''>
-                      <em>Nenhuma</em>
-                    </MenuItem>
-                    {!loadingDepartamento &&
-                      listaDepartamento &&
-                      listaDepartamento.length &&
-                      listaDepartamento.map((departamento) => (
-                        <MenuItem key={departamento.id} value={departamento.id}>
-                         {departamento.secretaria.sigla}  - {departamento.nome}
-                        </MenuItem>
-                      ))}
-                  </TextField>
+                      required
+                      ref={ref}
+                      disabled={loadingDepartamento}
+                      InputProps={{
+                        endAdornment: loadingDepartamento && (
+                          <InputAdornment position='start'>
+                            <CircularProgress color='info' size={28} sx={{ marginRight: 2 }} />
+                          </InputAdornment>
+                        ),
+                      }}
+                      select
+                      fullWidth
+                      variant='outlined'
+                      onBlur={onBlur}
+                      name={name}
+                      label='Departamento'
+                      value={value}
+                      onChange={onChange}
+                      error={!!errors.departamentoId}
+                      helperText={errors.departamentoId?.message}
+                    >
+                      <MenuItem disabled value=''>
+                        <em>Nenhuma</em>
+                      </MenuItem>
+                      {!loadingDepartamento &&
+                        listaDepartamento &&
+                        listaDepartamento.length &&
+                        listaDepartamento.map((departamento) => (
+                          <MenuItem key={departamento.id} value={departamento.id}>
+                            {departamento.secretaria.sigla}  - {departamento.nome}
+                          </MenuItem>
+                        ))}
+                    </TextField>
                   );
                 }}
               />
-            </Grid> 
-             <Grid item xs={12} sm={12} md={12}>
-              <Controller
+            </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              {!loadingStatus && status && status.length ? (
+                <Controller
+                  name='statusId'
+                  control={control}
+                  render={({ field }) => {
+                    const { onChange, name, onBlur, value, ref } = field;
+                    const selectedStatusId = value || ''; 
+                    return (
+                      <TextField
+                        required
+                        ref={ref}
+                        select
+                        fullWidth
+                        key='statusId'
+                        variant='outlined'
+                        onBlur={onBlur}
+                        name={name}
+                        label='Status'
+                        value={selectedStatusId}
+                        onChange={onChange}
+                        // teste status
+
+                        error={!!errors.statusId}
+                        helperText={errors.statusId?.message}
+                      >
+
+                        <MenuItem disabled value=''>
+                          <em>Nenhuma</em>
+                        </MenuItem>
+                        {!loadingStatus &&
+                          status &&
+                          status.length &&
+                          status.map((statusEtapa) => (
+                            <MenuItem key={statusEtapa.id} value={statusEtapa.id}>
+                              {statusEtapa.nome}
+                            </MenuItem>
+                          ))}
+                      </TextField>
+                    );
+                  }}
+                />
+              ) : (
+                <CircularProgress color="info" size={28} />
+              )}
+              {/* <Controller
                 name='statusId'
                 control={control}
                 render={({ field }) => {
@@ -219,8 +264,8 @@ const ModalForm = (props) => {
                     </TextField>
                   );
                 }}
-              />
-            </Grid> 
+              /> */}
+            </Grid>
             <Grid item xs={12} sm={12} md={12}>
               <TextField
                 {...register('observacao')}
@@ -278,7 +323,7 @@ ModalForm.propTypes = {
   handleFecharModalForm: PropTypes.func.isRequired,
 
   // setSelectedStatus: PropTypes.string,
-  
+
 };
 
 export default ModalForm;
