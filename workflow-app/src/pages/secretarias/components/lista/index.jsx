@@ -170,7 +170,7 @@ const Lista = (props) => {
        <Box display="flex" justifyContent="end" mt={2} >
        <Pagination
         color="primary"
-         count={Math.ceil(data?.length / projectsPerPage)}
+        count={Math.ceil((data?.length || 0) / projectsPerPage)}
          page={pageNumber + 1}
          onChange={(event, page) => {
            changePage({ selected: page - 1 });
