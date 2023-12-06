@@ -60,7 +60,6 @@ const ModalForm = (props) => {
     loading: loadingDepartamento,
     error: errorDepartamento,
   } = useApiRequestGet('/departamentos');
-  console.log('departamentos', listaDepartamento);
 
   const {
     data: status,
