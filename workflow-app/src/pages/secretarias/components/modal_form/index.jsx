@@ -66,7 +66,6 @@ const ModalForm = (props) => {
       .finally(() => {
         setLoading(false);
       });
-      console.log(data)
     };
 
 
