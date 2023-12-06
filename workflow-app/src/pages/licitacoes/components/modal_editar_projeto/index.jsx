@@ -52,7 +52,7 @@ const ModalEditarProjeto = (props) => {
   } = useApiRequestGet(`/processos-licitatorios/${projetosSelecionadoVisualizar}`);
 
   const { data } = useApiRequestGet(`/processos-licitatorios`);
-console.log("datas",processosLicitatorios?.usuarioId)
+// console.log("datas",processosLicitatorios?.usuarioId)
 
 
   useEffect(() => {
