@@ -61,7 +61,6 @@ const Lista = (props) => {
 
   const { data, error, loading } = useApiRequestGet('/auth/permissoes');
   const { searchTerm } = props;
-console.log(data)
   const handleFecharModalForm = () => abrirFecharModalForm(false);
   const handleAbrirModalForm = () => abrirFecharModalForm(true);
 
