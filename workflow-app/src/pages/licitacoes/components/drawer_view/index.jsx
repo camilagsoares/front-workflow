@@ -41,10 +41,7 @@ const DrawerView = (props) => {
     error: errorProcessosLicitatorios,
     loading: loadingProcessosLicitatorios,
   } = useApiRequestGet(`/processos-licitatorios/${projetosSelecionadoVisualizar}`);
-  // console.log("processos licitatorios drawerView", liciSelecionadoVisualizar)
-  console.log("drawer view aberto", projetosSelecionadoVisualizar)
 
-  // console.log('processo', liciSelecionadoVisualizar); // la em baixo
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
