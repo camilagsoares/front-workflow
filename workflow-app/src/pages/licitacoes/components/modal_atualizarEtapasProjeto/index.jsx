@@ -40,7 +40,6 @@ const ModalForm = (props) => {
 // console.log("processosLicitatorios",processosLicitatorios)
 // console.log("oq vem no console",processosLicitatorios?.projeto[0].id)
 const projetoIds = processosLicitatorios?.projeto.map(projeto => projeto.id) || [];
-console.log("projetoIds",projetoIds)
 
 
   const schema = yup 
