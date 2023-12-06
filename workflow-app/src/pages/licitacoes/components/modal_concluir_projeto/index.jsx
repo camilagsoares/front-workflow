@@ -43,7 +43,7 @@ const ModalConcluirProjeto = (props) => {
   const { handleFecharModalConcluirProjeto } = props;
   const { handleFecharModalForm } = props;
   const { projetosSelecionadoVisualizar } = props;
-  console.log('etapa do projeto Selecionado ', projetosSelecionadoVisualizar);
+
 
   const { register, handleSubmit, formState, control, reset } = useForm({
     resolver: yupResolver(schema),
