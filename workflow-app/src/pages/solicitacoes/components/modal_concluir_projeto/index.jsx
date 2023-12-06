@@ -72,7 +72,6 @@ const ModalConcluirProjeto = (props) => {
 
 
   const { data: projetoSelecionado, loading: loadingProjetoSelecionado } = useApiRequestGet(`/projetos/${projetosSelecionadoVisualizar}`);
-  console.log("projetoSelecionado",projetoSelecionado?.usuarioId)
   const handleCriarSecretaria = (data) => {
   
     // if (session?.id === projetoSelecionado?.usuarioId) {
