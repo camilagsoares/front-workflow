@@ -34,7 +34,7 @@ const DrawerView = (props) => {
   const { projetosSelecionadoVisualizar } = props;
 
   const { data, error, loading } = useApiRequestGet(`/etapas/processo-licitatorio/${projetosSelecionadoVisualizar}`);
-//aqui eu lito os detalhes do drawerview
+  //aqui eu lito os detalhes do drawerview
   // console.log("etapas processo licitatorio",data)
   const {
     data: processosLicitatorios,
@@ -85,10 +85,10 @@ const DrawerView = (props) => {
   }, [data]);
 
   const dataIsValid = Array.isArray(data) && !isNaN(projectsPerPage);
-  
+
   const dataAtual = new Date();
   let diferencaDeDias = [];
-  
+
   if (data) {
     diferencaDeDias = data.map(item => {
       const dataCriacao = new Date(item.criadoEm);
@@ -208,47 +208,49 @@ const DrawerView = (props) => {
           </Typography>
           <TableContainer component={Paper}>
             <Table size='small'>
-              <TableRow>
-                <StyledTableCell width={96} variant='head'>
-                  Número compras
-                </StyledTableCell>
-                <StyledTableCell>
-                  {!loadingProcessosLicitatorios && processosLicitatorios?.numeroCompras}
-                </StyledTableCell>
-              </TableRow>
-              <TableRow>
-                <StyledTableCell width={96} variant='head'>
-                  Data
-                </StyledTableCell>
-                <StyledTableCell>
-                  {' '}
-                  {processosLicitatorios?.criadoEm &&
-                    `${processosLicitatorios.criadoEm.slice(8, 10)}-${processosLicitatorios.criadoEm.slice(
-                      5,
-                      7,
-                    )}-${processosLicitatorios.criadoEm.slice(0, 4)}`}
-                </StyledTableCell>
-              </TableRow>
-              <TableRow>
-                <StyledTableCell width={96} variant='head'>
-                  N° Sonner
-                </StyledTableCell>
-                <StyledTableCell>{!loadingProcessosLicitatorios && processosLicitatorios?.idSonner}</StyledTableCell>
-              </TableRow>
-              <TableRow>
-                <StyledTableCell width={96} variant='head'>
-                  Observação
-                </StyledTableCell>
-                <StyledTableCell>
-                  {!loadingProcessosLicitatorios && processosLicitatorios?.etapa[0].observacao}
-                </StyledTableCell>
-              </TableRow>
-              <TableRow>
-                {/* <StyledTableCell width={96} variant='head'>
+              <tbody>
+                <TableRow>
+                  <StyledTableCell width={96} variant='head'>
+                    Número compras
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {!loadingProcessosLicitatorios && processosLicitatorios?.numeroCompras}
+                  </StyledTableCell>
+                </TableRow>
+                <TableRow>
+                  <StyledTableCell width={96} variant='head'>
+                    Data
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {' '}
+                    {processosLicitatorios?.criadoEm &&
+                      `${processosLicitatorios.criadoEm.slice(8, 10)}-${processosLicitatorios.criadoEm.slice(
+                        5,
+                        7,
+                      )}-${processosLicitatorios.criadoEm.slice(0, 4)}`}
+                  </StyledTableCell>
+                </TableRow>
+                <TableRow>
+                  <StyledTableCell width={96} variant='head'>
+                    N° Sonner
+                  </StyledTableCell>
+                  <StyledTableCell>{!loadingProcessosLicitatorios && processosLicitatorios?.idSonner}</StyledTableCell>
+                </TableRow>
+                <TableRow>
+                  <StyledTableCell width={96} variant='head'>
+                    Observação
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {!loadingProcessosLicitatorios && processosLicitatorios?.etapa[0].observacao}
+                  </StyledTableCell>
+                </TableRow>
+                <TableRow>
+                  {/* <StyledTableCell width={96} variant='head'>
                   Valor
                 </StyledTableCell> */}
-                {/* <StyledTableCell>{!loadingProcessosLicitatorios && processosLicitatorios?.valor}</StyledTableCell> */}
-              </TableRow>
+                  {/* <StyledTableCell>{!loadingProcessosLicitatorios && processosLicitatorios?.valor}</StyledTableCell> */}
+                </TableRow>
+              </tbody>
             </Table>
           </TableContainer>
           <Stack
@@ -265,7 +267,7 @@ const DrawerView = (props) => {
                 variant='outlined'
                 color='primary'
                 sx={{ marginRight: 1 }}
-                onClick={() => props.handleAbrirModalConcluirProjeto(projetosSelecionadoVisualizar)} 
+                onClick={() => props.handleAbrirModalConcluirProjeto(projetosSelecionadoVisualizar)}
               >
                 Concluir
               </Button>
@@ -312,13 +314,13 @@ const DrawerView = (props) => {
               </TableHead>
               <TableBody>
 
-                {data?.slice(pagesVisited, pagesVisited + projectsPerPage).map((row,index) => (
+                {data?.slice(pagesVisited, pagesVisited + projectsPerPage).map((row, index) => (
                   <StyledTableRow key={row.id}>
                     <StyledTableCell align='left' width={256}>
                       {`${row.criadoEm.slice(8, 10)}-${row.criadoEm.slice(5, 7)}-${row.criadoEm.slice(0, 4)}`}
                     </StyledTableCell>
                     <StyledTableCell align='left' width={256}>
-                    <span className='textred'>{diferencaDeDias[index]}</span> dias
+                      <span className='textred'>{diferencaDeDias[index]}</span> dias
 
                     </StyledTableCell>
                     <StyledTableCell align='left' width={256}>
