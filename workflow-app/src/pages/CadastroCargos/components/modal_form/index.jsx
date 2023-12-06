@@ -77,7 +77,6 @@ const ModalForm = (props) => {
       .catch((error) => {
         console.error('Error submitting form:', error);
       });
-      console.log(data)
   };
 
   return (
