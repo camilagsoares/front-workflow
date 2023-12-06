@@ -59,7 +59,6 @@ const Lista = (props) => {
 
   const { data, error, loading } = useApiRequestGet('/departamentos');
   const { searchTerm } = props;
-  console.log('departamentos', data);
 
   const [pageNumber, setPageNumber] = useState(0);
   const projectsPerPage = 6;
