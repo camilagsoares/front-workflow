@@ -15,7 +15,7 @@
   .item {
     display: flex;
     align-items: center;
-    margin-right: 10px; /* Ajuste a margem conforme desejado */
+    margin-right: 10px; 
   }
   
   .bolinhaVerde,
