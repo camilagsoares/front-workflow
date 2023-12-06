@@ -1,29 +1,16 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
-import Close from '@mui/icons-material/CloseOutlined';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { useApiRequestSubmit, useApiRequestGet } from '../../services/api';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-
-import Paper from '@mui/material/Paper';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
-import Save from '@mui/icons-material/SaveAltOutlined';
-import TableRow from '@mui/material/TableRow';
 import AddCircle from '@mui/icons-material/AddCircleOutline';
 import InputAdornment from '@mui/material/InputAdornment';
 import Lista from './components/lista';
 import ModalForm from './components/modal_form';
 import FilterAlt from '@mui/icons-material/FilterAltOutlined';
 import ModalFormAtualizarUsuario from './components/modal_atualizar_usuario';
-import ModalFormDeletarUsuario from './components/modal_deletar_usuario';
 
 const Permissao = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -127,14 +114,7 @@ const Permissao = () => {
             />
           )} 
 
-          {/* {drawerViewAbertoDelete && (
-            <ModalFormDeletarUsuario
-            handleFecharDelete={handleFecharDelete}
-              projetoSelecionadoDeletar={projetoSelecionadoDeletar}
-              handleAbrirModalAtualizarEtapaProjeto={handleAbrirModalAtualizarEtapaProjeto}
-              handleAbrirModalDelete={handleAbrirModalDelete}
-            />
-          )} */}
+
         </Box>
        <Lista
           searchTerm={searchTerm}
