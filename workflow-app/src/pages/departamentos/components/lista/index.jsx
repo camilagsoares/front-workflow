@@ -17,7 +17,7 @@ import { useApiRequestGet } from '../../../../services/api';
 import React from 'react';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import Pagination from '@mui/material/Pagination';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 const Lista = (props) => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -100,7 +100,7 @@ const Lista = (props) => {
             <TableHead>
               <StyledTableRow>
                 <StyledTableCell>ID</StyledTableCell>
-                <StyledTableCell  align='left'>Departamento</StyledTableCell>
+                <StyledTableCell align='left'>Departamento</StyledTableCell>
                 <StyledTableCell align='left' width={240}>
                   Secretária
                 </StyledTableCell>
@@ -126,7 +126,7 @@ const Lista = (props) => {
                         <StyledTableCell component='th' scope='row'>
                           {row.id}
                         </StyledTableCell>
-                        <StyledTableCell component='th' scope='row'  align='left'>
+                        <StyledTableCell component='th' scope='row' align='left'>
                           {row.nome}
                         </StyledTableCell>
                         <StyledTableCell component='th' scope='row' align='left'>
@@ -172,18 +172,18 @@ const Lista = (props) => {
         </TableContainer>
       </Box>
       {!loading && (
-       <Box display="flex" justifyContent="end" mt={2} >
-       <Pagination
-        color="primary"
-         count={Math.ceil(data?.length / projectsPerPage)}
-         page={pageNumber + 1}
-         onChange={(event, page) => {
-           changePage({ selected: page - 1 });
-         }}
-         variant="outlined"
-         shape="rounded"
-       />
-     </Box>
+        <Box display="flex" justifyContent="end" mt={2} >
+          <Pagination
+            color="primary"
+            count={Math.ceil((data?.length || 0) / projectsPerPage)}
+            page={pageNumber + 1}
+            onChange={(event, page) => {
+              changePage({ selected: page - 1 });
+            }}
+            variant="outlined"
+            shape="rounded"
+          />
+        </Box>
       )}
     </React.Fragment>
   );
