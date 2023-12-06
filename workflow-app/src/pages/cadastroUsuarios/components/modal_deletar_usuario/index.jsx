@@ -29,9 +29,8 @@ const ModalFormDeletarUsuario = (props) => {
   const { projetoSelecionadoDeletar } = props;
   const { handleAbrirModalAtualizarEtapaProjeto } = props;
   const  {handleAbrirModalDelete} = props;
-  console.log(projetoSelecionadoDeletar);
   const { idUsuaros } = JSON.parse(localStorage.getItem('session'));
-  console.log(idUsuaros);
+  // console.log(idUsuaros);
   const { handleFecharModalForm } = props;
   const { register, handleSubmit, formState, control } = useForm({
 
@@ -117,7 +116,7 @@ const ModalFormDeletarUsuario = (props) => {
 
 ModalFormDeletarUsuario.propTypes = {
   handleFecharModalForm: PropTypes.func.isRequired,
-  projetoSelecionadoDeletar: PropTypes.func.isRequired,
+  // projetoSelecionadoDeletar: PropTypes.func.isRequired,
   projetosSelecionadoVisualizar: PropTypes.number,
   handleAbrirModalAtualizarEtapaProjeto: PropTypes.func.isRequired,
   handleAbrirModalDelete: PropTypes.func.isRequired,
@@ -125,7 +124,7 @@ ModalFormDeletarUsuario.propTypes = {
 };
 
 ModalFormDeletarUsuario.propTypes = {
-  projetoSelecionadoDeletar: null,
+  // projetoSelecionadoDeletar: null,
 };
 
 export default ModalFormDeletarUsuario;
