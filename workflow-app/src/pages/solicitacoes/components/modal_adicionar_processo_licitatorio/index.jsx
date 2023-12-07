@@ -72,7 +72,6 @@ const ModalAdicionarProcessoLicitatorio = (props) => {
         toast('Processo Licitatório criado com sucesso', {
           type: 'success',
         });
-        // console.log('data', handleCriarSecretaria);
         reset();
         handleFecharModalForm();
       })
@@ -80,7 +79,6 @@ const ModalAdicionarProcessoLicitatorio = (props) => {
         // toast('Erro', {
         //   type: 'error',
         // });
-        // console.log('error', error.message);
       })
       .finally(() => {
         setLoading(false);
@@ -93,7 +91,6 @@ const ModalAdicionarProcessoLicitatorio = (props) => {
     // loading
   } = useApiRequestGet('/projetos');
 
-  // console.log('IDs dos projetos clicados:', props.clickedProjectIds);
 
   return (
     <Dialog disableEscapeKeyDown fullWidth open={true} onClose={handleFecharAdcPLic} maxWidth='sm'>
