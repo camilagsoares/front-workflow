@@ -44,7 +44,6 @@ const ModalFormAlterarSenha = (props) => {
 
   const { errors } = formState;
   const { session } = useContext(AuthContext);
-  console.log(session?.id)
   const { handleFecharModalForm } = props;
   // const { handleSubmitData, error, 
   //   // loading
@@ -80,7 +79,7 @@ const ModalFormAlterarSenha = (props) => {
          toast('Senha alterada com sucesso', {
          type: 'success',
          });
-        console.log("campos digitados", data)
+      
         reset();
         // handleFecharModalForm();
       }) 
@@ -92,7 +91,7 @@ const ModalFormAlterarSenha = (props) => {
       .finally(() => {
         setLoading(false);
       });
-    console.log("campos", data)
+
 
   };
 
