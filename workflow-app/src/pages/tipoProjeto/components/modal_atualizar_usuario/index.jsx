@@ -42,7 +42,6 @@ const ModalFormAtualizarUsuario = (props) => {
   const [loading, setLoading] = useState(false);
 
 
-  console.log("projeto selecionado solicitacoes",projetosSelecionadoVisualizar)
 
   const { register, handleSubmit, formState, control, reset } = useForm({
     resolver: yupResolver(schema),
