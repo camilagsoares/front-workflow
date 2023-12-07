@@ -59,7 +59,6 @@ const ModalPrioridadeProjeto = (props) => {
 
 
     const { data: projetoSelecionado, loading: loadingProjetoSelecionado } = useApiRequestGet(`/projetos/${projetosSelecionadoVisualizar}`);
-    // console.log("projetoSelecionado", projetoSelecionado.prioridadeProjeto)
  
     const handleCriarSecretaria = (data) => {
         setLoading(true);
