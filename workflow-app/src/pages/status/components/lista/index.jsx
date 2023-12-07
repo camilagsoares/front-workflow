@@ -60,7 +60,7 @@ const Lista = (props) => {
     // error: errorDepartamento,
   } = useApiRequestGet('/status');
   // const { data, error, loading } = useApiRequestGet('/secretarias');
-  console.log("secretarias", data)
+
   const { searchTerm } = props;
 
   const [pageNumber, setPageNumber] = useState(0);
