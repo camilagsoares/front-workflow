@@ -18,14 +18,7 @@ const ModalFormVisualizarPerfil = (props) => {
   const { token, session, criarPerfil } = useContext(AuthContext)
   const { handleFecharModalForm } = props;
   const [loading, setLoading] = useState(false);
-  // console.log("token authContext", session?.permissao.id)
-  // console.log("token authContext", session?.permissao.nome)
 
-  // console.log("token authContext", session?.email)
-
-  // console.log(token) 
-
-  // console.log("data",data)
   return (
     <Dialog disableEscapeKeyDown open={true} fullWidth onClose={handleFecharModalForm} maxWidth='xs'>
       <DialogTitle>
