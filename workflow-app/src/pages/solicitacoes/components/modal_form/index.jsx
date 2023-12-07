@@ -65,7 +65,6 @@ const ModalForm = (props) => {
   // const { handleSubmitData, loading, data, error } = useApiRequestSubmit('post', '/projetos');
   const { data: listaTiposProjeto, loading: loadingTiposProjeto } = useApiRequestGet('/tipos-projeto');
   
-  // console.log(listaTiposProjeto)
   const handleCriarSecretaria = (data) => {
 
 
