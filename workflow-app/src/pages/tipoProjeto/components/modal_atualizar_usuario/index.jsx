@@ -65,7 +65,7 @@ const ModalFormAtualizarUsuario = (props) => {
         //  toast('Projeto criado com sucesso', {
         //  type: 'success',
         //  });
-        console.log("campos", data)
+     
         reset();
         handleFecharModalForm();
       })
@@ -77,7 +77,7 @@ const ModalFormAtualizarUsuario = (props) => {
       .finally(() => {
         setLoading(false);
       });
-    console.log("campos", data)
+   
 
   };
 
