@@ -118,7 +118,7 @@ const DownloadTable = () => {
 
   const downloadLici = () => {
     const savedData = localStorage.getItem('licitatorioData');
-    console.log('Licitatorio', savedData)
+    // console.log('Licitatorio', savedData)
     const parsedData = JSON.parse(savedData);
 
     const IDsonner = parsedData.map(item => item.idSonner);
