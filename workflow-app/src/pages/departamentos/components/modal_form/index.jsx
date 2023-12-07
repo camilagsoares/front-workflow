@@ -49,7 +49,7 @@ const ModalForm = (props) => {
 
 
   const { data: listaTiposProjeto, loading: loadingTiposProjeto } = useApiRequestGet('/secretarias');
-  console.log("secretaria", listaTiposProjeto)
+ 
 
   const [loading, setLoading] = useState(false);
 
