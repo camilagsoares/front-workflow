@@ -39,7 +39,6 @@ const ModalFormAtualizarDpto = (props) => {
   const { handleAbrirModalAtualizarEtapaProjeto } = props;
   const { handleFecharModalForm } = props;
 
-  console.log('projeto selecionado', projetosSelecionadoVisualizar);
 
   const { register, handleSubmit, formState, control, reset } = useForm({
     resolver: yupResolver(schema),
@@ -51,7 +50,7 @@ const ModalFormAtualizarDpto = (props) => {
   // const { handleAbrirDrawerView } = props;
 
   const { data: listaTiposProjeto, loading: loadingTiposProjeto } = useApiRequestGet('/secretarias');
-  console.log('secretaria', listaTiposProjeto);
+
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [formData, setFormData] = useState({ nome: '', maxDias: 5,  });
@@ -183,7 +182,7 @@ const ModalFormAtualizarDpto = (props) => {
 };
 
 ModalFormAtualizarDpto.propTypes = {
-  handleFecharModalForm: PropTypes.func.isRequired,
+  // handleFecharModalForm: PropTypes.func.isRequired,
   handleFecharDrawerView: PropTypes.func.isRequired,
   projetosSelecionadoVisualizar: PropTypes.number,
   handleAbrirModalAtualizarEtapaProjeto: PropTypes.func.isRequired,
