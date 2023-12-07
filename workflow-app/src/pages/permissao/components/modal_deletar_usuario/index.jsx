@@ -29,9 +29,7 @@ const ModalFormDeletarUsuario = (props) => {
   const { projetoSelecionadoDeletar } = props;
   const { handleAbrirModalAtualizarEtapaProjeto } = props;
   const  {handleAbrirModalDelete} = props;
-  // console.log(projetoSelecionadoDeletar);
   const { idUsuaros } = JSON.parse(localStorage.getItem('session'));
-  // console.log(idUsuaros);
   const { handleFecharModalForm } = props;
   const { register, handleSubmit, formState, control } = useForm({
 
