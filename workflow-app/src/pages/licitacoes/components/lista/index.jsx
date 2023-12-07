@@ -60,7 +60,6 @@ const Lista = (props) => {
   };
 
   const { data, error, loading } = useApiRequestGet(`/processos-licitatorios`);
-  // console.log("data",data)
 
   const { searchTerm } = props;
   const { filterByAta } = props;
@@ -82,7 +81,6 @@ const Lista = (props) => {
   const dataIsValid = Array.isArray(data) && !isNaN(projectsPerPage);
   const [filteredData, setFilteredData] = useState(data);
   const { token, session } = useContext(AuthContext);
-  // console.log("TESTE",data[0].situacao)
 
   useEffect(() => {
     if (Array.isArray(data)) {
