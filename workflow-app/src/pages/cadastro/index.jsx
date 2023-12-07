@@ -38,7 +38,6 @@ function Cadastro() {
     // api
     //   .post('users', formData)
     //   .then((res) => {
-    //     console.log('Data saved successfully!', res);
     //   })
     //   .catch((error) => {
     //     console.error('Error saving data:', error);
