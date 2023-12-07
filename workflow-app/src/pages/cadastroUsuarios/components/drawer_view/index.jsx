@@ -25,9 +25,7 @@ const DrawerView = (props) => {
   const { data: listaEtapasProjeto, error, loading } = useApiRequestGet(`/etapasprojetos/${projetosSelecionadoVisualizar}`);
   const { data: projetoSelecionado, loading: loadingProjetoSelecionado } = useApiRequestGet(`/projetos/${projetosSelecionadoVisualizar}`);
 
-  console.log('projetosSelecionadoVisualizar =>> ', projetosSelecionadoVisualizar);
 
-  console.log('listaEtapasProjeto', listaEtapasProjeto);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
