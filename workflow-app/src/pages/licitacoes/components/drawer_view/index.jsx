@@ -35,7 +35,6 @@ const DrawerView = (props) => {
 
   const { data, error, loading } = useApiRequestGet(`/etapas/processo-licitatorio/${projetosSelecionadoVisualizar}`);
   //aqui eu lito os detalhes do drawerview
-  // console.log("etapas processo licitatorio",data)
   const {
     data: processosLicitatorios,
     error: errorProcessosLicitatorios,
