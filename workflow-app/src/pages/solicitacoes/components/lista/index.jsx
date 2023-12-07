@@ -125,13 +125,11 @@ const Lista = (props) => {
   const { selectedFilter } = props;
   const { selectedSecretaria } = props;
   const [filteredData, setFilteredData] = useState(data);
-  // console.log(filteredData)
   const [numProjetosPorSecretaria, setNumProjetosPorSecretaria] = useState({});
   const countProjectsBySecretaria = (data, secretaria) => {
     return data.filter((projeto) => projeto?.etapa[0]?.departamento?.secretaria?.nome === secretaria).length;
   };
 
-  // console.log("data", data)
   useEffect(() => {
     if (
       (searchTerm.trim() || filterByAta !== "all" || filterByDepartamento !== "all" || filterBySecretaria !== "" || selectedTipoProjeto || selectedFilter) &&
