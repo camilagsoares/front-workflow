@@ -10,9 +10,6 @@ export const AuthContextProvider = ({ children }) => {
    const [session, setSession] = useState(JSON.parse(localStorage.getItem('session')) || null);
   const [profileLoaded, setProfileLoaded] = useState(false);
 
-  // console.log("token authContext", session?.permissao.id)
-  // console.log("session", session);
-  // console.log("session", session)
 
   const criarPerfil = (objectUser) => {
     localStorage.setItem('session', JSON.stringify(objectUser.content.session));
