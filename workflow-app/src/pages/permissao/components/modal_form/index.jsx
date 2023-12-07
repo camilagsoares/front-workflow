@@ -50,7 +50,6 @@ const ModalForm = (props) => {
   // const { data: listaDptos, loading: loadingTiposProjeto } = useApiRequestGet('/departamentos');
   // const { data: listaPermissao, loading: loadingPermissao } = useApiRequestGet('/auth/permissoes');
 
-  // console.log("permssao", listaPermissao[0].nome)
   // const { handleSubmitData, loading, error } = useApiRequestSubmit('post', '/usuarios');
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
