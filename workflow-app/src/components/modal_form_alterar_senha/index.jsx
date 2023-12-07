@@ -51,7 +51,6 @@ const ModalFormAlterarSenha = (props) => {
 
   // handleConfirmarAlteracaoSenha
   // const handleConfirmarAlteracaoSenha = (data) => {
-  //   // console.log('data', data);
   //   handleSubmitData({
   //     ussenha: data.senha,
   //   }).then(() => {
@@ -61,7 +60,6 @@ const ModalFormAlterarSenha = (props) => {
   //   });
   // };
 
-  // console.log(session.id)
   const handleConfirmarAlteracaoSenha = (data) => {
     setLoading(true);
     const { senha, confirmarSenha } = data;
