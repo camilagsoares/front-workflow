@@ -36,7 +36,6 @@ const schema = yup
 
 const ModalForm = (props) => {
   const { idUsuaros } = JSON.parse(localStorage.getItem('session'));
-  // console.log(idUsuaros);
   const { handleFecharModalForm } = props;
   const { register, handleSubmit, formState, control, reset } = useForm({
     resolver: yupResolver(schema),
@@ -57,8 +56,7 @@ const ModalForm = (props) => {
     error: errorSecretarias,
   } = useApiRequestGet('/secretarias');
 
-  // console.log("data lista",data)
-  // console.log('responsaveis', listaTipoProjeto);
+
 
   const { handleSubmitData, loading, error } = useApiRequestSubmit('post', '/responsaveis');
 
