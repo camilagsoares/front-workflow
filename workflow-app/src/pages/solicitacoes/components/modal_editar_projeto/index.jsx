@@ -39,7 +39,7 @@ const ModalEditarProjeto = (props) => {
   const { handleFecharModalForm } = props;
   const { projetosSelecionadoVisualizar } = props;
   const { data: projetoSelecionado, loading: loadingProjetoSelecionado } = useApiRequestGet(`/projetos/${projetosSelecionadoVisualizar}`);
-  console.log("projetoSelecionado", projetoSelecionado)
+ 
 
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const ModalEditarProjeto = (props) => {
         });
         setLoading(false);
       });
-    console.log("oq to mandando", data)
+  
   };
 
   return (
