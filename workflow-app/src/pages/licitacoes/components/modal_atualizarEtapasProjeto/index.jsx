@@ -105,7 +105,7 @@ const projetoIds = processosLicitatorios?.projeto.map(projeto => projeto.id) || 
       .finally(() => {
         setLoading(false);
       });
-    console.log('OQ mandei no submit', data);
+   
   };
 
   return (
