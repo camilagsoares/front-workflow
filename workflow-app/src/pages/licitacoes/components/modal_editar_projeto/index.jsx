@@ -38,7 +38,6 @@ const ModalEditarProjeto = (props) => {
   const [descricao, setDescricao] = useState('');
 
   const { projetosSelecionadoVisualizar } = props;
-  // console.log("projetosSelecionadoVisualizar",projetosSelecionadoVisualizar)
 
   const { handleFecharAdcPLic } = props;
   const { handleFecharEditarProjeto } = props;
@@ -52,7 +51,6 @@ const ModalEditarProjeto = (props) => {
   } = useApiRequestGet(`/processos-licitatorios/${projetosSelecionadoVisualizar}`);
 
   const { data } = useApiRequestGet(`/processos-licitatorios`);
-// console.log("datas",processosLicitatorios?.usuarioId)
 
 
   useEffect(() => {
