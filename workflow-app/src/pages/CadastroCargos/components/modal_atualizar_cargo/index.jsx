@@ -41,7 +41,6 @@ const schema = yup
 const ModalFormAtualizarCargo = (props) => {
   const { projetosSelecionadoVisualizar } = props;
   const { handleAbrirModalAtualizarEtapaProjeto } = props;
-  console.log("projeto selecionado",projetosSelecionadoVisualizar)
 
   const { register, handleSubmit, formState, control, reset } = useForm({
     resolver: yupResolver(schema),
