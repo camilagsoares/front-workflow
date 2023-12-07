@@ -213,9 +213,7 @@ const SolicitacoesPage = () => {
 
     // const resultSecretaria =  data?.map((resposta) => resposta.usuario?.departamento?.secretaria?.sigla);
 
-    // console.log('Filtro para departamento', resultDepartamento);
 
-    // console.log('Filtro para secretaria', resultSecretaria);
 
   })
 
