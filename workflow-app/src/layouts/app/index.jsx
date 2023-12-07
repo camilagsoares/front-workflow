@@ -119,13 +119,7 @@ const AppLayout = (props) => {
   };
 
   const { session, token } = useContext(AuthContext);
-  // console.log("session", session) // !== 1
 
-  // if (session && session.id !== undefined) {
-  //   console.log('O id da sessão é:', session.id);
-  // } else {
-  //   console.log('A sessão não está definida ou não possui um id.');
-  // }
   return (
     <Box sx={{ display: 'flex' }}>
       {abrirFecharDialogAlterarSenha && <ModalFormAlterarSenha handleFecharModalForm={handleCloseDialogAlterarSenha} />}
