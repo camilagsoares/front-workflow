@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useForm, Controller } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+
 import Box from '@mui/material/Box';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -30,7 +29,6 @@ const ModalFormDeletarUsuario = (props) => {
   const { handleAbrirModalAtualizarEtapaProjeto } = props;
   const  {handleAbrirModalDelete} = props;
   // const { idUsuaros } = JSON.parse(localStorage.getItem('session'));
-  // console.log(idUsuaros);
   const { handleFecharModalForm } = props;
   const { register, handleSubmit, formState, control } = useForm({
 
