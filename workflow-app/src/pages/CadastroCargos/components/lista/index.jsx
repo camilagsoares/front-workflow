@@ -57,7 +57,6 @@ const Lista = (props) => {
   };
 
   const { data: listaResponsaveis, error, loading } = useApiRequestGet('/responsaveis');
-  // console.log("data",data)
   const { searchTerm } = props;
 
   return (
