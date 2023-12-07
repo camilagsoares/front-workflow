@@ -37,8 +37,7 @@ const ModalForm = (props) => {
     error: errorProcessosLicitatorios,
     loading: loadingProcessosLicitatorios,
   } = useApiRequestGet(`/processos-licitatorios/${projetosSelecionadoVisualizar}`);
-// console.log("processosLicitatorios",processosLicitatorios)
-// console.log("oq vem no console",processosLicitatorios?.projeto[0].id)
+
 const projetoIds = processosLicitatorios?.projeto.map(projeto => projeto.id) || [];
 
 
@@ -69,16 +68,14 @@ const projetoIds = processosLicitatorios?.projeto.map(projeto => projeto.id) || 
     loading: loadingDepartamento,
     error: errorDepartamento,
   } = useApiRequestGet('/departamentos');
-  // console.log("dpto",listaDepartamento)
 
-  // console.log("projetoIds", projetoIds);
 
   const {
     data: status,
     loading: loadingStatus,
     // error: errorDepartamento,
   } = useApiRequestGet('/status');
-  // console.log("status",status)
+
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [loading, setLoading] = useState(false);
