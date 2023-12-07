@@ -85,7 +85,7 @@ const ModalAdicionarProcessoLicitatorio = (props) => {
       .finally(() => {
         setLoading(false);
       });
-    console.log('Oq estou mandando', data);
+  
   };
 
   const {
