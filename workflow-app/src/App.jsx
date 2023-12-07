@@ -14,7 +14,6 @@ function App() {
   const [mode, setMode] = useState('light');
   // const { token, criarSessao } = useContext(AuthContext);
   const tokenInStorage = localStorage.getItem('token');
-  // console.log("tokenInStorage",tokenInStorage)
   const colorMode = useMemo(
     () => ({
       alterarTema: () => {
@@ -34,8 +33,7 @@ function App() {
     [mode],
   );
 
-  // const { token, session } = useContext(AuthContext);
-// console.log("token",token)
+
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
