@@ -16,8 +16,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useApiRequestSubmit } from '../../../../services/api';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../../../contexts/auth.context';
-// import Snackbar from '@mui/material/Snackbar';
-// import MuiAlert from '@mui/material/Alert';
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -84,10 +82,7 @@ const ModalFormAtualizarUsuario = (props) => {
 
   //   const { data
   //     } = useApiRequestGet(`/users/${}`);
-  // console.log("id",data)
 
-  // console.log("data lista",data)
-  // console.log('listaTipoProjeto', listaTipoProjeto);
   return (
     <React.Fragment>
       {/* <Snackbar
