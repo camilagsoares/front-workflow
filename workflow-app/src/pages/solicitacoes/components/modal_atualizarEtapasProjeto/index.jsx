@@ -40,7 +40,6 @@ const ModalForm = (props) => {
   const { handleFecharModalAtualizarEtapaProjeto } = props;
   const { handleFecharModalForm } = props;
   const { projetosSelecionadoVisualizar } = props;
-  // console.log('etapa do projeto Selecionado');
   // const { session } = useContext(AuthContext);
 
   const { register, handleSubmit, formState, control, reset } = useForm({
@@ -66,9 +65,7 @@ const ModalForm = (props) => {
     loading: loadingStatus,
     // error: errorDepartamento,
   } = useApiRequestGet('/status');
-  // console.log('status', status.id);
 
-  // console.log('departamentos', listaDepartamento?.secretaria);
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [loading, setLoading] = useState(false);
