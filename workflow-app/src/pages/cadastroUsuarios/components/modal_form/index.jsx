@@ -75,7 +75,7 @@ const ModalForm = (props) => {
         //  toast('Projeto criado com sucesso', {
         //  type: 'success',
         //  });
-        console.log("campos", data)
+  
         reset();
         handleFecharModalForm();
       })
@@ -87,7 +87,7 @@ const ModalForm = (props) => {
       .finally(() => {
         setLoading(false);
       });
-    console.log("campos", data)
+ 
 
   };
 
