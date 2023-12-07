@@ -78,7 +78,6 @@ const ModalForm = (props) => {
   //   handleSubmitData(data).then(() => {
   //     reset();
   //     handleFecharModalForm();
-  //     console.log(data)
   //   });
   // };
 
