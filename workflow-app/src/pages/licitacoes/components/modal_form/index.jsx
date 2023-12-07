@@ -35,7 +35,6 @@ const ModalForm = (props) => {
           noValidate
           onSubmit={(event) => {
             event.preventDefault();
-            console.log('event =>> ', event.currentTarget);
           }}
         >
           <Grid container columnSpacing={2}>
