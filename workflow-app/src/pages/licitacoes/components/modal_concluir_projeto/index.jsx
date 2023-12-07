@@ -67,7 +67,6 @@ const ModalConcluirProjeto = (props) => {
   //   loading: loadingTipoProjeto,
   //   error: errorTipoProjeto,
   // } = useApiRequestGet('/tipos-projeto');
-  // console.log("lista tipo projeto", listaTipoProjeto)
 
   const {
     data: processosLicitatorios,
@@ -109,7 +108,6 @@ const ModalConcluirProjeto = (props) => {
     }
   };
   // const { token, session } = useContext(AuthContext);
-  // console.log(session?.id);
 
 
   //
