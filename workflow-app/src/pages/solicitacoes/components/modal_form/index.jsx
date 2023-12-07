@@ -84,7 +84,7 @@ const ModalForm = (props) => {
         toast('Projeto criado com sucesso', {
           type: 'success',
         });
-        console.log("data",handleCriarSecretaria)
+     
         reset();
         window.location.reload();
         handleFecharModalForm();
