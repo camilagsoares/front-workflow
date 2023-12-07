@@ -83,10 +83,7 @@ const ModalFormAtualizarDpto = (props) => {
 
   //   const { data
   //     } = useApiRequestGet(`/users/${}`);
-  // console.log("id",data)
 
-  // console.log("data lista",data)
-  // console.log('listaTipoProjeto', listaTipoProjeto);
   return (
     <React.Fragment>
       {/* <Snackbar
