@@ -7,22 +7,18 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import Close from '@mui/icons-material/CloseOutlined';
 import Save from '@mui/icons-material/SaveAltOutlined';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
-import MenuItem from '@mui/material/MenuItem';
-import InputAdornment from '@mui/material/InputAdornment';
+
 import { useApiRequestGet, useApiRequestSubmit } from '../../../../services/api';
 import Alert from '@mui/material/Alert';
 import React, { useState } from 'react';
 
-import AlertTitle from '@mui/material/AlertTitle';
 
 
 const ModalFormDeletarUsuario = (props) => {
