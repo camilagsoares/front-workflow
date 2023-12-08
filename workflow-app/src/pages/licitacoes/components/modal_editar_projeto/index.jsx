@@ -1,8 +1,4 @@
-import PropTypes from 'prop-types';
-import { useForm, Controller } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import Box from '@mui/material/Box';
+
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -16,12 +12,8 @@ import Save from '@mui/icons-material/SaveAltOutlined';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
-import MenuItem from '@mui/material/MenuItem';
-import InputAdornment from '@mui/material/InputAdornment';
 import { useApiRequestGet, useApiRequestSubmit } from '../../../../services/api';
 import React, { useState, useContext, useEffect } from 'react'
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 import { AuthContext } from "../../../../contexts/auth.context"
 import { axiosApi } from '../../../../services/api';
 import { toast } from 'react-toastify';
