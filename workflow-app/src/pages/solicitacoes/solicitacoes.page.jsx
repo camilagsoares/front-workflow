@@ -19,7 +19,6 @@ import ModalConcluirProjeto from "./components/modal_concluir_projeto"
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Grid';
 import { useApiRequestGet } from '../../services/api';
 import ModalPrioridadeProjeto from "./components/modal_prioridade_projeto/index"
@@ -32,9 +31,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 import "./styles.css"
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-import { NavLink, } from 'react-router-dom';
-import Grow from '@mui/material/Grow';
-import Collapse from '@mui/material/Collapse';
 
 
 const requiredField = 'Campo obrigatorio';
