@@ -1,24 +1,19 @@
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
-import Tooltip from '@mui/material/Tooltip';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import Paper from '@mui/material/Paper';
-import MenuOpen from '@mui/icons-material/MenuOpenOutlined';
-import EditOutlined from '@mui/icons-material/EditOutlined';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import { Skeleton } from '@mui/material';
 import { useApiRequestGet,useApiRequestSubmit} from '../../../../services/api';
 import React,{useState,useEffect} from 'react';
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+
 
 const Lista = (props) => {
-  // const [isDeleteModalOpen, setDeleteModalOpen] = useState(false); // State for the modal
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
