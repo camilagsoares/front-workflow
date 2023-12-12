@@ -158,7 +158,6 @@ const ModalFormAtualizarDpto = (props) => {
 };
 
 ModalFormAtualizarDpto.propTypes = {
-  // handleFecharModalForm: PropTypes.func.isRequired,
   handleFecharDrawerView: PropTypes.func.isRequired,
   projetosSelecionadoVisualizar: PropTypes.number,
   handleAbrirModalAtualizarEtapaProjeto: PropTypes.func.isRequired,
