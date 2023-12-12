@@ -77,11 +77,6 @@ const Lista = (props) => {
 
   return (
     <React.Fragment>
-      {/* {error && (
-        <Box display='flex' flexDirection='row' gap={4} color='red' fontSize={14}>
-          <pre>{JSON.stringify(error, null, 2)}</pre>
-        </Box>
-      )} */}
       <Box marginY={1} paddingY={2}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label='customized table'>
