@@ -132,7 +132,6 @@ const Lista = (props) => {
 };
 
 Lista.propTypes = {
-  // handleAbrirModalAtualizarEtapaProjeto: PropTypes.func.isRequired,
   searchTerm: PropTypes.string,
 };
 
