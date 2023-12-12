@@ -237,16 +237,6 @@ const ModalFormAtualizarUsuario = (props) => {
             )}
           </DialogContent>
           <DialogActions>
-            {/* <Button
-              disabled={loading}
-              startIcon={<Close width={24} />}
-              variant='outlined'
-              color='info'
-              onClick={handleFecharModalForm}
-              sx={{ minWidth: 156, height: '100%' }}
-            >
-              Cancelar
-            </Button> */}
             <Button
               type='submit'
               disabled={loading}
