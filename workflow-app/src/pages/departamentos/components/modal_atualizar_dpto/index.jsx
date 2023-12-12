@@ -81,21 +81,11 @@ const ModalFormAtualizarDpto = (props) => {
       });
   };
 
-  //   const { data
-  //     } = useApiRequestGet(`/users/${}`);
+
 
   return (
     <React.Fragment>
-      {/* <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        onClose={() => setOpen(false)}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <Alert onClose={() => setOpen(false)} severity='success' sx={{ width: '100%' }}>
-          Senha alterada com sucesso!
-        </Alert>
-      </Snackbar> */}
+
       <Dialog disableEscapeKeyDown fullWidth open={true} onClose={props.handleFecharDrawerView} maxWidth='md'>
         <DialogTitle>
           <Stack direction='row' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -139,20 +129,10 @@ const ModalFormAtualizarDpto = (props) => {
               </Grid>
             
             </Grid>
-            {/* {error && (
-            <Box display='flex' flexDirection='row' gap={4} color='red' fontSize={14}>
-              <pre>{JSON.stringify(error, null, 2)}</pre>
-            </Box>
-          )}
-          {error && (
-            <Box display='flex' flexDirection='row' gap={4} color='red' fontSize={14}>
-              <pre>{JSON.stringify(errorSecretarias, null, 2)}</pre>
-            </Box>
-          )} */}
+ 
           </DialogContent>
           <DialogActions>
             <Button
-              // disabled={loading}
               startIcon={<Close width={24} />}
               variant='outlined'
               color='info'
@@ -163,7 +143,6 @@ const ModalFormAtualizarDpto = (props) => {
             </Button>
             <Button
               type='submit'
-              // disabled={loading}
               startIcon={<Save width={24} />}
               variant='outlined'
               color='success'
