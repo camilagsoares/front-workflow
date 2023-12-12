@@ -54,7 +54,6 @@ const ModalFormAtualizarUsuario = (props) => {
 
   const { errors } = formState;
   const { session } = useContext(AuthContext);
-  // const { handleAbrirDrawerView } = props;
 
 
   const { handleSubmitData, loading, error } = useApiRequestSubmit('put', `/user/${projetosSelecionadoVisualizar}`);
@@ -82,21 +81,10 @@ const ModalFormAtualizarUsuario = (props) => {
     error: errorSecretarias,
   } = useApiRequestGet('/departamentos');
 
-  //   const { data
-  //     } = useApiRequestGet(`/users/${}`);
+
 
   return (
     <React.Fragment>
-      {/* <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        onClose={() => setOpen(false)}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <Alert onClose={() => setOpen(false)} severity='success' sx={{ width: '100%' }}>
-          Senha alterada com sucesso!
-        </Alert>
-      </Snackbar> */}
       <Dialog disableEscapeKeyDown fullWidth open={true} onClose={props.handleFecharDrawerView} maxWidth='md'>
         <DialogTitle>
           <Stack direction='row' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
