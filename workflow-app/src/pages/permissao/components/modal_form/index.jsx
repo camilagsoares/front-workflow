@@ -44,11 +44,6 @@ const ModalForm = (props) => {
 
   const { errors } = formState;
 
-  // const { data: listaDptos, loading: loadingTiposProjeto } = useApiRequestGet('/departamentos');
-  // const { data: listaPermissao, loading: loadingPermissao } = useApiRequestGet('/auth/permissoes');
-
-  // const { handleSubmitData, loading, error } = useApiRequestSubmit('post', '/usuarios');
-
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const handleCriarSecretaria = (data) => {
@@ -56,16 +51,10 @@ const ModalForm = (props) => {
     axiosApi
       .post('/auth/permissoes', data)
       .then(() => {
-        //  toast('Projeto criado com sucesso', {
-        //  type: 'success',
-        //  });
         reset();
         handleFecharModalForm();
       })
       .catch((error) => {
-        //  toast(error.message, {
-        //    type: 'error',
-        // });
       })
       .finally(() => {
         setLoading(false);
@@ -133,7 +122,6 @@ const ModalForm = (props) => {
         </DialogContent>
         <DialogActions>
           <Button
-            // disabled={loading}
             startIcon={<Close width={24} />}
             variant='outlined'
             color='info'
@@ -144,7 +132,6 @@ const ModalForm = (props) => {
           </Button>
           <Button
             type='submit'
-            // disabled={loading}
             startIcon={<Save width={24} />}
             variant='outlined'
             color='success'
