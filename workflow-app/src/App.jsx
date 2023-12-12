@@ -43,16 +43,13 @@ function App() {
             <Route element={<ProtectedRoutes changeTheme={colorMode.alterarTema} />}>
               <Route path='/' element={<SolicitacoesPage changeTheme={colorMode.alterarTema} />} />
               <Route path='/licitacoes' element={<LicitacoesPage changeTheme={colorMode.alterarTema} />} />
-              {/* <Route path='/novo-usuario' element={<Cadastro changeTheme={colorMode.alterarTema} />} /> */}
               <Route path='/secretarias' element={<SecretariasPage changeTheme={colorMode.alterarTema} />} />
               <Route path='/departamentos' element={<DepartamentosPage changeTheme={colorMode.alterarTema} />} />
               <Route path='/usuarios' element={<CadastroUsuarios changeTheme={colorMode.alterarTema} />} />
-              {/* <Route path='/cargos' element={<CadastroCargos changeTheme={colorMode.alterarTema} />} /> */}
               <Route path='/tipo-projeto' element={<TipoProjeto changeTheme={colorMode.alterarTema} />} />
               <Route path='/permissao' element={<Permissao changeTheme={colorMode.alterarTema} />} />
               <Route path='/status' element={<Status changeTheme={colorMode.alterarTema} />} />
 
-              {/* <Route path='/admin' element={<AdminPage changeTheme={colorMode.alterarTema} />} /> */}
             </Route>
             <Route
               path='*'
