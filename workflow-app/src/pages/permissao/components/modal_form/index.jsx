@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Box from '@mui/material/Box';
@@ -16,14 +16,11 @@ import Save from '@mui/icons-material/SaveAltOutlined';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
-import MenuItem from '@mui/material/MenuItem';
-import InputAdornment from '@mui/material/InputAdornment';
-import { useApiRequestGet, axiosApi } from '../../../../services/api';
+import {  axiosApi } from '../../../../services/api';
 import Alert from '@mui/material/Alert';
 import React, { useState } from 'react';
-import Checkbox from '@mui/material/Checkbox';
-
 import AlertTitle from '@mui/material/AlertTitle';
+
 const schema = yup
   .object({
     descricao: yup.string().required('Campo obrigatorio'),
