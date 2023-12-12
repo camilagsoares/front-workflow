@@ -31,7 +31,6 @@ const schema = yup
   .required();
 
 const ModalForm = (props) => {
-  // const [loading, setLoading] = useState(false);
   const { handleFecharModalForm } = props;
   const { register, handleSubmit, formState, control, reset } = useForm({
     resolver: yupResolver(schema),
@@ -40,13 +39,7 @@ const ModalForm = (props) => {
 
   const { errors } = formState;
 
-  // const {
-  //   data: listaSecretarias,
-  //   loading: loadingSecretarias,
-  //   error: errorSecretarias,
-  // } = useApiRequestGet('/secretarias');
-  // const { handleSubmitData, loading, error } = useApiRequestSubmit('post', '/departamentos');
-
+  
 
   const { data: listaTiposProjeto, loading: loadingTiposProjeto } = useApiRequestGet('/secretarias');
  
@@ -54,7 +47,6 @@ const ModalForm = (props) => {
   const [loading, setLoading] = useState(false);
 
   const handleCriarDepartamento = (data) => {
-    // setLoading(true);
     axiosApi
       .post('/departamentos', data)
       .then(() => {
@@ -74,12 +66,6 @@ const ModalForm = (props) => {
       });
   };
 
-  // const handleCriarSecretaria = (data) => {
-  //   handleSubmitData(data).then(() => {
-  //     reset();
-  //     handleFecharModalForm();
-  //   });
-  // };
 
   return (
     <Dialog disableEscapeKeyDown fullWidth open={true} onClose={handleFecharModalForm} maxWidth='sm'>
@@ -133,14 +119,6 @@ const ModalForm = (props) => {
                     <TextField
                       required
                       ref={ref}
-                      // disabled={loadingSecretarias}
-                      // InputProps={{
-                      //   endAdornment: loadingSecretarias && (
-                      //     <InputAdornment position='start'>
-                      //       <CircularProgress color='info' size={28} sx={{ marginRight: 2 }} />
-                      //     </InputAdornment>
-                      //   ),
-                      // }}
                       select
                       fullWidth
                       key='secretaria'
@@ -170,16 +148,6 @@ const ModalForm = (props) => {
               />
             </Grid>
           </Grid>
-          {/* {error && (
-            <Box display='flex' flexDirection='row' gap={4} color='red' fontSize={14}>
-              <pre>{JSON.stringify(error, null, 2)}</pre>
-            </Box>
-          )}
-          {error && (
-            <Box display='flex' flexDirection='row' gap={4} color='red' fontSize={14}>
-              <pre>{JSON.stringify(errorSecretarias, null, 2)}</pre>
-            </Box>
-          )} */}
         </DialogContent>
         <DialogActions>
           <Button
