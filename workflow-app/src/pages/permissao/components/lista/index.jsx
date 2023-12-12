@@ -9,7 +9,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Box from '@mui/material/Box';
 import { Skeleton } from '@mui/material';
-import { useApiRequestGet,useApiRequestSubmit} from '../../../../services/api';
+import { useApiRequestGet} from '../../../../services/api';
 import React,{useState,useEffect} from 'react';
 
 
@@ -88,11 +88,7 @@ const Lista = (props) => {
                 </StyledTableCell>
                 <StyledTableCell align='left' width={312}>
                 Descrição
-                </StyledTableCell>
-             
-
-              
-               
+                </StyledTableCell>     
               </StyledTableRow>
             </TableHead>
             <TableBody>
@@ -110,8 +106,6 @@ const Lista = (props) => {
                           {row.nome}
                         </StyledTableCell>
                         <StyledTableCell align='left'>{row.descricao}</StyledTableCell>
-                      
-                      
                       </StyledTableRow>
                     );
                   }
