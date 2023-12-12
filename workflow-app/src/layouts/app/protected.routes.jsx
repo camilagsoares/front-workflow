@@ -28,7 +28,6 @@ const ProtectedRoutes = (props) => {
     if (token && !session) {
       (async () => {
         try {
-          // Certifique-se de que o token esteja definido antes de fazer a solicitação
           if (!token) return;
 
           const response = await axios.get(`http://10.1.0.187:3000/api/auth/usuarios/perfil`, {
@@ -40,7 +39,6 @@ const ProtectedRoutes = (props) => {
 
           criarPerfil(response.data);
         } catch (error) {
-          // Lida com erros, como token inválido
           console.error('Erro ao buscar dados do perfil:', error);
         }
       })();
