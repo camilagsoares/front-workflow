@@ -110,8 +110,6 @@ const Lista = (props) => {
   
 
 
-
-
   function getBordaClasse(projeto) {
     if (projeto.situacao === 'INATIVO') {
       return 'borda-verde';
