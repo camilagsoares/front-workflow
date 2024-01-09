@@ -89,6 +89,7 @@ const Lista = (props) => {
   const { filterByAta } = props;
   const { data, loading } = useApiRequestGet('/projetos');
   const { etapas } = useApiRequestGet('/etapas');
+  console.log('projetos', data)
 
   localStorage.setItem('projetosData', JSON.stringify(data));
   //TESTE!
@@ -120,6 +121,7 @@ const Lista = (props) => {
   const { filterByDepartamento } = props;
   const { filterBySecretaria } = props;
   const { selectedTipoProjeto } = props;
+  const { selectedYear } = props;
   const { selectedFilter } = props;
   const { selectedSecretaria } = props;
   const [filteredData, setFilteredData] = useState(data);
@@ -129,10 +131,7 @@ const Lista = (props) => {
   };
 
   useEffect(() => {
-    if (
-      (searchTerm.trim() || filterByAta !== "all" || filterByDepartamento !== "all" || filterBySecretaria !== "" || selectedTipoProjeto || selectedFilter) &&
-      data && Array.isArray(data) // Check if 'data' is not null and is an array
-    ) {
+    if (data && Array.isArray(data)) {
       const filtered = data.filter((projeto) => {
         const valor = String(projeto.valor).trim();
         const formattedValor = formatarNumero(projeto?.valor).trim();
@@ -141,12 +140,14 @@ const Lista = (props) => {
         const secretariaNome = (projeto?.etapa[0]?.departamento?.secretaria?.nome || "").trim();
         const secretariaSigla = (projeto?.etapa[0]?.departamento?.secretaria?.sigla || "").trim();
 
+        const projetoYear = new Date(projeto.criadoEm).getFullYear();
+
         // Check if selectedFilter is not set or matches the current project
         const isMatchingSelectedFilter =
           !selectedFilter ||
           (
             projeto.usuario?.departamento?.nome.includes(selectedFilter.value.split(" - ")[0]) &&
-            projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedFilter.value.split(" - ")[1])
+            projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedFilter.value.split(" - ")[1]) 
           );
 
         if (
@@ -171,17 +172,19 @@ const Lista = (props) => {
           (filterByDepartamento === "all" || departamentoNome === filterByDepartamento) &&
           (filterBySecretaria === "" || secretariaNome === filterBySecretaria) &&
           (selectedTipoProjeto === "" || projeto.tipoProjetoId === selectedTipoProjeto) &&
-          isMatchingSelectedFilter
+          isMatchingSelectedFilter &&
+          projetoYear === selectedYear
         ) {
           return true;
         }
         return false;
       });
+
       setFilteredData(filtered);
     } else {
       setFilteredData(data);
     }
-  }, [data, searchTerm, filterByAta, filterByDepartamento, filterBySecretaria, selectedTipoProjeto, selectedFilter]);
+  }, [data, searchTerm, filterByAta, filterByDepartamento, filterBySecretaria, selectedTipoProjeto, selectedFilter, selectedYear]);
 
   //teste
   function getBordaClasse(projeto) {
