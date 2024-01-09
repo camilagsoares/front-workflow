@@ -81,33 +81,37 @@ const Lista = (props) => {
   const dataIsValid = Array.isArray(data) && !isNaN(projectsPerPage);
   const [filteredData, setFilteredData] = useState(data);
   const { token, session } = useContext(AuthContext);
+  const { selectedYear } = props;
 
-  useEffect(() => {
-    if (Array.isArray(data)) {
-      const filtered = data.filter((row) => {
-        const departamentoNome = row?.etapa[0]?.departamento?.nome || '';
-        const departamentoSigla = row?.etapa[0]?.departamento?.secretaria?.sigla || '';
-        const fullDepartamento = `${departamentoSigla} - ${departamentoNome}`;
+// Lista
+useEffect(() => {
+  if (Array.isArray(data)) {
+    const filtered = data.filter((row) => {
+      const departamentoNome = row?.etapa[0]?.departamento?.nome || '';
+      const departamentoSigla = row?.etapa[0]?.departamento?.secretaria?.sigla || '';
+      const fullDepartamento = `${departamentoSigla} - ${departamentoNome}`;
   
-        const lowerSearchTerm = searchTerm.toLowerCase().trim();
-        const isMatch = (value) => value.toLowerCase().includes(lowerSearchTerm);
-  
-        return (
-          isMatch(row.numeroCompras.toString()) ||
-          isMatch(row.idSonner.toString()) ||
-          isMatch(departamentoNome) ||
-          isMatch(row.descricao) ||
-          isMatch(row.etapa[0]?.departamento?.nome) ||
-          isMatch(row.titulo) ||
-          isMatch(fullDepartamento)
-        ) &&
-          (filterByDepartamento === 'all' || departamentoNome.trim() === filterByDepartamento) &&
-          (filterByConcluido === 'all' || (filterByConcluido === 'concluded' && row.situacao === 'INATIVO'));
-      });
-      setFilteredData(filtered);
-    }
-  }, [data, searchTerm, filterByDepartamento, filterByConcluido]);
-  
+      const lowerSearchTerm = searchTerm.toLowerCase().trim();
+      const isMatch = (value) => value.toLowerCase().includes(lowerSearchTerm);
+
+      const createdYear = new Date(row.criadoEm).getFullYear(); // Obtém o ano de criação do projeto
+
+      return (
+        isMatch(row.numeroCompras.toString()) ||
+        isMatch(row.idSonner.toString()) ||
+        isMatch(departamentoNome) ||
+        isMatch(row.descricao) ||
+        isMatch(row.etapa[0]?.departamento?.nome) ||
+        isMatch(row.titulo) ||
+        isMatch(fullDepartamento)
+      ) &&
+        (filterByDepartamento === 'all' || departamentoNome.trim() === filterByDepartamento) &&
+        (filterByConcluido === 'all' || (filterByConcluido === 'concluded' && row.situacao === 'INATIVO')) &&
+        createdYear === selectedYear; // Verifica se o ano do projeto é igual ao ano selecionado
+    });
+    setFilteredData(filtered);
+  }
+}, [data, searchTerm, filterByDepartamento, filterByConcluido, selectedYear]);
 
 
   function getBordaClasse(projeto) {
