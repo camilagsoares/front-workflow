@@ -339,15 +339,34 @@ const SolicitacoesPage = () => {
   const styles = StyledFiltros();
 
 
-
   return (
     <Box>
 
+    
+<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Typography component='h2' variant='h5' fontWeight={700} color='text.primary'>
+        Solicitações
+      </Typography>
 
-    <Typography component='h2' variant='h5' fontWeight={700} color='text.primary'>
-      Solicitações
-    </Typography>
+      <Grid container justifyContent="flex-end" alignItems="center" sx={{ marginLeft: '15px', marginTop: '-px' }}>
+        <div className="box">
+          <div className="item">
+            <span className="bolinhaCinza"></span>
+            Andamento
+          </div>
+          <div className="item">
+            <span className="bolinhaVerde"></span>
+            Concluído
+          </div>
+          <div className="item">
+            <span className="bolinhaLaranja"></span>
+            Urgente
+          </div>
+        </div>
+      </Grid>
 
+
+</div>
     <Divider />
 
 
@@ -583,22 +602,7 @@ const SolicitacoesPage = () => {
         }}
       />
     </Grid>
-    <Grid container justifyContent="flex-end" alignItems="center" sx={{ marginLeft: '15px', marginTop: '10px' }}>
-      <div className="box">
-        <div className="item">
-          <span className="bolinhaCinza"></span>
-          Andamento
-        </div>
-        <div className="item">
-          <span className="bolinhaVerde"></span>
-          Concluído
-        </div>
-        <div className="item">
-          <span className="bolinhaLaranja"></span>
-          Urgente
-        </div>
-      </div>
-    </Grid>
+   
       <Lista
         searchTerm={searchTerm}
         handleAbrirDrawerView={handleAbrirDrawerView}
@@ -612,7 +616,6 @@ const SolicitacoesPage = () => {
         handleAbrirModalPrioridadeProjeto={handleAbrirModalPrioridadeProjeto}
         filterByUrgent={filterByUrgent}
         selectedTipoProjeto={selectedTipoProjeto}
-
         // FILTRO DPTO-SECRETARIA
         selectedFilter={selectedFilter}
 
