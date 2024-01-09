@@ -31,6 +31,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import "./styles.css"
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
+import { MenuItem } from '@mui/material';
 
 
 const requiredField = 'Campo obrigatorio';
@@ -338,200 +339,247 @@ const SolicitacoesPage = () => {
 
   const styles = StyledFiltros();
 
+  //
+  const [selectedYear, setSelectedYear] = useState(2024); 
+
+  const handleYearChange = (year) => {
+    setSelectedYear(year);
+  };
 
   return (
     <Box>
 
-    
-<div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <Typography component='h2' variant='h5' fontWeight={700} color='text.primary'>
-        Solicitações
-      </Typography>
 
-      <Grid container justifyContent="flex-end" alignItems="center" sx={{ marginLeft: '15px', marginTop: '-px' }}>
-        <div className="box">
-          <div className="item">
-            <span className="bolinhaCinza"></span>
-            Andamento
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography component='h2' variant='h5' fontWeight={700} color='text.primary'>
+          Solicitações
+        </Typography>
+
+        <Grid container justifyContent="flex-end" alignItems="center" sx={{ marginLeft: '15px', marginTop: '-px' }}>
+          <div className="box">
+            <div className="item">
+              <span className="bolinhaCinza"></span>
+              Andamento
+            </div>
+            <div className="item">
+              <span className="bolinhaVerde"></span>
+              Concluído
+            </div>
+            <div className="item">
+              <span className="bolinhaLaranja"></span>
+              Urgente
+            </div>
           </div>
-          <div className="item">
-            <span className="bolinhaVerde"></span>
-            Concluído
-          </div>
-          <div className="item">
-            <span className="bolinhaLaranja"></span>
-            Urgente
-          </div>
-        </div>
-      </Grid>
+        </Grid>
 
 
-</div>
-    <Divider />
+      </div>
+      <Divider />
 
 
-    <Box display='flex' flexDirection='row' alignItems='center' justifyContent='space-between' paddingY={2}>
-      <Box >
-        <Button
-          startIcon={<AddCircle />}
-          variant='outlined'
-          color='primary'
-          onClick={handleAbrirModalForm}
-          sx={{ width: '200px', height: '50px', marginRight: '10px' }}
-        >
-          Criar solicitação
-        </Button>
-        {session && (session.permissao.id === 1 || session.permissao.id === 2) && (
+      <Box display='flex' flexDirection='row' alignItems='center' justifyContent='space-between' paddingY={2}>
+        <Box >
           <Button
             startIcon={<AddCircle />}
             variant='outlined'
             color='primary'
-            onClick={handleAbrirAdcPLic}
-            sx={{ width: '180px', height: '50px' }}
+            onClick={handleAbrirModalForm}
+            sx={{ width: '200px', height: '42px', marginRight: '10px' }}
           >
-            Criar Licitação
+            Criar solicitação
           </Button>
-        )}
+          {session && (session.permissao.id === 1 || session.permissao.id === 2) && (
+            <Button
+              startIcon={<AddCircle />}
+              variant='outlined'
+              color='primary'
+              onClick={handleAbrirAdcPLic}
+              sx={{ width: '180px', height: '42px' }}
+            >
+              Criar Licitação
+            </Button>
+          )}
+
+          <TextField
+            size="small"
+            variant="outlined"
+            color="primary"
+            value={searchTerm}
+            onChange={(e) => handleSearchTermChange(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <FilterAlt color="primary" />
+                </InputAdornment>
+              ),
+            }}
+            placeholder="Pesquisar"
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#1976D2',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#1976D2',
+                },
+                '& input': {
+                  color: 'gray',
+                  textTransform: 'none',
+                  fontWeight: '100',
+                },
+                '& input::placeholder': {
+                  color: '#1976D2',
+                  textTransform: 'uppercase',
+                  fontWeight: '400',
+                },
+              },
+              width: '200px',
+              marginLeft: '20px'
+            }}
+          />
+
+        </Box>
+
+
       </Box>
-      <div style={{ display: 'flex', alignItems: 'center' }} >
-        {expanded && (
-          // <Grow in={expanded} >
-          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 1 }} sx={{ width: expanded ? '50%' : 0, ...styles }} 
-          >
-            <Grid item xs={6} sx={{ width: '100px', height: '50px' }}>
-              <FormControl size="small" variant="outlined" color="primary" sx={{ width: '100%', height: '100%' }}>
-                <InputLabel htmlFor="filter-ata">Filtro status</InputLabel>
-                <Select
-                  native
-                  value={filterByAta}
-                  onChange={handleFilterByAtaChange}
-                  label="Filtrar por Ata"
-                  inputProps={{
-                    id: "filter-ata"
+
+      <div style={{ marginTop: '20px' }}>
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 1 }} sx={{ width: expanded ? '50%' : 0, ...styles }}>
+          <Grid item xs={6} sm={1} sx={{ width: '100px', height: '50px' }}>
+            <FormControl size="small" variant="outlined" color="primary" sx={{ width: '100%', height: '100%' }}>
+              <InputLabel htmlFor="filter-ata">Filtro status</InputLabel>
+              <Select
+                native
+                value={filterByAta}
+                onChange={handleFilterByAtaChange}
+                label="Filtrar por Ata"
+                inputProps={{
+                  id: "filter-ata"
+                }}
+              >
+                <option value="all">Todos</option>
+                <option value="concluded">Concluído</option>
+                <option value="urgent">Urgente</option>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6} sm={2} sx={{ width: '100px', height: '50px' }}>
+            <Controller
+              name='tipoProjetoId'
+              control={control}
+              render={({ field }) => {
+                const { onChange, name, onBlur, value, ref } = field;
+
+                return (
+                  <Autocomplete
+                    fullWidth
+                    size="small"
+                    options={listaTiposProjetoComTodos}
+                    getOptionLabel={(tipoprojeto) => tipoprojeto.descricao}
+                    value={
+                      value !== undefined
+                        ? listaTiposProjeto &&
+                        listaTiposProjeto.find((item) => item.id === value)
+                        : null
+                    }
+                    // onChange={(event, newValue) => {
+                    //   const selectedValue = newValue ? newValue.id : '';
+                    //   setSelectedTipoProjeto(selectedValue);
+                    //   onChange(selectedValue);
+                    // }}
+                    onChange={(event, newValue) => {
+                      const selectedValue = newValue ? newValue.id : '';
+                      setSelectedTipoProjeto(selectedValue);
+                      onChange(selectedValue);
+                    }}
+                    onBlur={onBlur}
+                    isOptionEqualToValue={(option, value) => option.id === value}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label='Tipo Solicitação'
+                        variant='outlined'
+                        name={name}
+                        error={!!errors.tipoProjetoId}
+                        helperText={errors.tipoProjetoId?.message}
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: loadingTiposProjeto && (
+                            <InputAdornment position='start'>
+                              <CircularProgress color='info' size={28} sx={{ marginRight: 2 }} />
+                            </InputAdornment>
+                          ),
+                        }}
+                        sx={{ width: '100%', height: '100%' }}
+                      />
+                    )}
+                  />
+                );
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sm={2} sx={{ width: '100px', height: '50px' }}>
+            <Autocomplete
+              fullWidth
+              options={listaDptos || []}
+              getOptionLabel={(departamento) => `${departamento.secretaria.sigla} - ${departamento.nome}`}
+              value={
+                listaDptos &&
+                listaDptos.find((item) => item.nome === filterByDepartamento)
+              }
+              onChange={(event, newValue) => {
+                const selectedValue = newValue ? newValue.nome : 'all';
+                setFilterByDepartamento(selectedValue);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Filtrar por Departamento Criado em"
+                  variant="outlined"
+                  size="small"
+                  color="primary"
+                  InputLabelProps={{
+                    shrink: true,
                   }}
-                >
-                  <option value="all">Todos</option>
-                  <option value="concluded">Concluído</option>
-                  <option value="urgent">Urgente</option>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={6} sx={{ width: '100px', height: '50px' }}>
-              <Controller
-                name='tipoProjetoId'
-                control={control}
-                render={({ field }) => {
-                  const { onChange, name, onBlur, value, ref } = field;
+                  InputProps={{
+                    ...params.InputProps,
+                    id: 'filter-departamento',
+                  }}
+                  sx={{ width: '100%', height: '100%' }}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={6} sm={2} sx={{ width: '100px', height: '50px' }}>
+            <Autocomplete
+              fullWidth
+              options={['', ...uniqueSecretarias]}
+              value={selectedSecretaria}
+              onChange={(event, newValue) => {
+                setSelectedSecretaria(newValue);
+              }}
+              getOptionLabel={(option) => option === '' ? 'Todos' : option}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Filtrar por Secretaria parado em"
+                  variant="outlined"
+                  size="small"
+                  color="primary"
+                  InputProps={{
+                    ...params.InputProps,
+                    id: 'filter-secretaria',
+                  }}
+                  sx={{ width: '100%', height: '100%' }}
+                />
+              )}
+            />
+          </Grid>
 
-                  return (
-                    <Autocomplete
-                      fullWidth
-                      size="small"
-                      options={listaTiposProjetoComTodos}
-                      getOptionLabel={(tipoprojeto) => tipoprojeto.descricao}
-                      value={
-                        value !== undefined
-                          ? listaTiposProjeto &&
-                          listaTiposProjeto.find((item) => item.id === value)
-                          : null
-                      }
-                      // onChange={(event, newValue) => {
-                      //   const selectedValue = newValue ? newValue.id : '';
-                      //   setSelectedTipoProjeto(selectedValue);
-                      //   onChange(selectedValue);
-                      // }}
-                      onChange={(event, newValue) => {
-                        const selectedValue = newValue ? newValue.id : '';
-                        setSelectedTipoProjeto(selectedValue);
-                        onChange(selectedValue);
-                      }}
-                      onBlur={onBlur}
-                      isOptionEqualToValue={(option, value) => option.id === value}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label='Tipo projeto'
-                          variant='outlined'
-                          name={name}
-                          error={!!errors.tipoProjetoId}
-                          helperText={errors.tipoProjetoId?.message}
-                          InputProps={{
-                            ...params.InputProps,
-                            endAdornment: loadingTiposProjeto && (
-                              <InputAdornment position='start'>
-                                <CircularProgress color='info' size={28} sx={{ marginRight: 2 }} />
-                              </InputAdornment>
-                            ),
-                          }}
-                          sx={{ width: '100%', height: '100%' }}
-                        />
-                      )}
-                    />
-                  );
-                }}
-              />
-            </Grid>
-            <Grid item xs={6} sx={{ width: '100px', height: '50px' }}>
-              <Autocomplete
-                fullWidth
-                options={listaDptos || []}
-                getOptionLabel={(departamento) => `${departamento.secretaria.sigla} - ${departamento.nome}`}
-                value={
-                  listaDptos &&
-                  listaDptos.find((item) => item.nome === filterByDepartamento)
-                }
-                onChange={(event, newValue) => {
-                  const selectedValue = newValue ? newValue.nome : 'all';
-                  setFilterByDepartamento(selectedValue);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Filtrar por Departamento Criado em"
-                    variant="outlined"
-                    size="small"
-                    color="primary"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    InputProps={{
-                      ...params.InputProps,
-                      id: 'filter-departamento',
-                    }}
-                    sx={{ width: '100%', height: '100%' }}
-                  />
-                )}
-              />
-            </Grid>
-
-            <Grid item xs={6} sx={{ width: '120px', height: '50px' }}>
-              <Autocomplete
-                fullWidth
-                options={['', ...uniqueSecretarias]}
-                value={selectedSecretaria}
-                onChange={(event, newValue) => {
-                  setSelectedSecretaria(newValue);
-                }}
-                getOptionLabel={(option) => option === '' ? 'Todos' : option}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Filtrar por Secretaria parado em"
-                    variant="outlined"
-                    size="small"
-                    color="primary"
-                    InputProps={{
-                      ...params.InputProps,
-                      id: 'filter-secretaria',
-                    }}
-                    sx={{ width: '100%', height: '100%' }}
-                  />
-                )}
-              />
-            </Grid>
-            {session && (session.permissao.id === 1
-            ) && (
-                <Grid item xs={6} sx={{ width: '120px', height: '40px' }}>
+          {session && (session.permissao.id === 1
+          ) && (
+              <>
+                <Grid item xs={2} sx={{ width: '120px', height: '40px' }}>
                   <Autocomplete
                     options={filterOptions}
                     getOptionLabel={(option) => option.label}
@@ -543,66 +591,66 @@ const SolicitacoesPage = () => {
                         {...params}
                         label="Criado por Departamento"
                         variant="outlined"
-                        size="small"  // Adiciona o tamanho "small"
-                        color="primary"  // Adiciona a cor "primary"
+                        size="small"
+                        color="primary"
                         InputLabelProps={{
-                          shrink: true,  // Encolhe a label para a parte superior quando o campo está preenchido
+                          shrink: true,
                         }}
                         sx={{ width: '100%', height: '100%' }}
                       />
                     )}
                   />
                 </Grid>
-              )}
+              </>
+            )}
 
+          <Grid item xs={6} sm={1} sx={{ width: '100px', height: '50px' }}>
+            <FormControl size="small" variant="outlined" color="primary" sx={{ width: '100%', height: '100%' }}>
+              <InputLabel htmlFor="filter-ata">Filtro por Ano</InputLabel>
+              <Select
+                labelId="select-year-label"
+                id="select-year"
+                value={selectedYear}
+                label="Filtrar por ano"
+                onChange={(e) => handleYearChange(Number(e.target.value))}
+              >
+                <MenuItem value={2023}>2023</MenuItem>
+                <MenuItem value={2024}>2024</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
-        )}
-        <Button onClick={toggleFilters} variant="contained" color="primary" sx={{ width: '170px', height: '50px', marginLeft: '10px' }}>
-          {expanded ? 'Ocultar Filtros' : 'Mostrar Filtros'}
-        </Button>
+
+          <Grid item xs={6} sm={2} sx={{ width: '100px', height: '50px' }}>
+            <TextField
+              label="Filtro por Secretaria"
+              variant="outlined"
+              size="small"
+              color="primary"
+              InputProps={{
+                id: 'filter-secretaria',
+              }}
+              sx={{ width: '100%', height: '100%' }}
+            />
+          </Grid>
+        </Grid>
+
       </div>
 
-    </Box>
+      <br /><br />
+      <br />
 
-    <Grid item sx={{ marginTop: '4px' }}>
-      <TextField
-        size="small"
-        variant="outlined"
-        color="primary"
-        value={searchTerm}
-        onChange={(e) => handleSearchTermChange(e.target.value)}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <FilterAlt color="primary" />
-            </InputAdornment>
-          ),
-        }}
-        placeholder="Filtrar"
-        sx={{
-          '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-              borderColor: '#1976D2',
-            },
-            '&:hover fieldset': {
-              borderColor: '#1976D2',
-            },
-            '& input': {
-              color: 'gray',
-              textTransform: 'none',
-              fontWeight: '100',
-            },
-            '& input::placeholder': {
-              color: '#1976D2',
-              textTransform: 'uppercase',
-              fontWeight: '400',
-            },
-          },
-          width: '200px'
-        }}
-      />
-    </Grid>
-   
+
+      {/* <br /><br />
+      <br />
+ */}
+
+
+      {/* <label>Filtrar por ano:</label>
+      <select value={selectedYear} onChange={(e) => handleYearChange(Number(e.target.value))}>
+        <option value={2024}>2024</option>
+        <option value={2023}>2023</option>
+      </select> */}
+
       <Lista
         searchTerm={searchTerm}
         handleAbrirDrawerView={handleAbrirDrawerView}
@@ -617,8 +665,8 @@ const SolicitacoesPage = () => {
         filterByUrgent={filterByUrgent}
         selectedTipoProjeto={selectedTipoProjeto}
         // FILTRO DPTO-SECRETARIA
+        selectedYear={selectedYear}
         selectedFilter={selectedFilter}
-
 
       />
 
