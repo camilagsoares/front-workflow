@@ -1,11 +1,11 @@
 .box {
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2); */
     width: 20rem;
-    height: 3rem;
-    background-color: #fff;
+    height: 1rem;
+    /* background-color: #fff; */
     color: grey.800;
     padding: 1rem;
-    margin: 1rem;
+
     border-radius: 2px;
     display: flex;
     justify-content: flex-end;
