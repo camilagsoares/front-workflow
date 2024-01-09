@@ -20,6 +20,7 @@ import Grid from '@mui/material/Grid';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Autocomplete from '@mui/material/Autocomplete';
+import { MenuItem } from '@mui/material';
 
 const LicitacoesPage = () => {
   const [modalFormAberto, abrirFecharModalForm] = useState(false);
@@ -75,6 +76,7 @@ const LicitacoesPage = () => {
     const newValue = event.target.value;
     setFilterByDepartamento(newValue);
   };
+  const [selectedFilter, setSelectedFilter] = useState(null);
 
   const [filterByAta, setFilterByAta] = useState('all');
 
@@ -97,6 +99,15 @@ const LicitacoesPage = () => {
     setFilterByConcluido(newValue);
   };
 
+
+  //
+  const [selectedYear, setSelectedYear] = useState(2024); // Padrão para 2024
+
+  const handleYearChange = (event) => {
+    if (event && event.target && event.target.value !== undefined) {
+      setSelectedYear(parseInt(event.target.value, 10)); // Certifique-se de converter o valor para número
+    }
+  };
 
   return (
     <Box>
@@ -124,7 +135,7 @@ const LicitacoesPage = () => {
               </Select>
             </FormControl>
           </Grid> */}
-          <FormControl size="small" variant="outlined" color="primary" sx={{ maxWidth: 160 }}>
+          <FormControl size="small" variant="outlined" color="primary" >
             <InputLabel htmlFor="filter-concluido">Filtrar por Concluído</InputLabel>
             <Select
               native
@@ -134,6 +145,7 @@ const LicitacoesPage = () => {
               inputProps={{
                 id: "filter-concluido"
               }}
+              sx={{ width: 140 }}
             >
               <option value="all">Todos</option>
               <option value="concluded">Concluído</option>
@@ -167,6 +179,28 @@ const LicitacoesPage = () => {
                 />
               )}
             />
+          </Grid>
+          <Grid item>
+            <FormControl size="small" variant="outlined" color="primary" sx={{ width: '100%', height: '100%' }}>
+              <InputLabel htmlFor="filter-ata">Filtro status</InputLabel>
+              <Select
+                labelId="select-year-label"
+                id="select-year"
+
+                label="Filtrar por ano"
+                value={selectedYear}
+                 onChange={handleYearChange}
+                sx={{ width: 140 }}
+              >
+                <MenuItem value={2023}>2023</MenuItem>
+                <MenuItem value={2024}>2024</MenuItem>
+
+              </Select>
+            </FormControl>
+            {/* <select value={selectedYear} onChange={handleYearChange}>
+      <option value={2023}>2023</option>
+      <option value={2024}>2024</option>
+    </select> */}
           </Grid>
           {/* <Grid item>
             <FormControl size="small" variant="outlined" color="primary" sx={{ maxWidth: 160 }}>
@@ -242,6 +276,8 @@ const LicitacoesPage = () => {
         // filterByConcluded={filterByConcluded}
         filterBySituacao={filterBySituacao}
         filterByConcluido={filterByConcluido}
+        selectedYear={selectedYear}
+        selectedFilter={selectedFilter}
       />
 
       {modalFormAberto && (
