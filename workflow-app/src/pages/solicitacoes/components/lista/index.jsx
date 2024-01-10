@@ -253,7 +253,7 @@ const Lista = (props) => {
                   )}
 
                 <StyledTableCell width={192}>Descrição resumida</StyledTableCell>
-                <StyledTableCell align='left' width={180}>
+                <StyledTableCell align='left' width={97}>
                   Parado em
                 </StyledTableCell>
                 <StyledTableCell align='left' width={196}>
