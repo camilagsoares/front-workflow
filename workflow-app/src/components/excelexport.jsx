@@ -120,6 +120,7 @@ const DownloadTable = () => {
     const savedData = localStorage.getItem('licitatorioData');
     const parsedData = JSON.parse(savedData);
 
+
     const IDsonner = parsedData.map(item => item.idSonner);
     const Titulo = parsedData.map(item => item.titulo);
     const Departamento = parsedData.map(item => item.etapa.length > 0 ? item.etapa[0].departamento.nome : 'sem departamento')

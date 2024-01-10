@@ -340,11 +340,40 @@ const SolicitacoesPage = () => {
   const styles = StyledFiltros();
 
   //
-  const [selectedYear, setSelectedYear] = useState(2024); 
+  const [selectedYear, setSelectedYear] = useState(2024);
 
   const handleYearChange = (year) => {
     setSelectedYear(year);
   };
+
+  //
+  const [selectedSecretariaFilter, setSelectedSecretariaFilter] = useState(null);
+
+  const handleSecretariaFilterChange = (selectedOption) => {
+    setSelectedSecretariaFilter(selectedOption);
+  };
+
+  useEffect(() => {
+    if (!loading) {
+      const uniqueOptionsSet = new Set();
+
+      data?.forEach((resposta) => {
+        const optionLabel = `${resposta.usuario?.departamento?.secretaria?.nome} - ${resposta.usuario?.departamento?.secretaria?.sigla}`;
+        uniqueOptionsSet.add(optionLabel);
+      });
+
+      const filteredOptions = Array.from(uniqueOptionsSet).map((label) => ({
+        value: label,
+        label,
+      }));
+
+      setFilterOptions(filteredOptions);
+    }
+  }, [data, loading]);
+
+  //
+  const isCriarLicButtonVisible = session && (session.permissao.id === 1 || session.permissao.id === 2);
+
 
   return (
     <Box>
@@ -384,11 +413,12 @@ const SolicitacoesPage = () => {
             variant='outlined'
             color='primary'
             onClick={handleAbrirModalForm}
-            sx={{ width: '200px', height: '42px', marginRight: '10px' }}
+            sx={{ width: '200px', height: '41px', marginRight: '10px' }}
           >
             Criar solicitação
           </Button>
-          {session && (session.permissao.id === 1 || session.permissao.id === 2) && (
+          
+          {isCriarLicButtonVisible && (
             <Button
               startIcon={<AddCircle />}
               variant='outlined'
@@ -434,7 +464,7 @@ const SolicitacoesPage = () => {
                 },
               },
               width: '200px',
-              marginLeft: '20px'
+              marginLeft: isCriarLicButtonVisible ? '10px' : '2px',
             }}
           />
 
@@ -444,7 +474,7 @@ const SolicitacoesPage = () => {
       </Box>
 
       <div style={{ marginTop: '20px' }}>
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 1 }} sx={{ width: expanded ? '50%' : 0, ...styles }}>
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 1 }}>
           <Grid item xs={6} sm={1} sx={{ width: '100px', height: '50px' }}>
             <FormControl size="small" variant="outlined" color="primary" sx={{ width: '100%', height: '100%' }}>
               <InputLabel htmlFor="filter-ata">Filtro status</InputLabel>
@@ -518,91 +548,102 @@ const SolicitacoesPage = () => {
               }}
             />
           </Grid>
-          <Grid item xs={6} sm={2} sx={{ width: '100px', height: '50px' }}>
-            <Autocomplete
-              fullWidth
-              options={listaDptos || []}
-              getOptionLabel={(departamento) => `${departamento.secretaria.sigla} - ${departamento.nome}`}
-              value={
-                listaDptos &&
-                listaDptos.find((item) => item.nome === filterByDepartamento)
-              }
-              onChange={(event, newValue) => {
-                const selectedValue = newValue ? newValue.nome : 'all';
-                setFilterByDepartamento(selectedValue);
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Filtrar por Departamento Criado em"
-                  variant="outlined"
-                  size="small"
-                  color="primary"
-                  InputLabelProps={{
-                    shrink: true,
+          {session && (session.permissao.id === 1 || session.id === 39) && (
+            <>
+              <Grid item xs={6} sm={2} sx={{ width: '100px', height: '50px' }}>
+                <Autocomplete
+                  fullWidth
+                  options={listaDptos || []}
+                  getOptionLabel={(departamento) => `${departamento.secretaria.sigla} - ${departamento.nome}`}
+                  value={
+                    listaDptos &&
+                    listaDptos.find((item) => item.nome === filterByDepartamento)
+                  }
+                  onChange={(event, newValue) => {
+                    const selectedValue = newValue ? newValue.nome : 'all';
+                    setFilterByDepartamento(selectedValue);
                   }}
-                  InputProps={{
-                    ...params.InputProps,
-                    id: 'filter-departamento',
-                  }}
-                  sx={{ width: '100%', height: '100%' }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Filtrar por Departamento Criado em"
+                      variant="outlined"
+                      size="small"
+                      color="primary"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      InputProps={{
+                        ...params.InputProps,
+                        id: 'filter-departamento',
+                      }}
+                      sx={{ width: '100%', height: '100%' }}
+                    />
+                  )}
                 />
-              )}
-            />
-          </Grid>
-          <Grid item xs={6} sm={2} sx={{ width: '100px', height: '50px' }}>
-            <Autocomplete
-              fullWidth
-              options={['', ...uniqueSecretarias]}
-              value={selectedSecretaria}
-              onChange={(event, newValue) => {
-                setSelectedSecretaria(newValue);
-              }}
-              getOptionLabel={(option) => option === '' ? 'Todos' : option}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Filtrar por Secretaria parado em"
-                  variant="outlined"
-                  size="small"
-                  color="primary"
-                  InputProps={{
-                    ...params.InputProps,
-                    id: 'filter-secretaria',
-                  }}
-                  sx={{ width: '100%', height: '100%' }}
-                />
-              )}
-            />
-          </Grid>
+              </Grid>
 
-          {session && (session.permissao.id === 1
-          ) && (
-              <>
-                <Grid item xs={2} sx={{ width: '120px', height: '40px' }}>
-                  <Autocomplete
-                    options={filterOptions}
-                    getOptionLabel={(option) => option.label}
-                    style={{ width: '100%', height: '100%' }}
-                    value={selectedFilter}
-                    onChange={(e, selectedOption) => handleFilterChange(selectedOption)}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Criado por Departamento"
-                        variant="outlined"
-                        size="small"
-                        color="primary"
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                        sx={{ width: '100%', height: '100%' }}
-                      />
-                    )}
-                  />
-                </Grid>
-              </>
-            )}
+            </>
+          )}
+
+
+          {session && (session.permissao.id === 1 || session.id === 39) && (
+            <>
+              <Grid item xs={6} sm={2} sx={{ width: '100px', height: '50px' }}>
+                <Autocomplete
+                  fullWidth
+                  options={['', ...uniqueSecretarias]}
+                  value={selectedSecretaria}
+                  onChange={(event, newValue) => {
+                    setSelectedSecretaria(newValue);
+                  }}
+                  getOptionLabel={(option) => option === '' ? 'Todos' : option}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Filtrar por Secretaria parado em"
+                      variant="outlined"
+                      size="small"
+                      color="primary"
+                      InputProps={{
+                        ...params.InputProps,
+                        id: 'filter-secretaria',
+                      }}
+                      sx={{ width: '100%', height: '100%' }}
+                    />
+                  )}
+                />
+              </Grid>
+
+            </>
+          )}
+
+          {session && (session.permissao.id === 1 || session.id === 39) && (
+            <>
+              <Grid item xs={2} sx={{ width: '120px', height: '40px' }}>
+                <Autocomplete
+                  options={filterOptions}
+                  getOptionLabel={(option) => option.label}
+                  style={{ width: '100%', height: '100%' }}
+                  value={selectedFilter}
+                  onChange={(e, selectedOption) => handleFilterChange(selectedOption)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Criado por Departamento"
+                      variant="outlined"
+                      size="small"
+                      color="primary"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      sx={{ width: '100%', height: '100%' }}
+                    />
+                  )}
+                />
+              </Grid>
+            </>
+          )}
 
           <Grid item xs={6} sm={1} sx={{ width: '100px', height: '50px' }}>
             <FormControl size="small" variant="outlined" color="primary" sx={{ width: '100%', height: '100%' }}>
@@ -620,24 +661,40 @@ const SolicitacoesPage = () => {
             </FormControl>
           </Grid>
 
-          <Grid item xs={6} sm={2} sx={{ width: '100px', height: '50px' }}>
-            <TextField
-              label="Filtro por Secretaria"
-              variant="outlined"
-              size="small"
-              color="primary"
-              InputProps={{
-                id: 'filter-secretaria',
-              }}
-              sx={{ width: '100%', height: '100%' }}
-            />
-          </Grid>
+
+          {session && (session.permissao.id === 1 || session.id === 39) && (
+            <>
+              <Grid item xs={6} sm={2} sx={{ width: '100px', height: '50px' }}>
+
+
+                <Autocomplete
+                  options={filterOptions}
+                  getOptionLabel={(option) => option.label}
+                  style={{ width: '100%', height: '100%' }}
+                  value={selectedSecretariaFilter}
+                  onChange={(e, selectedOption) => handleSecretariaFilterChange(selectedOption)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Criado por Secretaria"
+                      variant="outlined"
+                      size="small"
+                      color="primary"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      sx={{ width: '100%', height: '100%' }}
+                    />
+                  )}
+                />
+              </Grid>
+            </>
+          )}
+
         </Grid>
 
       </div>
 
-      <br /><br />
-      <br />
 
 
       {/* <br /><br />
@@ -667,6 +724,7 @@ const SolicitacoesPage = () => {
         // FILTRO DPTO-SECRETARIA
         selectedYear={selectedYear}
         selectedFilter={selectedFilter}
+        selectedSecretariaFilter={selectedSecretariaFilter}
 
       />
 

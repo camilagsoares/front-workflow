@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useApiRequestSubmit } from '../../../../services/api';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState,useEffect } from 'react';
 import { AuthContext } from '../../../../contexts/auth.context';
 // import Snackbar from '@mui/material/Snackbar';
 // import MuiAlert from '@mui/material/Alert';
@@ -28,40 +28,23 @@ import Alert from '@mui/material/Alert';
 import { useApiRequestGet, axiosApi } from '../../../../services/api';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-const schema = yup
-  .object({
-    nome: yup.string(),
-    email: yup.string(),
-    senha: yup.string(),
-    telefone: yup.string(),
-    // matricula: yup.number().nullable(),
-    // permissaoId: yup.number().nullable(),
-    // departamentoId: yup.number().nullable(),
-    responsavelSecretaria: yup.boolean(),
-  })
-  .required();
+import { toast } from 'react-toastify';
+
 
 const ModalFormAtualizarUsuario = (props) => {
   const { projetosSelecionadoVisualizar } = props;
   const { handleAbrirModalAtualizarEtapaProjeto } = props;
   const { handleFecharModalForm } = props;
-  console.log('projeto selecionado', projetosSelecionadoVisualizar);
 
-  const { register, handleSubmit, formState, control, reset } = useForm({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      nome: '',
-      email: '',
-      senha: '',
-      telefone: '',
-      // matricula: null,
-      // permissaoId: null,
-      // departamentoId: null,
-      responsavelSecretaria: false,
-    },
-  });
+  const [nome, setNome] = useState('')
+  const [email, setEmail] = useState('')
+  // const [senha, setSenha] = useState('')
+  const [telefone, setTelefone] = useState('')
+  const [responsavelSecretaria, setResponsavelSecretaria] = useState(false)
 
-  const { errors } = formState;
+
+
+  // const { errors } = formState;
   const { session } = useContext(AuthContext);
   // const { handleAbrirDrawerView } = props;
   const { data: listaDptos, loading: loadingTiposProjeto } = useApiRequestGet('/departamentos');
@@ -69,57 +52,47 @@ const ModalFormAtualizarUsuario = (props) => {
   const [loading, setLoading] = useState(false);
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [formData, setFormData] = useState({
-    nome: '',
-    email: '',
-    senha: '',
-    telefone: '',
-    // matricula: null,
-    // permissaoId: null,
-    // departamentoId: null,
-    responsavelSecretaria: false,
-  });
 
-  const handleCriarSecretaria = (data) => {
-    const updatedData = {
-      nome: data.nome || formData.nome,
-      maxDias: data.maxDias || formData.maxDias,
-      email: data.email || formData.email,
-      senha: data.senha || formData.senha,
-      telefone: data.telefone || formData.telefone,
-      // matricula: data.matricula || formData.matricula,
-      // permissaoId: data.permissaoId || formData.permissaoId,
-      // departamentoId: data.departamentoId || formData.departamentoId,
-      responsavelSecretaria: data.responsavelSecretaria || formData.responsavelSecretaria,
-    };
+  const { data, loading: loadingUsuarioSelecionado } = useApiRequestGet(`/auth/usuarios/${projetosSelecionadoVisualizar}`);
+
+
+  useEffect(() => {
+    if (!loadingUsuarioSelecionado && data) {
+      setNome(data.nome);
+      setEmail(data.email);
+      // setSenha(data.senha);
+      setTelefone(data.telefone);    
+      setResponsavelSecretaria(data.responsavelSecretaria);
+
+    }
+  }, [loadingUsuarioSelecionado, data]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setLoading(true);
+    const data = {
+      nome: nome,
+      email: email,
+      // senha: senha,
+      telefone: telefone,
+      responsavelSecretaria: responsavelSecretaria,
+    };
+
     axiosApi
-      .put(`auth/usuarios/${projetosSelecionadoVisualizar}`, updatedData)
+      .put(`auth/usuarios/${projetosSelecionadoVisualizar}`, data)
       .then(() => {
-        //  toast('Projeto criado com sucesso', {
-        //  type: 'success',
-        //  });
-        console.log('campos', data);
-        reset();
-        handleFecharModalForm();
+        toast('Usuario  atualizado com sucesso', {
+          type: 'success',
+        });
+        setLoading(false);
       })
       .catch((error) => {
-        //  toast(error.message, {
-        //    type: 'error',
-        // });
-      })
-      .finally(() => {
+        toast(error.message, {
+          type: 'error',
+        });
         setLoading(false);
       });
-    console.log('campos', data);
   };
-
-  //   const { data
-  //     } = useApiRequestGet(`/users/${}`);
-  // console.log("id",data)
-
-  // console.log("data lista",data)
-  // console.log('listaTipoProjeto', listaTipoProjeto);
   return (
     <React.Fragment>
       {/* <Snackbar
@@ -146,7 +119,7 @@ const ModalFormAtualizarUsuario = (props) => {
             </IconButton>
           </Stack>
         </DialogTitle>
-        <Box component='form' noValidate onSubmit={handleSubmit(handleCriarSecretaria)}>
+        {/* <Box component='form' noValidate onSubmit={handleSubmit(handleCriarSecretaria)}>
           <DialogContent dividers sx={{ paddingTop: 1 }}>
             <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
               <Grid item xs={12} sm={12} md={9}>
@@ -198,136 +171,19 @@ const ModalFormAtualizarUsuario = (props) => {
                   helperText={errors.telefone?.message}
                 />
               </Grid>
-              {/* <Grid item xs={12} sm={12} md={4}>
-                <TextField
-                  {...register('matricula')}
-                  defaultValue={formData.matricula}
-
-                  fullWidth
-                  required
-                  label='Matrícula'
-                  type='number'
-                  error={!!errors.matricula}
-                  helperText={errors.matricula?.message}
-                />
-              </Grid> */}
-
-              {/* <Grid item xs={12} sm={12} md={12}>
-                <Controller
-                  name='departamentoId'
-                  control={control}
-                  render={({ field }) => {
-                    const { onChange, name, onBlur, value, ref } = field;
-                    return (
-                      <TextField
-                        required
-                        ref={ref}
-                        disabled={loadingTiposProjeto}
-                        InputProps={{
-                          endAdornment: loadingTiposProjeto && (
-                            <InputAdornment position='start'>
-                              <CircularProgress color='info' size={28} sx={{ marginRight: 2 }} />
-                            </InputAdornment>
-                          ),
-                        }}
-                        select
-                        fullWidth
-                        key='departamento'
-                        variant='outlined'
-                        onBlur={onBlur}
-                        name={name}
-                        label='Departamento'
-                        // value={value}
-                        value={formData.departamentoId}
-                        onChange={onChange}
-                        error={!!errors.departamentoId}
-                        helperText={errors.departamentoId?.message}
-                      >
-                        <MenuItem disabled value=''>
-                          <em>Nenhuma</em>
-                        </MenuItem>
-                        {!loadingTiposProjeto &&
-                          listaDptos &&
-                          listaDptos.length &&
-                          listaDptos.map((departamento) => (
-                            <MenuItem key={departamento.id} value={departamento.id}>
-                              {departamento.nome}
-                            </MenuItem>
-                          ))}
-                      </TextField>
-                    );
-                  }}
-                />
-             
-              </Grid> */}
-              {/* <Grid item xs={12} sm={12} md={12}>
-                <Controller
-                  name='permissaoId'
-                  control={control}
-                  render={({ field }) => {
-                    const { onChange, name, onBlur, value, ref } = field;
-                    return (
-                      <TextField
-                        required
-                        ref={ref}
-                        disabled={loadingTiposProjeto}
-                        InputProps={{
-                          endAdornment: loadingTiposProjeto && (
-                            <InputAdornment position='start'>
-                              <CircularProgress color='info' size={28} sx={{ marginRight: 2 }} />
-                            </InputAdornment>
-                          ),
-                        }}
-                        select
-                        fullWidth
-                        key='permissao'
-                        variant='outlined'
-                        onBlur={onBlur}
-                        name={name}
-                        label='Permissão'
-                        // value={value}
-                        value={formData.permissaoId}
-
-                        onChange={onChange}
-                        error={!!errors.permissaoId}
-                        helperText={errors.permissaoId?.message}
-                      >
-                        <MenuItem disabled value=''>
-                          <em>Nenhuma</em>
-                        </MenuItem>
-                        {!loadingPermissao &&
-                          listaPermissao &&
-                          listaPermissao.length &&
-                          listaPermissao.map((permissao) => (
-                            <MenuItem key={permissao.id} value={permissao.id}>
-                              {permissao.nome}
-                            </MenuItem>
-                          ))}
-                      </TextField>
-                    );
-                  }}
-                />
            
-              </Grid> */}
-
-              {/* <Grid item xs={12} sm={12} md={12}>
-                <Typography variant='body1'>Responsável Secretaria</Typography>
-                <Controller
-                  name='responsavelSecretaria'
-                  control={control}
-                  render={({ field }) => <Checkbox {...field} color='primary' />}
+              <Grid sx={{ marginLeft: '20px' }}>
+                <FormControlLabel
+                  control={
+                    <Controller
+                      name='responsavelSecretaria'
+                      control={control}
+                      render={({ field }) => <Checkbox {...field} color='primary' />}
+                    />
+                  }
+                  label='Secretaria'
                 />
-              </Grid> */}
-              <FormControlLabel
-                control={
-                  <Controller
-                    name='responsavelSecretaria'
-                    control={control}
-                    render={({ field }) => <Checkbox {...field} color='primary' />}
-                  />
-                }
-                label='Secretaria'
-              />
+              </Grid>
             </Grid>
 
             {showSuccessMessage && (
@@ -341,7 +197,6 @@ const ModalFormAtualizarUsuario = (props) => {
           </DialogContent>
           <DialogActions>
             <Button
-              // disabled={loading}
               startIcon={<Close width={24} />}
               variant='outlined'
               color='info'
@@ -352,7 +207,6 @@ const ModalFormAtualizarUsuario = (props) => {
             </Button>
             <Button
               type='submit'
-              // disabled={loading}
               startIcon={<Save width={24} />}
               variant='outlined'
               color='success'
@@ -361,17 +215,107 @@ const ModalFormAtualizarUsuario = (props) => {
               {!loading ? 'Salvar' : <CircularProgress color='success' size={23} />}
             </Button>
           </DialogActions>
-        </Box>
+        </Box> */}
+        <form onSubmit={handleSubmit}>
+          <DialogContent dividers sx={{ paddingTop: 1 }}>
+            <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
+              <Grid item xs={12} sm={12} md={12}>
+                <TextField
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  required
+                  fullWidth
+                  autoFocus
+                  label='Nome'
+                  type='text'
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={12} md={12}>
+                <TextField
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  fullWidth
+                  autoFocus
+                  label='Email'
+                  type='text'
+                />
+              </Grid>
+{/* 
+              <Grid item xs={12} sm={12} md={12}>
+                <TextField
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                  required
+                  fullWidth
+                  autoFocus
+                  label='Senha'
+                  type='text'
+                />
+              </Grid> */}
+
+
+              <Grid item xs={12} sm={12} md={12}>
+                <TextField
+                  value={telefone}
+                  onChange={(e) => setTelefone(e.target.value)}
+                  required
+                  fullWidth
+                  autoFocus
+                  label='Telefone'
+                  type='text'
+                />
+              </Grid>
+
+
+              {/* <Grid item xs={12} sm={12} md={12}>
+                <TextField
+                  value={responsavelSecretaria}
+                  onChange={(e) => setResponsavelSecretaria(e.target.value)}
+                  required
+                  fullWidth
+                  autoFocus
+                  label='Responsavel Secretaria'
+                  type='number'
+                />
+              </Grid> */}
+
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              disabled={loading}
+              startIcon={<Close width={24} />}
+              variant='outlined'
+              color='info'
+              onClick={handleFecharModalForm}
+              sx={{ minWidth: 156, height: '100%' }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              type='submit'
+              disabled={loading}
+              startIcon={<Save width={24} />}
+              variant='outlined'
+              color='success'
+              sx={{ minWidth: 156, height: '100%' }}
+            >
+              {!loading ? 'Salvar' : <CircularProgress color='success' size={23} />}
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </React.Fragment>
   );
 };
 
 ModalFormAtualizarUsuario.propTypes = {
-  handleFecharModalForm: PropTypes.func.isRequired,
+  // handleFecharModalForm: PropTypes.func.isRequired,
   handleFecharDrawerView: PropTypes.func.isRequired,
   projetosSelecionadoVisualizar: PropTypes.number,
-  handleAbrirModalAtualizarEtapaProjeto: PropTypes.func.isRequired,
+  // handleAbrirModalAtualizarEtapaProjeto: PropTypes.func.isRequired,
 };
 
 ModalFormAtualizarUsuario.defaultProps = {

@@ -123,6 +123,7 @@ const Lista = (props) => {
   const { selectedTipoProjeto } = props;
   const { selectedYear } = props;
   const { selectedFilter } = props;
+  const { selectedSecretariaFilter } = props;
   const { selectedSecretaria } = props;
   const [filteredData, setFilteredData] = useState(data);
   const [numProjetosPorSecretaria, setNumProjetosPorSecretaria] = useState({});
@@ -139,17 +140,27 @@ const Lista = (props) => {
         const departamentoNome = (projeto?.etapa[0]?.departamento?.nome || "").trim();
         const secretariaNome = (projeto?.etapa[0]?.departamento?.secretaria?.nome || "").trim();
         const secretariaSigla = (projeto?.etapa[0]?.departamento?.secretaria?.sigla || "").trim();
-
+  
         const projetoYear = new Date(projeto.criadoEm).getFullYear();
-
-        // Check if selectedFilter is not set or matches the current project
+  
         const isMatchingSelectedFilter =
           !selectedFilter ||
           (
-            projeto.usuario?.departamento?.nome.includes(selectedFilter.value.split(" - ")[0]) &&
-            projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedFilter.value.split(" - ")[1]) 
+            (projeto.usuario?.departamento?.nome.includes(selectedFilter.value.split(" - ")[0]) &&
+            projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedFilter.value.split(" - ")[1])) ||
+            (projeto.usuario?.departamento?.secretaria?.nome.includes(selectedFilter.value.split(" - ")[0]) &&
+            projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedFilter.value.split(" - ")[1]))
           );
-
+  
+        const isMatchingSelectedSecretariaFilter =
+          !selectedSecretariaFilter ||
+          (
+            (projeto.usuario?.departamento?.nome.includes(selectedSecretariaFilter.value.split(" - ")[0]) &&
+            projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedSecretariaFilter.value.split(" - ")[1])) ||
+            (projeto.usuario?.departamento?.secretaria?.nome.includes(selectedSecretariaFilter.value.split(" - ")[0]) &&
+            projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedSecretariaFilter.value.split(" - ")[1]))
+          );
+  
         if (
           (projeto.idSonner.toString().includes(searchTerm.trim()) ||
             projeto?.titulo.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
@@ -173,19 +184,21 @@ const Lista = (props) => {
           (filterBySecretaria === "" || secretariaNome === filterBySecretaria) &&
           (selectedTipoProjeto === "" || projeto.tipoProjetoId === selectedTipoProjeto) &&
           isMatchingSelectedFilter &&
+          isMatchingSelectedSecretariaFilter &&
           projetoYear === selectedYear
         ) {
           return true;
         }
         return false;
       });
-
+  
       setFilteredData(filtered);
     } else {
       setFilteredData(data);
     }
-  }, [data, searchTerm, filterByAta, filterByDepartamento, filterBySecretaria, selectedTipoProjeto, selectedFilter, selectedYear]);
-
+  }, [data, searchTerm, filterByAta, filterByDepartamento, filterBySecretaria, selectedTipoProjeto, selectedFilter, selectedSecretariaFilter, selectedYear]);
+  
+  
   //teste
   function getBordaClasse(projeto) {
     if (projeto.situacao === 'INATIVO' && projeto.prioridadeProjeto) {
