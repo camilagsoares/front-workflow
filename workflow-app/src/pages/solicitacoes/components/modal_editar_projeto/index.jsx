@@ -202,6 +202,7 @@ const ModalEditarProjeto = (props) => {
   );
 };
 
+
 ModalEditarProjeto.propTypes = {
   handleFecharModalForm: PropTypes.func.isRequired,
 };
