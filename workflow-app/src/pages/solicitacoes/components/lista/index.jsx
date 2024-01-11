@@ -23,6 +23,9 @@ import "./styles.css"
 import ImportExportOutlinedIcon from '@mui/icons-material/ImportExportOutlined';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material/styles';
+import ImportLicitacao from '../../../../services/importLici';
+
+
 
 
 const Lista = (props) => {
@@ -33,7 +36,6 @@ const Lista = (props) => {
       },
     },
   });
-
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -88,10 +90,13 @@ const Lista = (props) => {
   const { searchTerm } = props;
   const { filterByAta } = props;
   const { data, loading } = useApiRequestGet('/projetos');
+  // const { data2 } = useApiRequestGet('/processos-licitatorios');
   const { etapas } = useApiRequestGet('/etapas');
   console.log('projetos', data)
+  // console.log('licitatorio', data2)
 
   localStorage.setItem('projetosData', JSON.stringify(data));
+  // localStorage.setItem('licitatorioData', JSON.stringify(data2));
   //TESTE!
   const { data: listaDptos, loading: loadingTiposProjeto } = useApiRequestGet('/departamentos');
   const { token, session } = useContext(AuthContext);
@@ -116,7 +121,8 @@ const Lista = (props) => {
   }, [data]);
 
 
-
+  ImportLicitacao(); 
+  
   const dataIsValid = Array.isArray(data) && !isNaN(projectsPerPage);
   const { filterByDepartamento } = props;
   const { filterBySecretaria } = props;

@@ -233,8 +233,6 @@ const SolicitacoesPage = () => {
   } = useApiRequestGet('/tipos-projeto');
 
 
-
-
   // teste filtro tipo projeto
   const [selectedTipoProjeto, setSelectedTipoProjeto] = useState('');
   const [secretariaOptions, setSecretariaOptions] = useState([]);

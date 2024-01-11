@@ -121,7 +121,8 @@ const DownloadTable = () => {
     const parsedData = JSON.parse(savedData);
 
 
-    const IDsonner = parsedData.map(item => item.numeroCompras);
+    const numeroCompras = parsedData.map(item => item.numeroCompras);
+    const IDsonner = parsedData.map(item => item.idSonner);
     const Titulo = parsedData.map(item => item.titulo);
     const Departamento = parsedData.map(item => item.etapa.length > 0 ? item.etapa[0].departamento.nome : 'sem departamento')
     const converterHora = (hora) => {
@@ -141,13 +142,14 @@ const DownloadTable = () => {
 
 
     const relatorio = parsedData.map((item, index) => [
+      numeroCompras[index],
       IDsonner[index],
       Titulo[index],
       Departamento[index],
       HoraFormatada[index]
     ]);
 
-    const headers = ['Número Compras', 'Titulo', 'Departamento', 'Criado em']
+    const headers = ['Número Compras', 'Número Sonner', 'Titulo', 'Departamento', 'Criado em']
 
     relatorio.unshift(headers);
 

@@ -60,7 +60,7 @@ const Lista = (props) => {
   };
 
   const { data, error, loading } = useApiRequestGet(`/processos-licitatorios`);
-  localStorage.setItem('licitatorioData', JSON.stringify(data));
+  // localStorage.setItem('licitatorioData', JSON.stringify(data));
 
   const { searchTerm } = props;
   const { filterByAta } = props;
