@@ -90,9 +90,10 @@ const Lista = (props) => {
   const { searchTerm } = props;
   const { filterByAta } = props;
   const { data, loading } = useApiRequestGet('/projetos');
+  console.log(data)
   // const { data2 } = useApiRequestGet('/processos-licitatorios');
   const { etapas } = useApiRequestGet('/etapas');
-  console.log('projetos', data)
+  // console.log('projetos', data)
   // console.log('licitatorio', data2)
 
   localStorage.setItem('projetosData', JSON.stringify(data));
@@ -232,6 +233,36 @@ const Lista = (props) => {
 
 
 
+  // function formatCurrency(value) {
+  //   const formattedCurrency = new Intl.NumberFormat('pt-BR', {
+  //     style: 'currency',
+  //     currency: 'BRL',
+  //   }).format(value);
+  
+  //   return formattedCurrency;
+  // }
+
+  function formatCurrency(value) {
+    // Verifica se o valor é uma string numérica válida
+    const numericValue = parseFloat(value.replace(/[^\d.,-]/g, ''));
+  
+    // Verifica se a conversão foi bem-sucedida e o valor é um número válido
+    if (!isNaN(numericValue) && isFinite(numericValue)) {
+      const formattedCurrency = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+      }).format(numericValue);
+  
+      return formattedCurrency;
+    } else {
+      // Se a conversão falhar, você pode retornar um valor padrão ou tratar de outra forma
+      return 'Valor inválido';
+    }
+  }
+  
+  // Uso da função
+  
+  
   return (
     <React.Fragment>
       <Box marginY={1} paddingY={2}>
@@ -294,7 +325,7 @@ const Lista = (props) => {
               ) : (
                 filteredData
                   ?.slice(pagesVisited, pagesVisited + projectsPerPage)
-                  .map((projeto) => (
+                  .map((projeto,index) => (
                     <StyledTableRow key={projeto?.id}>
                       {session?.id === 39 && (
                         <StyledTableCell
@@ -329,9 +360,13 @@ const Lista = (props) => {
                       <StyledTableCell align="left" >
                         {projeto?.etapa[0]?.departamento?.secretaria?.sigla}  -&nbsp;
                         {projeto?.etapa[0]?.departamento?.nome}
-                      </StyledTableCell>
+                      </StyledTableCell>   
                       <StyledTableCell align="left">{projeto?.tipoProjeto?.nome}</StyledTableCell>
-                      <StyledTableCell align="left" style={{ whiteSpace: 'nowrap' }}>R$ {formatarNumero(projeto?.valor)}</StyledTableCell>
+                      <StyledTableCell align="left" style={{ whiteSpace: 'nowrap' }}>
+                    
+                     {formatCurrency(projeto?.valor)} 
+                        </StyledTableCell> 
+
 
                       {session && (session.id === 1 && !isUsuarioCompras || session.id === 56 && !isUsuarioCompras) && (
 
