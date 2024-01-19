@@ -43,12 +43,8 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const encerrarSessao = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('session'); 
-    localStorage.removeItem('projetos');
-    localStorage.removeItem('projetosData'); 
-    localStorage.removeItem('licitatorioData'); 
-
+    localStorage.clear();
+   
     setToken(null);
     setSession(null);
     navigate('/login');
