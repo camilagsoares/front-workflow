@@ -80,7 +80,7 @@ const ModalForm = (props) => {
       <Box component='form' noValidate onSubmit={handleSubmit(handleCriarSecretaria)}>
         <DialogContent dividers sx={{ paddingTop: 1 }}>
           <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
-            <Grid item xs={12} sm={12} md={9}>
+            <Grid item xs={12} sm={12} md={12}>
               <TextField
                 {...register('descricao')}
                 required
@@ -93,7 +93,7 @@ const ModalForm = (props) => {
               />
             </Grid>
           
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={12} md={12}>
               <TextField
                 {...register('nome')}
                 fullWidth
