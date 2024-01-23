@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { useApiRequestSubmit, useApiRequestGet } from '../../services/api';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material';
 
 import Paper from '@mui/material/Paper';
 import Dialog from '@mui/material/Dialog';

@@ -32,7 +32,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Autocomplete from '@mui/material/Autocomplete';
 import "../styles.css"
 import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import Grow from '@mui/material/Grow';
 

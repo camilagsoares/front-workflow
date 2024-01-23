@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material';
 
 // Aqui é possível criar um tema padrão para o MUI
 const theme = createTheme({

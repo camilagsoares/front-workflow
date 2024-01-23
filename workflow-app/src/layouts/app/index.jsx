@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { useTheme } from '@emotion/react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import MuiAppBar from '@mui/material/AppBar';

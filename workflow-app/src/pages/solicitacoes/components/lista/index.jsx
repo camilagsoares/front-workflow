@@ -14,15 +14,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material';
 import { useApiRequestGet } from '../../../../services/api';
 import { Button } from '@mui/material';
 import { AuthContext } from '../../../../contexts/auth.context';
 import Pagination from '@mui/material/Pagination';
 import "./styles.css"
 import ImportExportOutlinedIcon from '@mui/icons-material/ImportExportOutlined';
-import { createTheme } from '@mui/material/styles';
-import { ThemeProvider } from '@mui/material/styles';
+import { createTheme } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
 import ImportLicitacao from '../../../../services/importLici';
 
 
