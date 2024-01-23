@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';

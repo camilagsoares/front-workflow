@@ -16,7 +16,7 @@ import AddCircle from '@mui/icons-material/AddCircleOutline';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import React, { useState, useContext, useEffect } from 'react';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';

@@ -17,7 +17,7 @@ import AddCircle from '@mui/icons-material/AddCircleOutline';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material';
 
 const DrawerView = (props) => {
   const { projetosSelecionadoVisualizar } = props;

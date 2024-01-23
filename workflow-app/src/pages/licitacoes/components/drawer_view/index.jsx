@@ -15,7 +15,7 @@ import MenuOpen from '@mui/icons-material/MenuOpenOutlined';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import { useApiRequestGet } from '../../../../services/api';
 import { format, parseISO } from 'date-fns';
