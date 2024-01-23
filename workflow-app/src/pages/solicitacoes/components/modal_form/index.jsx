@@ -47,7 +47,7 @@ const ModalForm = (props) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
 
-  const { register, handleSubmit, formState, control, reset } = useForm({
+  const { register, handleSubmit, formState, control, reset,setValue  } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       idSonner: null,
@@ -78,7 +78,7 @@ const ModalForm = (props) => {
   
     setLoading(true);
     axiosApi
-      .post('/projetos', data)
+      .post('/projetos', { ...data, valor: formattedValue })
       .then(() => {
         toast('Projeto criado com sucesso', {
           type: 'success',
@@ -96,9 +96,22 @@ const ModalForm = (props) => {
       .finally(() => {
         setLoading(false);
       });
+      console.log("oq to mandando",data)
   };
+//
 
-  
+const [formattedValue, setFormattedValue] = useState('');
+
+
+  const formatarValor = (valor) => {
+    // Remove qualquer pontuação existente
+    const valorSemPontuacao = valor.replace(/[^\d]/g, '');
+
+    // Formata o valor com pontuação
+    const valorFormatado = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2 }).format(valorSemPontuacao / 100);
+
+    setFormattedValue(valorFormatado);
+  };
 
  
   return (
@@ -212,6 +225,10 @@ const ModalForm = (props) => {
                 label='Valor estimado. Exemplo: 31.000,98'
                 type='text'
                 error={!!errors.valor}
+                value={formattedValue}
+                onChange={(e) => {
+                  formatarValor(e.target.value);
+                }}
                 // helperText={valorError ? 'Não coloque ponto ou vírgula no campo de valor,se precisar arredonde' : errors.valor?.message}
               />
             </Grid>

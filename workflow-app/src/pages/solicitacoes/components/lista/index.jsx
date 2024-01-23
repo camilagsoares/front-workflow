@@ -90,11 +90,9 @@ const Lista = (props) => {
   const { searchTerm } = props;
   const { filterByAta } = props;
   const { data, loading } = useApiRequestGet('/projetos');
-  console.log(data)
   // const { data2 } = useApiRequestGet('/processos-licitatorios');
   const { etapas } = useApiRequestGet('/etapas');
-  // console.log('projetos', data)
-  // console.log('licitatorio', data2)
+
 
   localStorage.setItem('projetosData', JSON.stringify(data));
   // localStorage.setItem('licitatorioData', JSON.stringify(data2));
@@ -232,36 +230,31 @@ const Lista = (props) => {
   }
 
 
+//
 
-  // function formatCurrency(value) {
-  //   const formattedCurrency = new Intl.NumberFormat('pt-BR', {
-  //     style: 'currency',
-  //     currency: 'BRL',
-  //   }).format(value);
-  
-  //   return formattedCurrency;
-  // }
+function formatNumber(value) {
+  // Remove qualquer caractere que não seja um dígito, ponto ou vírgula
+  const cleanedValue = value.replace(/[^\d.,]/g, '');
 
-  function formatCurrency(value) {
-    // Verifica se o valor é uma string numérica válida
-    const numericValue = parseFloat(value.replace(/[^\d.,-]/g, ''));
-  
-    // Verifica se a conversão foi bem-sucedida e o valor é um número válido
-    if (!isNaN(numericValue) && isFinite(numericValue)) {
-      const formattedCurrency = new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-      }).format(numericValue);
-  
-      return formattedCurrency;
-    } else {
-      // Se a conversão falhar, você pode retornar um valor padrão ou tratar de outra forma
-      return 'Valor inválido';
-    }
+  // Verifica se o valor é um número
+  if (!isNaN(cleanedValue)) {
+    // Converte para o formato de número
+    const numberValue = parseFloat(cleanedValue);
+    
+    // Formata o número com o separador de milhares e o separador decimal adequados
+    const formattedValue = new Intl.NumberFormat('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(numberValue);
+
+    return `R$ ${formattedValue}`;
+  } else {
+    // Se não for um número válido, retorna o valor original
+    return `R$ ${value}`;
   }
-  
-  // Uso da função
-  
+}
+
+
   
   return (
     <React.Fragment>
@@ -363,8 +356,8 @@ const Lista = (props) => {
                       </StyledTableCell>   
                       <StyledTableCell align="left">{projeto?.tipoProjeto?.nome}</StyledTableCell>
                       <StyledTableCell align="left" style={{ whiteSpace: 'nowrap' }}>
-                    
-                     {formatCurrency(projeto?.valor)} 
+                    {formatNumber(projeto?.valor)}
+                     {/* {formatCurrency(projeto?.valor)}  */}
                         </StyledTableCell> 
 
 

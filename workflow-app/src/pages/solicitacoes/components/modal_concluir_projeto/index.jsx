@@ -73,7 +73,7 @@ const ModalConcluirProjeto = (props) => {
   const { data: projetoSelecionado, loading: loadingProjetoSelecionado } = useApiRequestGet(`/projetos/${projetosSelecionadoVisualizar}`);
   const handleCriarSecretaria = (data) => {
   
-    // if (session?.id === projetoSelecionado?.usuarioId) {
+    if (session?.id === projetoSelecionado?.usuarioId) {
       setLoading(true);
       data.situacao = 'INATIVO';
   
@@ -104,13 +104,13 @@ const ModalConcluirProjeto = (props) => {
           type: 'error',
         });
       })
-    // }
-    //  else {
-    //   // Display an error message or prevent the conclusion of the project
-    //   toast('Você não tem permissão para concluir este projeto. Somente o usuário que criou.', {
-    //     type: 'error',
-    //   });
-    // }
+    }
+     else {
+      // Display an error message or prevent the conclusion of the project
+      toast('Você não tem permissão para concluir este projeto. Somente o usuário que criou.', {
+        type: 'error',
+      });
+    }
   };
   // const { token, session } = useContext(AuthContext);
 
