@@ -74,7 +74,7 @@ const ModalForm = (props) => {
         //  toast('Projeto criado com sucesso', {
         //  type: 'success',
         //  });
-  
+
         reset();
         handleFecharModalForm();
       })
@@ -86,8 +86,6 @@ const ModalForm = (props) => {
       .finally(() => {
         setLoading(false);
       });
- 
-
   };
 
   return (
@@ -187,11 +185,11 @@ const ModalForm = (props) => {
                       }}
                       onBlur={onBlur}
                       isOptionEqualToValue={(option, value) => option.id === value}
-                     
+
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          
+
                           label='Departamento'
                           variant='outlined'
                           name={name}
@@ -205,7 +203,7 @@ const ModalForm = (props) => {
                               </InputAdornment>
                             ),
                           }}
-                          
+
                         />
                       )}
                     />

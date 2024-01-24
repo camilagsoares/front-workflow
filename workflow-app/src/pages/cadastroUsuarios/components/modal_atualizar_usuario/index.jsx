@@ -38,7 +38,7 @@ const ModalFormAtualizarUsuario = (props) => {
 
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
-  // const [senha, setSenha] = useState('')
+  const [senha, setSenha] = useState('')
   const [telefone, setTelefone] = useState('')
   const [responsavelSecretaria, setResponsavelSecretaria] = useState(false)
 
@@ -54,13 +54,12 @@ const ModalFormAtualizarUsuario = (props) => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const { data, loading: loadingUsuarioSelecionado } = useApiRequestGet(`/auth/usuarios/${projetosSelecionadoVisualizar}`);
-
-
+// console.log(data)
   useEffect(() => {
     if (!loadingUsuarioSelecionado && data) {
       setNome(data.nome);
       setEmail(data.email);
-      // setSenha(data.senha);
+      setSenha(data.senha);
       setTelefone(data.telefone);    
       setResponsavelSecretaria(data.responsavelSecretaria);
 
@@ -73,7 +72,7 @@ const ModalFormAtualizarUsuario = (props) => {
     const data = {
       nome: nome,
       email: email,
-      // senha: senha,
+      senha: senha,
       telefone: telefone,
       responsavelSecretaria: responsavelSecretaria,
     };
@@ -92,6 +91,7 @@ const ModalFormAtualizarUsuario = (props) => {
         });
         setLoading(false);
       });
+      console.log("data",data)
   };
   return (
     <React.Fragment>
@@ -242,7 +242,7 @@ const ModalFormAtualizarUsuario = (props) => {
                   type='text'
                 />
               </Grid>
-{/* 
+
               <Grid item xs={12} sm={12} md={12}>
                 <TextField
                   value={senha}
@@ -253,7 +253,7 @@ const ModalFormAtualizarUsuario = (props) => {
                   label='Senha'
                   type='text'
                 />
-              </Grid> */}
+              </Grid>
 
 
               <Grid item xs={12} sm={12} md={12}>
