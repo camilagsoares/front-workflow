@@ -73,7 +73,7 @@ const ModalConcluirProjeto = (props) => {
   const { data: projetoSelecionado, loading: loadingProjetoSelecionado } = useApiRequestGet(`/projetos/${projetosSelecionadoVisualizar}`);
   const handleCriarSecretaria = (data) => {
   
-    if (session?.id === projetoSelecionado?.usuarioId) {
+    if (session?.id === projetoSelecionado?.usuarioId || session.permissao.id === 1) {
       setLoading(true);
       data.situacao = 'INATIVO';
   
