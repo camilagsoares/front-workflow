@@ -585,7 +585,7 @@ const SolicitacoesPage = () => {
           )}
 
 
-          {session && (session.permissao.id === 1 || session.id === 39) && (
+           {session && (session.permissao.id === 1 || session.id === 39) && (
             <>
               <Grid item xs={6} sm={2} sx={{ width: '100px', height: '50px' }}>
                 <Autocomplete
@@ -641,7 +641,7 @@ const SolicitacoesPage = () => {
                 />
               </Grid>
             </>
-          )}
+          )} 
 
           <Grid item xs={6} sm={1} sx={{ width: '100px', height: '50px' }}>
             <FormControl size="small" variant="outlined" color="primary" sx={{ width: '100%', height: '100%' }}>
