@@ -137,6 +137,7 @@ const TipoProjeto = () => {
             />
           )}
         </Box>
+        
        <Lista
           searchTerm={searchTerm}
           handleAbrirDrawerView={handleAbrirDrawerView}
