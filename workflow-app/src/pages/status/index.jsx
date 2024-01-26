@@ -60,11 +60,15 @@ const Status = () => {
       <Typography component='h2' variant='h5' fontWeight={700} color='text.primary'>
         Status
       </Typography>
+
       <Divider />
+
       <Box display='flex' flexDirection='row' gap={2} paddingY={2}>
+
         <Button startIcon={<AddCircle />} variant='outlined' color='primary' onClick={handleAbrirModalForm}>
           Criar status
         </Button>
+
         <TextField
           size='small'
           variant='outlined'
@@ -102,26 +106,35 @@ const Status = () => {
             },
           }}
         />
-        {modalFormAberto && <ModalForm handleFecharModalForm={handleFecharModalForm} />}
-        {drawerViewAberto && (
-            <ModalFormAtualizarSecretaria
-              handleFecharDrawerView={handleFecharDrawerView}
-              projetosSelecionadoVisualizar={projetosSelecionadoVisualizar}
-              handleAbrirModalAtualizarEtapaProjeto={handleAbrirModalAtualizarEtapaProjeto}
-            />
-          )}
+        
+        {modalFormAberto &&
+          <ModalForm
+            handleFecharModalForm={handleFecharModalForm}
+          />}
 
-          {drawerViewAbertoDelete && (
-            <ModalFormDeletarUsuario
-              handleFecharDelete={handleFecharDelete}
-              projetoSelecionadoDeletar={projetoSelecionadoDeletar}
-              handleAbrirModalAtualizarEtapaProjeto={handleAbrirModalAtualizarEtapaProjeto}
-              handleAbrirModalDelete={handleAbrirModalDelete}
-            />
-          )}
+        {drawerViewAberto && (
+          <ModalFormAtualizarSecretaria
+            handleFecharDrawerView={handleFecharDrawerView}
+            projetosSelecionadoVisualizar={projetosSelecionadoVisualizar}
+            handleAbrirModalAtualizarEtapaProjeto={handleAbrirModalAtualizarEtapaProjeto}
+          />
+        )}
+
+        {drawerViewAbertoDelete && (
+          <ModalFormDeletarUsuario
+            handleFecharDelete={handleFecharDelete}
+            projetoSelecionadoDeletar={projetoSelecionadoDeletar}
+            handleAbrirModalAtualizarEtapaProjeto={handleAbrirModalAtualizarEtapaProjeto}
+            handleAbrirModalDelete={handleAbrirModalDelete}
+          />
+        )}
       </Box>
-      <Lista searchTerm={searchTerm}  handleAbrirDrawerView={handleAbrirDrawerView}
-          handleAbrirDelete={handleAbrirDelete}/>
+
+      <Lista
+        searchTerm={searchTerm}
+        handleAbrirDrawerView={handleAbrirDrawerView}
+        handleAbrirDelete={handleAbrirDelete}
+      />
     </Box>
   );
 };
