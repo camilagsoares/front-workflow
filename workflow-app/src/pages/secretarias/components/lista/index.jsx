@@ -114,8 +114,14 @@ const Lista = (props) => {
               </StyledTableRow>
             </TableHead>
             <TableBody>
-              {loading ? (
+            {loading ? (
                 <TableRowsLoaderSkeleton rowsNum={5} />
+              ) : filteredData?.length === 0 ? (
+                <StyledTableRow>
+                  <StyledTableCell colSpan={7}>
+                    Nenhuma secretaria encontrada.
+                  </StyledTableCell>
+                </StyledTableRow>
               ) : (
                 filteredData?.slice(pagesVisited, pagesVisited + projectsPerPage).map((row) => {
                  {
