@@ -104,24 +104,29 @@ const DepartamentosPage = () => {
         />
         {modalFormAberto && <ModalForm handleFecharModalForm={handleFecharModalForm} />}
         {drawerViewAberto && (
-            <ModalFormAtualizarDpto
-              handleFecharDrawerView={handleFecharDrawerView}
-              projetosSelecionadoVisualizar={projetosSelecionadoVisualizar}
-              handleAbrirModalAtualizarEtapaProjeto={handleAbrirModalAtualizarEtapaProjeto}
-            />
-          )}
+          <ModalFormAtualizarDpto
+            handleFecharDrawerView={handleFecharDrawerView}
+            projetosSelecionadoVisualizar={projetosSelecionadoVisualizar}
+            handleAbrirModalAtualizarEtapaProjeto={handleAbrirModalAtualizarEtapaProjeto}
+          />
+        )}
 
-          {drawerViewAbertoDelete && (
-            <ModalFormDeletarUsuario
-              handleFecharDelete={handleFecharDelete}
-              projetoSelecionadoDeletar={projetoSelecionadoDeletar}
-              handleAbrirModalAtualizarEtapaProjeto={handleAbrirModalAtualizarEtapaProjeto}
-              handleAbrirModalDelete={handleAbrirModalDelete}
-            />
-          )}
+        {drawerViewAbertoDelete && (
+          <ModalFormDeletarUsuario
+            handleFecharDelete={handleFecharDelete}
+            projetoSelecionadoDeletar={projetoSelecionadoDeletar}
+            handleAbrirModalAtualizarEtapaProjeto={handleAbrirModalAtualizarEtapaProjeto}
+            handleAbrirModalDelete={handleAbrirModalDelete}
+          />
+        )}
       </Box>
-      <Lista searchTerm={searchTerm}  handleAbrirDrawerView={handleAbrirDrawerView}
-          handleAbrirDelete={handleAbrirDelete}/>
+
+      <Lista
+        searchTerm={searchTerm}
+        handleAbrirDrawerView={handleAbrirDrawerView}
+        handleAbrirDelete={handleAbrirDelete}
+      />
+      
     </Box>
   );
 };
