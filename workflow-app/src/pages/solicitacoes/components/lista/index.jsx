@@ -14,18 +14,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
-import { styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useApiRequestGet } from '../../../../services/api';
 import { Button } from '@mui/material';
 import { AuthContext } from '../../../../contexts/auth.context';
 import Pagination from '@mui/material/Pagination';
 import "./styles.css"
 import ImportExportOutlinedIcon from '@mui/icons-material/ImportExportOutlined';
-import { createTheme } from '@mui/material';
-import { ThemeProvider } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import ImportLicitacao from '../../../../services/importLici';
-
-
 
 
 const Lista = (props) => {
@@ -36,6 +34,7 @@ const Lista = (props) => {
       },
     },
   });
+
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -90,12 +89,10 @@ const Lista = (props) => {
   const { searchTerm } = props;
   const { filterByAta } = props;
   const { data, loading } = useApiRequestGet('/projetos');
-  // const { data2 } = useApiRequestGet('/processos-licitatorios');
   const { etapas } = useApiRequestGet('/etapas');
-
+  // console.log('projetos', data)
 
   localStorage.setItem('projetosData', JSON.stringify(data));
-  // localStorage.setItem('licitatorioData', JSON.stringify(data2));
   //TESTE!
   const { data: listaDptos, loading: loadingTiposProjeto } = useApiRequestGet('/departamentos');
   const { token, session } = useContext(AuthContext);
@@ -119,9 +116,9 @@ const Lista = (props) => {
     setPageNumber(0);
   }, [data]);
 
+  ImportLicitacao();
 
-  ImportLicitacao(); 
-  
+
   const dataIsValid = Array.isArray(data) && !isNaN(projectsPerPage);
   const { filterByDepartamento } = props;
   const { filterBySecretaria } = props;
@@ -136,6 +133,7 @@ const Lista = (props) => {
     return data.filter((projeto) => projeto?.etapa[0]?.departamento?.secretaria?.nome === secretaria).length;
   };
 
+  // console.log(data)
   useEffect(() => {
     if (data && Array.isArray(data)) {
       const filtered = data.filter((projeto) => {
@@ -145,29 +143,33 @@ const Lista = (props) => {
         const departamentoNome = (projeto?.etapa[0]?.departamento?.nome || "").trim();
         const secretariaNome = (projeto?.etapa[0]?.departamento?.secretaria?.nome || "").trim();
         const secretariaSigla = (projeto?.etapa[0]?.departamento?.secretaria?.sigla || "").trim();
-  
+
         const projetoYear = new Date(projeto.criadoEm).getFullYear();
-  
+        const idSonnerFormatted = formatarIdSonner(projeto?.idSonner);
+
+        const idSonnerWithPrefix = "000" + "-" + projeto.idSonner;
+
         const isMatchingSelectedFilter =
           !selectedFilter ||
           (
             (projeto.usuario?.departamento?.nome.includes(selectedFilter.value.split(" - ")[0]) &&
-            projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedFilter.value.split(" - ")[1])) ||
+              projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedFilter.value.split(" - ")[1])) ||
             (projeto.usuario?.departamento?.secretaria?.nome.includes(selectedFilter.value.split(" - ")[0]) &&
-            projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedFilter.value.split(" - ")[1]))
+              projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedFilter.value.split(" - ")[1]))
           );
-  
+
         const isMatchingSelectedSecretariaFilter =
           !selectedSecretariaFilter ||
           (
             (projeto.usuario?.departamento?.nome.includes(selectedSecretariaFilter.value.split(" - ")[0]) &&
-            projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedSecretariaFilter.value.split(" - ")[1])) ||
+              projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedSecretariaFilter.value.split(" - ")[1])) ||
             (projeto.usuario?.departamento?.secretaria?.nome.includes(selectedSecretariaFilter.value.split(" - ")[0]) &&
-            projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedSecretariaFilter.value.split(" - ")[1]))
+              projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedSecretariaFilter.value.split(" - ")[1]))
           );
-  
+
         if (
-          (projeto.idSonner.toString().includes(searchTerm.trim()) ||
+          (idSonnerWithPrefix.includes(searchTerm.trim()) ||
+          idSonnerFormatted.includes(searchTerm.trim()) ||  // Filtra pelo idSonner com o prefixo "000"
             projeto?.titulo.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
             departamentoNome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
             secretariaNome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
@@ -196,14 +198,14 @@ const Lista = (props) => {
         }
         return false;
       });
-  
+
       setFilteredData(filtered);
     } else {
       setFilteredData(data);
     }
   }, [data, searchTerm, filterByAta, filterByDepartamento, filterBySecretaria, selectedTipoProjeto, selectedFilter, selectedSecretariaFilter, selectedYear]);
-  
-  
+
+
   //teste
   function getBordaClasse(projeto) {
     if (projeto.situacao === 'INATIVO' && projeto.prioridadeProjeto) {
@@ -229,33 +231,76 @@ const Lista = (props) => {
     return Number(valor).toLocaleString('pt-BR');
   }
 
-
-//
-
-function formatNumber(value) {
-  // Remove qualquer caractere que não seja um dígito, ponto ou vírgula
-  const cleanedValue = value.replace(/[^\d.,]/g, '');
-
-  // Verifica se o valor é um número
-  if (!isNaN(cleanedValue)) {
-    // Converte para o formato de número
-    const numberValue = parseFloat(cleanedValue);
-    
-    // Formata o número com o separador de milhares e o separador decimal adequados
-    const formattedValue = new Intl.NumberFormat('pt-BR', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(numberValue);
-
-    return `R$ ${formattedValue}`;
-  } else {
-    // Se não for um número válido, retorna o valor original
-    return `R$ ${value}`;
+  function formatDate(date) {
+    const formattedDate = new Date(date).toLocaleDateString('pt-BR', {
+      year: 'numeric',
+    });
+    return formattedDate;
   }
-}
 
 
-  
+  // function formatCurrency(value) {
+  //   // Verifica se o valor é uma string numérica válida
+  //   const numericValue = parseFloat(value.replace(/[^\d.,-]/g, ''));
+
+  //   // Verifica se a conversão foi bem-sucedida e o valor é um número válido
+  //   if (!isNaN(numericValue) && isFinite(numericValue)) {
+  //     const formattedCurrency = new Intl.NumberFormat('pt-BR', {
+  //       style: 'currency',
+  //       currency: 'BRL',
+  //     }).format(numericValue);
+
+  //     return formattedCurrency;
+  //   } else {
+  //     // Se a conversão falhar, você pode retornar um valor padrão ou tratar de outra forma
+  //     return 'Valor inválido';
+  //   }
+  // }
+
+  function formatCurrency(value) {
+    const numericValue = parseFloat(value);
+
+    const formattedCurrency = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(numericValue);
+
+    return formattedCurrency;
+  }
+  // console.log(formatCurrency(data[97].valor))
+
+
+  function formatNumber(value) {
+    // Remove qualquer caractere que não seja um dígito, ponto ou vírgula
+    const cleanedValue = value.replace(/[^\d.,]/g, '');
+
+    // Verifica se o valor é um número
+    if (!isNaN(cleanedValue)) {
+      // Converte para o formato de número
+      const numberValue = parseFloat(cleanedValue);
+
+      // Formata o número com o separador de milhares e o separador decimal adequados
+      const formattedValue = new Intl.NumberFormat('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(numberValue);
+
+      return `R$ ${formattedValue}`;
+    } else {
+      // Se não for um número válido, retorna o valor original
+      return `R$ ${value}`;
+    }
+  }
+
+
+  function formatarIdSonner(idSonner) {
+    const idSonnerStr = idSonner.toString();
+    const zerosToAdd = Math.max(0, 4 - idSonnerStr.length);
+    const zeros = "0".repeat(zerosToAdd);
+    const formattedIdSonner = zeros + idSonnerStr;
+    return `${formattedIdSonner.length === 4 ? "" : "000-"}${formattedIdSonner}`;
+  }
+
   return (
     <React.Fragment>
       <Box marginY={1} paddingY={2}>
@@ -318,7 +363,7 @@ function formatNumber(value) {
               ) : (
                 filteredData
                   ?.slice(pagesVisited, pagesVisited + projectsPerPage)
-                  .map((projeto,index) => (
+                  .map((projeto) => (
                     <StyledTableRow key={projeto?.id}>
                       {session?.id === 39 && (
                         <StyledTableCell
@@ -333,15 +378,20 @@ function formatNumber(value) {
                           </Button>
                         </StyledTableCell>
                       )}
+
                       <StyledTableCell align="left" className={isUsuarioCompras ? '' : getBordaClasse(projeto)}>
-                        {projeto?.idSonner}
+                      {formatarIdSonner(projeto?.idSonner) + " / " + formatDate(projeto?.criadoEm)}
+
+                        {/* {"000" + projeto?.idSonner + " / " + formatDate(projeto?.criadoEm)} */}
+                        {/* {   "000" + "-" + formatarIdSonner(projeto?.idSonner) + " / " + formatDate(projeto?.criadoEm)} */}
+
+                        {/* {"000" + "-" + projeto?.idSonner + " / "  + formatDate(projeto?.criadoEm)} */}
+                        {/* {projeto?.idSonner + " / "  + formatDate(projeto?.criadoEm)} */}
                       </StyledTableCell>
                       {session && (session.permissao.id === 1
                       ) && (
                           <>
                             <StyledTableCell align="left">
-
-
                               {projeto.usuario?.departamento?.secretaria?.sigla}  -&nbsp;
                               {projeto.usuario?.departamento?.nome}
                             </StyledTableCell>
@@ -353,13 +403,12 @@ function formatNumber(value) {
                       <StyledTableCell align="left" >
                         {projeto?.etapa[0]?.departamento?.secretaria?.sigla}  -&nbsp;
                         {projeto?.etapa[0]?.departamento?.nome}
-                      </StyledTableCell>   
+                      </StyledTableCell>
                       <StyledTableCell align="left">{projeto?.tipoProjeto?.nome}</StyledTableCell>
                       <StyledTableCell align="left" style={{ whiteSpace: 'nowrap' }}>
-                    {formatNumber(projeto?.valor)}
-                     {/* {formatCurrency(projeto?.valor)}  */}
-                        </StyledTableCell> 
+                        {formatNumber(projeto?.valor)}
 
+                      </StyledTableCell>
 
                       {session && (session.id === 1 && !isUsuarioCompras || session.id === 56 && !isUsuarioCompras) && (
 
