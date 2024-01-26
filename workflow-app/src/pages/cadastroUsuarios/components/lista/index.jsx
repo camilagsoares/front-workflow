@@ -128,6 +128,12 @@ const Lista = (props) => {
             <TableBody>
               {loading ? (
                 <TableRowsLoaderSkeleton rowsNum={5} />
+              ) : filteredData?.length === 0 ? (
+                <StyledTableRow>
+                  <StyledTableCell colSpan={7}>
+                    Nenhum usuário encontrado.
+                  </StyledTableCell>
+                </StyledTableRow>
               ) : (
                 filteredData?.slice(pagesVisited, pagesVisited + projectsPerPage).map((row) => {
                   {
