@@ -356,7 +356,7 @@ const Lista = (props) => {
                 <TableRowsLoaderSkeleton rowsNum={5} />
               ) : filteredData?.length === 0 ? (
                 <StyledTableRow>
-                  <StyledTableCell colSpan={7}>
+                  <StyledTableCell colSpan={9}>
                     Nenhum projeto encontrado neste departamento.
                   </StyledTableCell>
                 </StyledTableRow>
