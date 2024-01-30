@@ -5,7 +5,7 @@
     /* background-color: #fff; */
     color: grey.800;
     padding: 1rem;
-
+    font-size: 14px;
     border-radius: 2px;
     display: flex;
     justify-content: flex-end;
@@ -20,7 +20,8 @@
   
   .bolinhaVerde,
   .bolinhaLaranja,
-  .bolinhaCinza {
+  .bolinhaCinza,
+  .bolinhaVermelha {
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -40,3 +41,6 @@
     background-color: #CCCCCC;
   }
   
+  .bolinhaVermelha{
+    background-color: red;
+  }

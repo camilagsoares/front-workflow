@@ -15,3 +15,7 @@
 .borda-azul{
     border-left: 4px solid #1976D2;
 }
+
+.borda-vermelha{
+    border-left: 4px solid red;
+}
