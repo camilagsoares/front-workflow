@@ -40,7 +40,7 @@ const ModalFormDeletarUsuario = (props) => {
 
 
 
-  const { handleSubmitData, loading, error } = useApiRequestSubmit('delete', `/user/${projetoSelecionadoDeletar}`);
+  const { handleSubmitData, loading, error } = useApiRequestSubmit('delete', `auth/usuarios/${projetoSelecionadoDeletar}`);
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
@@ -74,6 +74,7 @@ const ModalFormDeletarUsuario = (props) => {
         </IconButton>
       </Stack>
     </DialogTitle>
+
     <Box component='form' noValidate onSubmit={handleSubmit(handleCriarSecretaria)}>
       {showSuccessMessage ? (
         <Alert severity='success'>Usuário excluído com sucesso!</Alert>
@@ -109,6 +110,7 @@ const ModalFormDeletarUsuario = (props) => {
         )}
       </DialogActions>
     </Box>
+    
   </Dialog>
   );
 };
