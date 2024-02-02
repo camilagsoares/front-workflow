@@ -10,6 +10,8 @@ import TipoProjeto from './pages/tipoProjeto';
 import Permissao from "./pages/permissao/index"
 import Status from './pages/status';
 import { AuthContext } from './contexts/auth.context';
+import UsuariosLogados from './pages/usuariosLogados'
+
 function App() {
   const [mode, setMode] = useState('light');
   // const { token, criarSessao } = useContext(AuthContext);
@@ -49,6 +51,7 @@ function App() {
               <Route path='/tipo-projeto' element={<TipoProjeto changeTheme={colorMode.alterarTema} />} />
               <Route path='/permissao' element={<Permissao changeTheme={colorMode.alterarTema} />} />
               <Route path='/status' element={<Status changeTheme={colorMode.alterarTema} />} />
+              <Route path='/usuarios-logados' element={<UsuariosLogados changeTheme={colorMode.alterarTema} />} />
 
             </Route>
             <Route
