@@ -60,6 +60,8 @@ const Lista = (props) => {
 
 
   const { data, error, loading } = useApiRequestGet('/auth/usuarios');
+  console.log(data)
+  //isLoggedIn
 
   const { searchTerm } = props;
 
@@ -116,7 +118,9 @@ const Lista = (props) => {
                 <StyledTableCell align='left' width={196}>
                   Departamento
                 </StyledTableCell>
-
+                <StyledTableCell align='left' width={46}>
+                  Status
+                </StyledTableCell>
                 <StyledTableCell align='center' width={196}>
                   Editar
                 </StyledTableCell>
@@ -149,6 +153,13 @@ const Lista = (props) => {
                           {row.nome}
                         </StyledTableCell>
                         <StyledTableCell align='left'>{row.departamento?.secretaria?.sigla} - {row.departamento?.nome}</StyledTableCell>
+                        <StyledTableCell align='left'>
+                          {row.isLoggedIn ? (
+                            <span style={{ color: 'green', borderRadius: '50%', width: '10px', height: '10px', display: 'inline-block', backgroundColor: 'green' }}></span>
+                          ) : (
+                            <span style={{ color: 'red', borderRadius: '50%', width: '10px', height: '10px', display: 'inline-block', backgroundColor: 'red' }}></span>
+                          )}
+                        </StyledTableCell>
 
 
                         <StyledTableCell align='center'>
