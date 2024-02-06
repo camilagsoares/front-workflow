@@ -1,13 +1,14 @@
 import { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import { axiosApi } from '../services/api';
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [token, setToken] = useState(localStorage.getItem('token') || null);
-   const [session, setSession] = useState(JSON.parse(localStorage.getItem('session')) || null);
+  const [session, setSession] = useState(JSON.parse(localStorage.getItem('session')) || null);
   const [profileLoaded, setProfileLoaded] = useState(false);
 
 
@@ -39,12 +40,25 @@ export const AuthContextProvider = ({ children }) => {
     setToken(content.token);
     setProfileLoaded(true);
     navigate('/');
-    window.location.reload(); 
+    window.location.reload();
   };
 
+  const functionLogout = (data) => {
+    axiosApi
+      .patch(`/auth/usuario/${session.id}`)
+      .then(() => {
+
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+  };
+  
   const encerrarSessao = () => {
+    functionLogout()
     localStorage.clear();
-   
+
     setToken(null);
     setSession(null);
     navigate('/login');
