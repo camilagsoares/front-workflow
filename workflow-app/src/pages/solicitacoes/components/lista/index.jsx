@@ -89,6 +89,7 @@ const Lista = (props) => {
   const { searchTerm } = props;
   const { filterByAta } = props;
   const { data, loading } = useApiRequestGet('/projetos');
+  // console.log(data)
   const { etapas } = useApiRequestGet('/etapas');
   // console.log('projetos', data)
 
@@ -102,8 +103,14 @@ const Lista = (props) => {
 
   // statusId === 2
   const { projetosSelecionadoVisualizar } = props;
+  // const { data: listaEtapasProjeto, loading: loadingProjetoSelecionado } = useApiRequestGet(
+  //   `/projetos/${projetosSelecionadoVisualizar}`,
+  // );
 
-
+  const { data: listaTiposProjeto, loading: loadingTiposProjetos } = useApiRequestGet(
+    `/etapas/projeto/${projetosSelecionadoVisualizar}`,
+  );
+  console.log(listaTiposProjeto)
   const [pageNumber, setPageNumber] = useState(0);
   const projectsPerPage = 6;
   const pagesVisited = pageNumber * projectsPerPage;
@@ -135,7 +142,7 @@ const Lista = (props) => {
 
   // console.log(data)
   useEffect(() => {
-    if (data && Array.isArray(data)) {
+    if (data && Array.isArray(data) && listaTiposProjeto) {
       const filtered = data.filter((projeto) => {
         const valor = String(projeto.valor).trim();
         const formattedValor = formatarNumero(projeto?.valor).trim();
@@ -143,12 +150,12 @@ const Lista = (props) => {
         const departamentoNome = (projeto?.etapa[0]?.departamento?.nome || "").trim();
         const secretariaNome = (projeto?.etapa[0]?.departamento?.secretaria?.nome || "").trim();
         const secretariaSigla = (projeto?.etapa[0]?.departamento?.secretaria?.sigla || "").trim();
-
+  
         const projetoYear = new Date(projeto.criadoEm).getFullYear();
         const idSonnerFormatted = formatarIdSonner(projeto?.idSonner);
-
+  
         const idSonnerWithPrefix = "000" + "-" + projeto.idSonner;
-
+  
         const isMatchingSelectedFilter =
           !selectedFilter ||
           (
@@ -157,7 +164,7 @@ const Lista = (props) => {
             (projeto.usuario?.departamento?.secretaria?.nome.includes(selectedFilter.value.split(" - ")[0]) &&
               projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedFilter.value.split(" - ")[1]))
           );
-
+  
         const isMatchingSelectedSecretariaFilter =
           !selectedSecretariaFilter ||
           (
@@ -166,10 +173,10 @@ const Lista = (props) => {
             (projeto.usuario?.departamento?.secretaria?.nome.includes(selectedSecretariaFilter.value.split(" - ")[0]) &&
               projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedSecretariaFilter.value.split(" - ")[1]))
           );
-
+  
         if (
           (idSonnerWithPrefix.includes(searchTerm.trim()) ||
-          idSonnerFormatted.includes(searchTerm.trim()) ||  // Filtra pelo idSonner com o prefixo "000"
+            idSonnerFormatted.includes(searchTerm.trim()) ||  // Filtra pelo idSonner com o prefixo "000"
             projeto?.titulo.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
             departamentoNome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
             secretariaNome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
@@ -180,13 +187,14 @@ const Lista = (props) => {
             departamentoNome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
             secretariaSigla.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
             secretariaNome.toLowerCase().includes(searchTerm.trim().toLowerCase())) &&
-          (filterByAta === "all" ||
+          ((filterByAta === "all") ||
             (filterByAta === "ata" && isAta) ||
             (filterByAta === "concluded" && projeto.situacao === "INATIVO") ||
             (filterByAta === "not-ata" && !isAta) ||
             (filterByAta === "urgent" &&
               projeto.prioridadeProjeto &&
-              projeto.situacao !== "INATIVO")) &&
+              projeto.situacao !== "INATIVO") ||
+            (filterByAta === "cancelled" && projeto.etapa.some(etapa => etapa.statusId === 3))) && // Verificação adicionada para projetos cancelados
           (filterByDepartamento === "all" || departamentoNome === filterByDepartamento) &&
           (filterBySecretaria === "" || secretariaNome === filterBySecretaria) &&
           (selectedTipoProjeto === "" || projeto.tipoProjetoId === selectedTipoProjeto) &&
@@ -198,30 +206,29 @@ const Lista = (props) => {
         }
         return false;
       });
-
+  
       setFilteredData(filtered);
     } else {
       setFilteredData(data);
     }
-  }, [data, searchTerm, filterByAta, filterByDepartamento, filterBySecretaria, selectedTipoProjeto, selectedFilter, selectedSecretariaFilter, selectedYear]);
-
+  }, [data, searchTerm, filterByAta, filterByDepartamento, filterBySecretaria, selectedTipoProjeto, selectedFilter, selectedSecretariaFilter, selectedYear, listaTiposProjeto]);
+  
 
   //teste
   function getBordaClasse(projeto) {
     if (projeto.situacao === 'INATIVO' && projeto.prioridadeProjeto) {
-      // Se for concluído e urgente, borda verde
       return 'borda-verde';
     } else if (projeto.prioridadeProjeto) {
-      // Se for apenas urgente, borda laranja
       return 'borda-laranja';
+    } else if (projeto.etapa.some(etapa => etapa.statusId === 3)) {
+      return 'borda-vermelha';
     } else if (projeto.situacao === 'INATIVO') {
-      // Se for apenas concluído, borda verde
       return 'borda-verde';
     } else {
-      // Para outros casos, borda cinza
       return 'borda-cinza';
     }
   }
+
 
   function formatarNumero(valor) {
     if (isNaN(valor)) {
@@ -380,7 +387,7 @@ const Lista = (props) => {
                       )}
 
                       <StyledTableCell align="left" className={isUsuarioCompras ? '' : getBordaClasse(projeto)}>
-                      {formatarIdSonner(projeto?.idSonner) + " / " + formatDate(projeto?.criadoEm)}
+                        {formatarIdSonner(projeto?.idSonner) + " / " + formatDate(projeto?.criadoEm)}
 
                         {/* {"000" + projeto?.idSonner + " / " + formatDate(projeto?.criadoEm)} */}
                         {/* {   "000" + "-" + formatarIdSonner(projeto?.idSonner) + " / " + formatDate(projeto?.criadoEm)} */}
@@ -422,6 +429,7 @@ const Lista = (props) => {
                                     variant='outlined'
                                     color='secondary'
                                     sx={{ marginRight: 1 }}
+                                    disabled={projeto?.situacao === 'INATIVO' || projeto.etapa.some(etapa => etapa.statusId === 3)}
                                     onClick={() => props.handleAbrirModalPrioridadeProjeto(projeto?.id)}
                                   >
                                     Reverter Prioridade
@@ -431,8 +439,10 @@ const Lista = (props) => {
                                 <Button
                                   startIcon={<ImportExportOutlinedIcon />}
                                   variant='outlined'
-                                  color='primary'
                                   sx={{ marginRight: 1 }}
+                                  disabled={projeto?.situacao === 'INATIVO' || projeto.etapa.some(etapa => etapa.statusId === 3)}
+                                  color='primary'
+                                  // sx={{ marginRight: 1 }}
                                   onClick={() => props.handleAbrirModalPrioridadeProjeto(projeto?.id)}
                                 >
                                   Definir prioridade
@@ -458,7 +468,7 @@ const Lista = (props) => {
                             <VisibilityOutlined fontSize="small" color="action" />
                           </IconButton>
                         </Tooltip>
-                        {(projeto.etapa[0]?.statusId === 4 && projeto.usuarioId === session?.id || session.id === 56 && !isUsuarioCompras) &&
+                        {(projeto.etapa[0]?.statusId === 4 && projeto.usuarioId === session?.id || session.id === 56 && !isUsuarioCompras || projeto.etapa[0]?.statusId === 1 && projeto.situacao !== 'INATIVO') &&
                           (
                             <Tooltip title="Editar" arrow>
                               <IconButton
@@ -475,6 +485,7 @@ const Lista = (props) => {
                             </Tooltip>
                           )}
                       </StyledTableCell>
+
                     </StyledTableRow>
                   ))
               )}
