@@ -30,6 +30,7 @@ const DrawerView = (props) => {
   const { data: listaEtapasProjeto, loading: loadingProjetoSelecionado } = useApiRequestGet(
     `/projetos/${projetosSelecionadoVisualizar}`,
   );
+  console.log(listaEtapasProjeto)
 
 
   const formatDateToDDMMYYYY = (date) => {
@@ -41,10 +42,33 @@ const DrawerView = (props) => {
   const concluidoEmData = listaEtapasProjeto?.concluidoEm || '';
   const formattedConcluidoEm = formatDateToDDMMYYYY(concluidoEmData);
 
+  let dataConclusaoProjeto = null;
+
+// Verifica se a lista de etapas do projeto está carregada e não está vazia
+if (listaEtapasProjeto && listaEtapasProjeto.etapa && listaEtapasProjeto.etapa.length > 0) {
+    // Itera sobre as etapas do projeto
+    listaEtapasProjeto.etapa.forEach(etapa => {
+        // Verifica se o statusId da etapa é igual a 3
+        if (etapa.statusId === 3) {
+            // Armazena a data de conclusão do projeto na variável
+            dataConclusaoProjeto = etapa.criadoEm;
+        }
+    });
+}
+console.log(dataConclusaoProjeto)
+const formateedCanceladoEm = formatDateToDDMMYYYY(dataConclusaoProjeto)
+
 
   const { data: listaTiposProjeto, loading: loadingTiposProjeto } = useApiRequestGet(
     `/etapas/projeto/${projetosSelecionadoVisualizar}`,
   );
+  console.log("listaTiposProjeto", listaTiposProjeto)
+  console.log("listaEtapasProjeto", listaEtapasProjeto)
+
+  const inativo = situacao === 'INATIVO';
+  const cancelado = listaTiposProjeto && listaTiposProjeto.etapa && listaTiposProjeto.etapa.some(etapa => etapa.statusId === 3);
+  const etapasProjetoCancelado = listaEtapasProjeto && listaEtapasProjeto.etapa && listaEtapasProjeto.etapa.some(etapa => etapa.statusId === 3);
+
 
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -99,6 +123,9 @@ const DrawerView = (props) => {
     backgroundColor: '#b9dab9',
   }));
 
+  const CustomAlertError = styled(Alert)(({ theme }) => ({
+    backgroundColor: '#ffada4',
+  }));
 
   if (!listaTiposProjeto) {
     console.error("A lista de tipos de projeto está nula. Verifique se os dados foram carregados corretamente.");
@@ -113,7 +140,7 @@ const DrawerView = (props) => {
   });
 
   /** TESTE NOVA ETAPA SIMULTANEO */
-  const {etapasProjeto} = props;
+  const { etapasProjeto } = props;
 
 
   const combinedEtapas = [...props.etapasProjeto, ...listaTiposProjeto];
@@ -225,11 +252,18 @@ const DrawerView = (props) => {
               </div>
             )}
 
-            {situacao !== 'INATIVO' && (
+            {cancelado || etapasProjetoCancelado && (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '20px' }}>
+                <CustomAlertError severity="error">Projeto cancelado  em: {formateedCanceladoEm}</CustomAlertError>
+              </div>
+            )}
+
+            {/* {(situacao !== 'INATIVO' || cancelado) && (
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: '15px', marginTop: '20px' }}>
                 <Button
                   startIcon={<AddCircle />}
                   variant="outlined"
+                  // disable={listaEtapasProjeto?.statusId === 3}
                   color="success"
                   onClick={() => props.handleAbrirModalAtualizarEtapaProjeto(projetosSelecionadoVisualizar)}
                   sx={{ marginLeft: '15px' }}
@@ -238,6 +272,33 @@ const DrawerView = (props) => {
                 </Button>
                 <Button
                   startIcon={<DoneOutlinedIcon />}
+                  disable={listaEtapasProjeto?.statusId === 3}
+                  variant="outlined"
+                  color="primary"
+                  sx={{ marginLeft: '15px' }}
+                  onClick={() => {
+                    props.handleAbrirModalConcluirProjeto(projetosSelecionadoVisualizar);
+                  }}
+                >
+                  Concluir
+                </Button>
+              </div>
+            )} */}
+            {!(inativo || cancelado || etapasProjetoCancelado) && (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: '15px', marginTop: '20px' }}>
+                <Button
+                  startIcon={<AddCircle />}
+                  variant="outlined"
+                  // disable={listaEtapasProjeto?.statusId === 3}
+                  color="success"
+                  onClick={() => props.handleAbrirModalAtualizarEtapaProjeto(projetosSelecionadoVisualizar)}
+                  sx={{ marginLeft: '15px' }}
+                >
+                  Nova etapa
+                </Button>
+                <Button
+                  startIcon={<DoneOutlinedIcon />}
+                  disable={listaEtapasProjeto?.statusId === 3}
                   variant="outlined"
                   color="primary"
                   sx={{ marginLeft: '15px' }}
@@ -251,7 +312,7 @@ const DrawerView = (props) => {
             )}
           </div>
 
-          <Typography component='h6' marginBottom={1}>
+          <Typography component='h6' marginBottom={1} sx={{ marginTop: etapasProjetoCancelado ? '15px' : '' }}>
             Etapas do projeto
           </Typography>
 
@@ -315,7 +376,7 @@ const DrawerView = (props) => {
           </Box>
         )}
       </Box>
-    </Drawer>
+    </Drawer >
   );
 };
 

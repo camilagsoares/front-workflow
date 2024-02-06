@@ -492,6 +492,7 @@ const SolicitacoesPage = () => {
                 <option value="all">Todos</option>
                 <option value="concluded">Concluído</option>
                 <option value="urgent">Urgente</option>
+                <option value="cancelled">Cancelado</option>
               </Select>
             </FormControl>
           </Grid>
@@ -727,6 +728,7 @@ const SolicitacoesPage = () => {
         selectedYear={selectedYear}
         selectedFilter={selectedFilter}
         selectedSecretariaFilter={selectedSecretariaFilter}
+ 
 
       />
 
