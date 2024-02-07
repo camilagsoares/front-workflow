@@ -52,7 +52,6 @@ const ModalPrioridadeProjeto = (props) => {
 
     const { errors } = formState;
 
-
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [loading, setLoading] = useState(false);
 
