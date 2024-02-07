@@ -110,7 +110,7 @@ const Lista = (props) => {
   const { data: listaTiposProjeto, loading: loadingTiposProjetos } = useApiRequestGet(
     `/etapas/projeto/${projetosSelecionadoVisualizar}`,
   );
-  console.log(listaTiposProjeto)
+
   const [pageNumber, setPageNumber] = useState(0);
   const projectsPerPage = 6;
   const pagesVisited = pageNumber * projectsPerPage;
