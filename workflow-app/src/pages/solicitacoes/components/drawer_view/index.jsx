@@ -30,7 +30,6 @@ const DrawerView = (props) => {
   const { data: listaEtapasProjeto, loading: loadingProjetoSelecionado } = useApiRequestGet(
     `/projetos/${projetosSelecionadoVisualizar}`,
   );
-  console.log(listaEtapasProjeto)
 
 
   const formatDateToDDMMYYYY = (date) => {
@@ -55,15 +54,13 @@ if (listaEtapasProjeto && listaEtapasProjeto.etapa && listaEtapasProjeto.etapa.l
         }
     });
 }
-console.log(dataConclusaoProjeto)
 const formateedCanceladoEm = formatDateToDDMMYYYY(dataConclusaoProjeto)
 
 
   const { data: listaTiposProjeto, loading: loadingTiposProjeto } = useApiRequestGet(
     `/etapas/projeto/${projetosSelecionadoVisualizar}`,
   );
-  console.log("listaTiposProjeto", listaTiposProjeto)
-  console.log("listaEtapasProjeto", listaEtapasProjeto)
+
 
   const inativo = situacao === 'INATIVO';
   const cancelado = listaTiposProjeto && listaTiposProjeto.etapa && listaTiposProjeto.etapa.some(etapa => etapa.statusId === 3);

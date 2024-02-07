@@ -82,7 +82,7 @@ const Lista = (props) => {
   const dataIsValid = Array.isArray(data) && !isNaN(projectsPerPage);
   const [filteredData, setFilteredData] = useState(data);
   const { token, session } = useContext(AuthContext);
-  console.log(session)
+
   const { selectedYear } = props;
 
 // Lista

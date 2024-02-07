@@ -60,8 +60,7 @@ const Lista = (props) => {
 
 
   const { data, error, loading } = useApiRequestGet('/auth/usuarios');
-  console.log(data)
-  //isLoggedIn
+
 
   const { searchTerm } = props;
 
