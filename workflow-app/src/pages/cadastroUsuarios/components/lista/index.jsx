@@ -152,7 +152,7 @@ const Lista = (props) => {
                           {row.nome}
                         </StyledTableCell>
                         <StyledTableCell align='left'>{row.departamento?.secretaria?.sigla} - {row.departamento?.nome}</StyledTableCell>
-                        <StyledTableCell align='left'>
+                        <StyledTableCell align='center'>
                           {row.isLoggedIn ? (
                             <span style={{ color: 'green', borderRadius: '50%', width: '10px', height: '10px', display: 'inline-block', backgroundColor: 'green' }}></span>
                           ) : (
