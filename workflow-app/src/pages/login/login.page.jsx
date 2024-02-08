@@ -96,9 +96,11 @@ const LoginPage = () => {
               backgroundPosition: 'center',
             }}
           />
+          
           <Typography component='h1' variant='h5' fontWeight={700}>
             Workflow Itajubá
           </Typography>
+
           <Box component='form' noValidate onSubmit={handleSubmit(handleEfetuarLogin)} sx={{ marginTop: 1 }}>
             <TextField
               {...register('email')}
