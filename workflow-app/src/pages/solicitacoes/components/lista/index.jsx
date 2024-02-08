@@ -208,6 +208,7 @@ const Lista = (props) => {
       });
   
       setFilteredData(filtered);
+      setPageNumber(0);
     } else {
       setFilteredData(data);
     }
