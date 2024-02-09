@@ -453,7 +453,6 @@ const Lista = (props) => {
                           </Tooltip>
                         </StyledTableCell>
 
-
                       )}
                       <StyledTableCell align="center">
                         <Tooltip title="Detalhes" arrow>
