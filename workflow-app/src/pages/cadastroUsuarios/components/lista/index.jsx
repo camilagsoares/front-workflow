@@ -107,14 +107,14 @@ const Lista = (props) => {
           <Table sx={{ minWidth: 700 }} aria-label='customized table'>
             <TableHead>
               <StyledTableRow>
-                <StyledTableCell>Id</StyledTableCell>
+                <StyledTableCell width={140}>Id</StyledTableCell>
                 <StyledTableCell align='left' width={312}>
                   Email
                 </StyledTableCell>
-                <StyledTableCell align='left' width={512}>
+                <StyledTableCell align='left' width={312}>
                   User
                 </StyledTableCell>
-                <StyledTableCell align='left' width={196}>
+                <StyledTableCell align='left' width={412}>
                   Departamento
                 </StyledTableCell>
                 <StyledTableCell align='left' width={46}>
