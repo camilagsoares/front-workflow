@@ -87,7 +87,6 @@ const ModalConcluirProjeto = (props) => {
         // // props.atualizarEtapas([...etapas, novaEtapa]);
         // reset();
         // handleFecharModalConcluirProjeto();
-        
     toast('Projeto concluído com sucesso!', {
       type: 'success',
       autoClose: 1500,
