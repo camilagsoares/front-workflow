@@ -10,6 +10,7 @@ import TipoProjeto from './pages/tipoProjeto';
 import Permissao from "./pages/permissao/index"
 import Status from './pages/status';
 import { AuthContext } from './contexts/auth.context';
+import Messageria from './pages/Messageria';
 
 function App() {
   const [mode, setMode] = useState('light');
@@ -40,6 +41,7 @@ function App() {
       <BrowserRouter>
         <AuthContextProvider>
           <Routes>
+            
             <Route path='/login' element={<LoginPage />} />
             <Route element={<ProtectedRoutes changeTheme={colorMode.alterarTema} />}>
               <Route path='/' element={<SolicitacoesPage changeTheme={colorMode.alterarTema} />} />
@@ -50,7 +52,7 @@ function App() {
               <Route path='/tipo-projeto' element={<TipoProjeto changeTheme={colorMode.alterarTema} />} />
               <Route path='/permissao' element={<Permissao changeTheme={colorMode.alterarTema} />} />
               <Route path='/status' element={<Status changeTheme={colorMode.alterarTema} />} />
-
+              <Route path='/messageria' element={<Messageria changeTheme={colorMode.alterarTema} />} />
             </Route>
             <Route
               path='*'
