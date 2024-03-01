@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useForm, Controller } from 'react-hook-form';
 import EditOutlined from '@mui/icons-material/EditOutlined';
 import MenuOpen from '@mui/icons-material/MenuOpenOutlined';
 import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
@@ -24,7 +25,16 @@ import ImportExportOutlinedIcon from '@mui/icons-material/ImportExportOutlined';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material/styles';
 import ImportLicitacao from '../../../../services/importLici';
+import CheckIcon from '@mui/icons-material/Check';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
+const schema = yup
+  .object({
+    concluidoEm: yup.date(),
+    situacao: yup.string(),
+  })
+  .required();
 
 const Lista = (props) => {
   const theme = createTheme({
@@ -35,6 +45,14 @@ const Lista = (props) => {
     },
   });
 
+
+  const { register, handleSubmit, formState, control, reset } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      concluidoEm: new Date(),
+      situacao: 'ATIVO'
+    },
+  });
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -150,12 +168,11 @@ const Lista = (props) => {
         const departamentoNome = (projeto?.etapa[0]?.departamento?.nome || "").trim();
         const secretariaNome = (projeto?.etapa[0]?.departamento?.secretaria?.nome || "").trim();
         const secretariaSigla = (projeto?.etapa[0]?.departamento?.secretaria?.sigla || "").trim();
-  
+
         const projetoYear = new Date(projeto.criadoEm).getFullYear();
         const idSonnerFormatted = formatarIdSonner(projeto?.idSonner);
-  
+
         const idSonnerWithPrefix = "000" + "-" + projeto.idSonner;
-  
         const isMatchingSelectedFilter =
           !selectedFilter ||
           (
@@ -164,7 +181,7 @@ const Lista = (props) => {
             (projeto.usuario?.departamento?.secretaria?.nome.includes(selectedFilter.value.split(" - ")[0]) &&
               projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedFilter.value.split(" - ")[1]))
           );
-  
+
         const isMatchingSelectedSecretariaFilter =
           !selectedSecretariaFilter ||
           (
@@ -173,7 +190,7 @@ const Lista = (props) => {
             (projeto.usuario?.departamento?.secretaria?.nome.includes(selectedSecretariaFilter.value.split(" - ")[0]) &&
               projeto.usuario?.departamento?.secretaria?.sigla.includes(selectedSecretariaFilter.value.split(" - ")[1]))
           );
-  
+
         if (
           (idSonnerWithPrefix.includes(searchTerm.trim()) ||
             idSonnerFormatted.includes(searchTerm.trim()) ||  // Filtra pelo idSonner com o prefixo "000"
@@ -206,14 +223,14 @@ const Lista = (props) => {
         }
         return false;
       });
-  
+
       setFilteredData(filtered);
       setPageNumber(0);
     } else {
       setFilteredData(data);
     }
   }, [data, searchTerm, filterByAta, filterByDepartamento, filterBySecretaria, selectedTipoProjeto, selectedFilter, selectedSecretariaFilter, selectedYear, listaTiposProjeto]);
-  
+
 
   //teste
   function getBordaClasse(projeto) {
@@ -309,6 +326,11 @@ const Lista = (props) => {
     return `${formattedIdSonner.length === 4 ? "" : "000-"}${formattedIdSonner}`;
   }
 
+  function testeFunction(){
+    console.log("oi",projetosSelecionadoVisualizar)
+  
+  }
+  
   return (
     <React.Fragment>
       <Box marginY={1} paddingY={2}>
@@ -356,7 +378,13 @@ const Lista = (props) => {
                 <StyledTableCell align='center' width={96}>
                   <MenuOpen />
                 </StyledTableCell>
-
+                {session && (session.id === 1) && (
+                  <>
+                    <StyledTableCell align='left' width={46}>
+                      Concluir
+                    </StyledTableCell>
+                  </>
+                )}
               </StyledTableRow>
             </TableHead>
             <TableBody>
@@ -484,7 +512,32 @@ const Lista = (props) => {
                               </IconButton>
                             </Tooltip>
                           )}
+
                       </StyledTableCell>
+
+                      {session && (session.permissao.id === 1) &&
+                        (
+
+                          <StyledTableCell align="center">
+                            <Tooltip title="Detalhes" arrow>
+                              <IconButton
+                                edge="start"
+                                color="inherit"
+                                aria-label="open modal details"
+                                onClick={
+                                  testeFunction
+                                }
+                                style={{ margin: '9px' }}
+                              >
+                                <CheckIcon fontSize="small" color="action" />
+                              </IconButton>
+                            </Tooltip>
+
+
+                          </StyledTableCell>
+                        )}
+
+
 
                     </StyledTableRow>
                   ))
