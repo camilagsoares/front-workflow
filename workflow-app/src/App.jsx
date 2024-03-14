@@ -54,6 +54,7 @@ function App() {
               <Route path='/status' element={<Status changeTheme={colorMode.alterarTema} />} />
               <Route path='/messageria' element={<Messageria changeTheme={colorMode.alterarTema} />} />
             </Route>
+            
             <Route
               path='*'
               element={
