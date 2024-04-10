@@ -107,15 +107,12 @@ const Lista = (props) => {
   const { searchTerm } = props;
   const { filterByAta } = props;
   const { data, loading } = useApiRequestGet('/projetos');
-  // console.log(data)
   const { etapas } = useApiRequestGet('/etapas');
-  // console.log('projetos', data)
 
   localStorage.setItem('projetosData', JSON.stringify(data));
-  //TESTE!
+
   const { data: listaDptos, loading: loadingTiposProjeto } = useApiRequestGet('/departamentos');
   const { token, session } = useContext(AuthContext);
-
 
   const isUsuarioCompras = session?.permissao.id === 2;
 
