@@ -236,7 +236,7 @@ const AppLayout = (props) => {
             </ListItemButton>
           </NavLink>
           <SubMenuCadastros /> */}
-          {session && (session.permissao.id === 1 || session.permissao.id === 2 || session.id === 42 || session.id === 18 || session.id === 16) && session.permissao.id !== undefined && (
+          
             <>
               <NavLink to='/licitacoes'>
                 <ListItemButton>
@@ -248,7 +248,8 @@ const AppLayout = (props) => {
               </NavLink>
               {/* <SubMenuCadastros /> */}
             </>
-          )}
+
+
           {session && session.id === 1 && session.id !== undefined && (
             <>
               <SubMenuCadastros />
