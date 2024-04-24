@@ -64,7 +64,14 @@ const ModalAdicionarProcessoLicitatorio = (props) => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const handleCriarSecretaria = (data) => {
+    if (!data.projetosId || data.projetosId.length === 0) {
     
+      toast('Por favor, inclua pelo menos um projeto antes de criar o processo licitatório', {
+        type: 'error',
+      });
+      return; 
+    }
+  
     setLoading(true);
     axiosApi
       .post('/processos-licitatorios', data)
@@ -76,19 +83,15 @@ const ModalAdicionarProcessoLicitatorio = (props) => {
         handleFecharModalForm();
       })
       .catch((error) => {
-        // toast('Erro', {
-        //   type: 'error',
-        // });
       })
       .finally(() => {
         setLoading(false);
       });
-  
   };
+  
 
   const {
     data,
-    // loading
   } = useApiRequestGet('/projetos');
 
 
